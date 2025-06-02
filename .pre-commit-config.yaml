@@ -1,0 +1,45 @@
+# adapted from https://towardsdatascience.com/pre-commit-hooks-you-must-know-ff247f5feb7e
+# as well as from https://www.linkedin.com/posts/maria-vechtomova_python-machinelearning-activity-7178005474640855040-ZZjJ/
+# Apply to all files without commiting:
+#   pre-commit run --all-files
+# Update this file:
+#   pre-commit autoupdate
+ci:
+  autoupdate_schedule: quarterly
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-case-conflict
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: check-shebang-scripts-are-executable
+      - id: check-toml
+      - id: check-yaml
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.6
+    hooks:
+      - id: ruff
+        types_or: [python, pyi] # because ruff doesn't handle %%sql magic cells. We can use nbqa-ruff-* instead.
+
+        args: [--fix]
+      - id: ruff-format
+        types_or: [python, pyi]
+  - repo: https://github.com/nbQA-dev/nbQA
+    rev: 1.9.1
+    hooks:
+      - id: nbqa-ruff-check
+        args: ["--fix", "--ignore=B018,D100,E402,F821,I001"] # F821 because of dbutils, spark
+      - id: nbqa-ruff-format
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.15.0
+    hooks:
+      - id: mypy
+  - repo: https://github.com/kynan/nbstripout
+    rev: 0.8.1
+    hooks:
+      - id: nbstripout
