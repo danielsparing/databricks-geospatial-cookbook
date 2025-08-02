@@ -17,4 +17,3 @@ select = [
     # pylint
     "PL",
 ]
-ignore = ["S608"]
