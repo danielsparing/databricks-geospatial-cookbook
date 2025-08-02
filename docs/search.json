@@ -14,7 +14,7 @@
     "href": "duckdb-on-databricks/DuckDB_on_Databricks.html",
     "title": "2  DuckDB on Databricks",
     "section": "",
-    "text": "2.1 Setting up DuckDB on Databricks\nDuckDB is a formidable new single-machine analytics tool, tracing its origins to the same Dutch research institute as Python. Crucially for this guide, it comes with a remarkably good Spatial extension.\nWhile Databricks comes with its own set of geospatial features, such as ST functions and H3 functions, nothing stops you to use DuckDB on the side as well.\n(What you do have to keep in mind though is that while much of Databricks’s tooling, namely Apache Spark, is focused on big data analysis multi-node clusters, your DuckDB instead will just run on single-node, just like e.g. Pandas would. So use single-node clusters, or Spark UDFs [TODO: insert a link here before].)\n%pip install duckdb --quiet\n\nimport duckdb\n\n# Install the Spatial Extension:\nduckdb.sql(\"install spatial; load spatial\")\nThis allows you to directly use the DuckDB Spatial, for example:\nduckdb.sql(\"select st_distance(st_point(3, 0), st_point(0, 4)) d\")\n\n# Returns:\n\n# ┌────────┐\n# │   d    │\n# │ double │\n# ├────────┤\n# │    5.0 │\n# └────────┘",
+    "text": "2.1 Setting up DuckDB on Databricks\nDuckDB is a formidable new single-machine analytics tool, tracing its origins to the same Dutch research institute as Python. Crucially for this guide, it comes with a remarkably good Spatial extension.\nWhile Databricks comes with its own set of geospatial features, such as ST functions and H3 functions, nothing stops you to use DuckDB on the side as well.\n(What you do have to keep in mind though is that while much of Databricks’s tooling, namely Apache Spark, is focused on big data analysis multi-node clusters, your DuckDB instead will just run on single-node, just like e.g. Pandas would. So use single-node clusters, or Spark UDFs [TODO: insert a link here before].)\n%pip install duckdb --quiet\n\nimport duckdb\n\n# Install the Spatial Extension:\nduckdb.sql(\"install spatial; load spatial\")\nNOTE: If install spatial fails, check whether HTTP is blocked on your (corporate) network. If so, then you need to work around it as described here.\nThis allows you to directly use the DuckDB Spatial, for example:\nduckdb.sql(\"select st_distance(st_point(3, 0), st_point(0, 4)) d\")\n\n# Returns:\n\n# ┌────────┐\n# │   d    │\n# │ double │\n# ├────────┤\n# │    5.0 │\n# └────────┘",
     "crumbs": [
       "Setup",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>DuckDB on Databricks</span>"
@@ -51,6 +51,17 @@
     "crumbs": [
       "Setup",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>DuckDB on Databricks</span>"
+    ]
+  },
+  {
+    "objectID": "appendix/https_install_duckdbextension.html",
+    "href": "appendix/https_install_duckdbextension.html",
+    "title": "3  Install DuckDB Extensions via HTTPS",
+    "section": "",
+    "text": "If your network blocks HTTP requests, you cannot simply install DuckDB extensions by e.g. INSTALL spatial; (it will fail after ~10 minutes), because of the dependency on httpfs, an extension itself – see details here.\nThe workaround is to separately download the httpfs extension (see here for the list of architectures, even though within Databricks, the below preset is correct):\n\n%pip install duckdb --quiet\n\nimport duckdb\nimport os\nfrom urllib.parse import urlparse\nimport requests\n\nARCHITECTURE = \"linux_amd64\"\nduckdb_version = duckdb.__version__\nurl = f\"https://extensions.duckdb.org/v{duckdb_version}/{ARCHITECTURE}/httpfs.duckdb_extension.gz\"\n\noutput_file = os.path.basename(urlparse(url).path)\nresponse = requests.get(url, timeout=30)\nresponse.raise_for_status()\nwith open(output_file, \"wb\") as f:\n    f.write(response.content)\n\nduckdb.install_extension(output_file)\n\nos.remove(output_file)\n\nduckdb.sql(\"SET custom_extension_repository='https://extensions.duckdb.org'\")\n\nAnd now you can install other extensions, such as:\n\nduckdb.sql(\"install spatial; load spatial\")",
+    "crumbs": [
+      "Appendix",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Install DuckDB Extensions via HTTPS</span>"
     ]
   }
 ]

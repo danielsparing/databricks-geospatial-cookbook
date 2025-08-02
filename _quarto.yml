@@ -15,11 +15,10 @@ book:
     - part: "Setup"
       chapters:
         - duckdb-on-databricks/DuckDB_on_Databricks.ipynb
-        - e.qmd
     
-    - part: "part2"
+    - part: "Appendix"
       chapters: 
-        - e.qmd
+        - appendix/https_install_duckdbextension.ipynb
 
 format:
   html:
