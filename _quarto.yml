@@ -16,6 +16,34 @@ book:
       chapters:
         - duckdb-on-databricks/DuckDB_on_Databricks.ipynb
     
+    - part: "Geospatial Delta Lake"
+      chapters:
+        - delta/WKB.ipynb
+        - delta/GEOMETRY.ipynb
+        - delta/GEOGRAPHY.ipynb
+    
+    - part: "Import formats"
+      chapters:
+        - import/gpkg.ipynb
+    
+    - part: "Export formats"
+      chapters:
+        - export/geoparquet.ipynb
+        - export/flatgeobuf.ipynb
+        - export/PMTiles.ipynb
+    
+    - part: "Visualization"
+      chapters:
+        - viz/native.ipynb
+        - viz/lonboard.ipynb
+        - viz/PMTiles.ipynb
+        - viz/QGIS.ipynb
+    
+    - part: "Spatial functions"
+      chapters:
+        - stfunctions/native.ipynb
+        - stfunctions/duckdb.ipynb
+    
     - part: "Mapmatching"
       chapters:
         - mapmatching/databricks_graphhopper.ipynb
