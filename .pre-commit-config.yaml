@@ -35,6 +35,7 @@ repos:
       - id: nbqa-ruff-check
         args: ["--fix", "--ignore=B018,D100,E402,F821,I001"] # F821 because of dbutils, spark
       - id: nbqa-ruff-format
+        args: ["--nbqa-exclude=install_sf.ipynb"]
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.15.0
     hooks:
