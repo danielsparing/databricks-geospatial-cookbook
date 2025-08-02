@@ -12,7 +12,7 @@ book:
   chapters:
     - index.qmd
         
-    - part: "Seup"
+    - part: "Setup"
       chapters:
         - duckdb-on-databricks/DuckDB_on_Databricks.ipynb
         - e.qmd

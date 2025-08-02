@@ -16,7 +16,7 @@
     "section": "",
     "text": "2.1 Setting up DuckDB on Databricks\nDuckDB is a formidable new single-machine analytics tool, tracing its origins to the same Dutch research institute as Python. Crucially for this guide, it comes with a remarkably good Spatial extension.\nWhile Databricks comes with its own set of geospatial features, such as ST functions and H3 functions, nothing stops you to use DuckDB on the side as well.\n(What you do have to keep in mind though is that while much of Databricks’s tooling, namely Apache Spark, is focused on big data analysis multi-node clusters, your DuckDB instead will just run on single-node, just like e.g. Pandas would. So use single-node clusters, or Spark UDFs [TODO: insert a link here before].)\n%pip install duckdb --quiet\n\nimport duckdb\n\n# Install the Spatial Extension:\nduckdb.sql(\"install spatial; load spatial\")\nThis allows you to directly use the DuckDB Spatial, for example:\nduckdb.sql(\"select st_distance(st_point(3, 0), st_point(0, 4)) d\")\n\n# Returns:\n\n# ┌────────┐\n# │   d    │\n# │ double │\n# ├────────┤\n# │    5.0 │\n# └────────┘",
     "crumbs": [
-      "Seup",
+      "Setup",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>DuckDB on Databricks</span>"
     ]
   },
@@ -27,7 +27,7 @@
     "section": "2.2 Visualize DuckDB Spatial output",
     "text": "2.2 Visualize DuckDB Spatial output\nIf your data is simply lon/lat points, you can make use of the built-in point map visualization in Databricks Notebooks if you convert the DuckDB to a Spark DataFrame via Pandas. Once the result is shown, click on the + icon right of the Table tab to add the visualization “Map (Markers)” such as the one shown on the below image.\nFollowing the New York City pizza restaurants example, but let’s switch to Amsterdam because why not:\n\nquery = duckdb.sql(\n    \"\"\"\nwith t as (\n  SELECT\n    id,\n    names.primary as name,\n    confidence AS confidence,\n    CAST(socials AS JSON) as socials,\n    geometry\n  FROM\n    read_parquet('s3://overturemaps-us-west-2/release/2025-07-23.0/theme=places/type=place/*')\n  WHERE\n    categories.primary = 'pizza_restaurant'\n    AND bbox.xmin BETWEEN 4.7 AND 5.0\n    AND bbox.ymin BETWEEN 52.3 AND 52.4\n)\nselect st_x(geometry) lon, st_y(geometry) lat, name from t\n\"\"\"\n)\nquery\n\n# Returns:\n\n# ┌───────────┬────────────┬──────────────────────────────────────────┐\n# │    lon    │    lat     │                   name                   │\n# │  double   │   double   │                 varchar                  │\n# ├───────────┼────────────┼──────────────────────────────────────────┤\n# │  4.762994 │ 52.3099144 │ Per Tutti                                │\n# │ 4.7789755 │ 52.3381557 │ New York Pizza                           │\n# │ 4.7811585 │ 52.3367951 │ CiCi Pizza                               │\n# │     ·     │      ·     │       ·                                  │\n# │     ·     │      ·     │       ·                                  │\n# │     ·     │      ·     │       ·                                  │\n\n\nspark.createDataFrame(query.df()).display()\n\n\n\n\npoint_map\n\n\nOr visualize with lonboard, which will work also for other geometry types like linestrings and polygons, again following an Overture Maps example:\n\n%pip install lonboard shapely --quiet\n\nfrom lonboard import viz\n\n\nquery = duckdb.sql(\n    \"\"\"\n  SELECT\n    subtype,\n    names.primary as name,\n    geometry\n  FROM\n    read_parquet('s3://overturemaps-us-west-2/release/2025-07-23.0/theme=divisions/type=division_area/*')\n  WHERE\n    4.7 &lt; bbox.xmax AND bbox.xmin &lt; 5.0\n    AND 52.3 &lt; bbox.ymax AND bbox.ymin &lt; 52.4\n    AND subtype = 'county'\n    AND country = 'NL'\n\"\"\"\n)\n\nviz(query).as_html()\n\n\n\n\nlonboard_gemeente_map\n\n\nNote that clicking on a polygon opens a table with its parameters, in this case the municipalities of Amsterdam and some of its neighbors.\nAs powerful as Lonboard is, it won’t be able to visualize extremely large numbers of geometries, so if you try and fail at a larger example, try filtering your objects further.",
     "crumbs": [
-      "Seup",
+      "Setup",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>DuckDB on Databricks</span>"
     ]
   },
@@ -38,7 +38,7 @@
     "section": "2.3 Write Delta Lake Tables from DuckDB",
     "text": "2.3 Write Delta Lake Tables from DuckDB\nIf you want to write a result to a delta lake table (or temporary view), you can use Pandas as an intermediary format:\n\nspark.createDataFrame(query.df()).createOrReplaceTempView(\"t\")\n\n# Or write a persistent table, instead of a temporary view:\n# spark.createDataFrame(query.df()).write.saveAsTable(\"t\")\n\n\n%sql\nselect name from t\n\n-- Returns:\n\n-- ┌────────────────┐\n-- │      name      │\n-- ├────────────────┤\n-- │ Haarlemmermeer │\n-- │ Aalsmeer       │\n-- │ De Ronde Venen │\n-- │ Amstelveen     │\n-- │ Ouder-Amstel   │\n-- │ Amsterdam      │\n-- │ Diemen         │\n-- │ Waterland      │\n-- └────────────────┘",
     "crumbs": [
-      "Seup",
+      "Setup",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>DuckDB on Databricks</span>"
     ]
   },
@@ -49,7 +49,7 @@
     "section": "2.4 Read Delta Lake Tables with DuckDB",
     "text": "2.4 Read Delta Lake Tables with DuckDB\nWe can read moderate amount of data from a delta table to duckdb via Arrow (or Pandas). (This assumes that the data volume is not prohibitively large to load into the memory of a single machine.)\n\ndfa = spark.read.table(\"t\").toArrow()\n\nquery = duckdb.sql(\"\"\"\nselect\n    name\nfrom\n    dfa;\n\"\"\")\nquery\n\n# Returns:\n\n# ┌────────────────┐\n# │      name      │\n# │    varchar     │\n# ├────────────────┤\n# │ Haarlemmermeer │\n# │ Aalsmeer       │\n# │ De Ronde Venen │\n# │ Amstelveen     │\n# │ Ouder-Amstel   │\n# │ Amsterdam      │\n# │ Diemen         │\n# │ Waterland      │\n# └────────────────┘\n\nAnother, more scalable way to read Delta Lake tables with DuckDB is to use the Databricks Temporary Table Credentials API and the DuckDB Delta extension.",
     "crumbs": [
-      "Seup",
+      "Setup",
       "<span class='chapter-number'>2</span>  <span class='chapter-title'>DuckDB on Databricks</span>"
     ]
   }
