@@ -1,6 +1,6 @@
 # Introduction
 
-![e](https://images.unsplash.com/photo-1597760078652-6359f83febaf)
+<img src="https://images.unsplash.com/photo-1597760078652-6359f83febaf" width="100%">
 
 Geospatial (vector) data cookbook using Databricks [Spatial SQL](https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-st-geospatial-functions) with a helping hand from DuckDB [Spatial Extension](https://duckdb.org/docs/stable/core_extensions/spatial/overview.html) where needed.
 
