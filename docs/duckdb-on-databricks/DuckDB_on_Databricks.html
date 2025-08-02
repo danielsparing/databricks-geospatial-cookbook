@@ -242,6 +242,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
+<p><img src="https://images.unsplash.com/photo-1563286094-ad5e870b309c" width="100%"></p>
 <p><a href="https://duckdb.org/">DuckDB</a> is a formidable new single-machine analytics tool, tracing its origins to the same <a href="https://www.cwi.nl/nl/">Dutch research institute</a> as Python. Crucially for this guide, it comes with a remarkably good <a href="https://duckdb.org/docs/stable/core_extensions/spatial/overview.html">Spatial extension</a>.</p>
 <p>While Databricks comes with its own set of geospatial features, such as <a href="https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-st-geospatial-functions">ST functions</a> and <a href="https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-h3-geospatial-functions">H3 functions</a>, nothing stops you to use DuckDB on the side as well.</p>
 <p>(What you do have to keep in mind though is that while much of Databricks’s tooling, namely Apache Spark, is focused on big data analysis multi-node clusters, your DuckDB instead will just run on single-node, just like e.g.&nbsp;Pandas would. So use single-node clusters, or Spark UDFs [TODO: insert a link here before].)</p>
