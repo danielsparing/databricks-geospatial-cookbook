@@ -53,7 +53,7 @@
     "href": "delta2duckdb.html#setup",
     "title": "Read in a Delta Lake table with a geometry column in DuckDB",
     "section": "Setup",
-    "text": "Setup\n\n%pip install duckdb --quiet\n\nimport duckdb\n\n\nCATALOG = \"mainworkspace_1863054340605750\"\nSCHEMA = \"dsparing\"\nVOLUME = \"default\"\nTABLENAME = \"tmp_delta2duck\"\n\ntable_fullname = f\"{CATALOG}.{SCHEMA}.{TABLENAME}\""
+    "text": "Setup\n\n%pip install duckdb --quiet\n\nimport duckdb\n\n\nCATALOG = \"workspace\"\nSCHEMA = \"dsparing\"\nVOLUME = \"default\"\nTABLENAME = \"tmp_delta2duck\"\n\ntable_fullname = f\"{CATALOG}.{SCHEMA}.{TABLENAME}\""
   },
   {
     "objectID": "delta2duckdb.html#delta-lake-to-duckdb-via-arrow",
