@@ -17,3 +17,7 @@ select = [
     # pylint
     "PL",
 ]
+ignore = ["S608"]
+
+[tool.nbqa.exclude]
+ruff-format = "install_sf.ipynb"
