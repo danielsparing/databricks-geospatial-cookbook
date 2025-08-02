@@ -16,6 +16,10 @@ book:
       chapters:
         - duckdb-on-databricks/DuckDB_on_Databricks.ipynb
     
+    - part: "Mapmatching"
+      chapters:
+        - mapmatching/databricks_graphhopper.ipynb
+    
     - part: "Appendix"
       chapters: 
         - appendix/https_install_duckdbextension.ipynb

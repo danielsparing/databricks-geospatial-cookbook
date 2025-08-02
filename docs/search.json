@@ -54,14 +54,25 @@
     ]
   },
   {
+    "objectID": "mapmatching/databricks_graphhopper.html",
+    "href": "mapmatching/databricks_graphhopper.html",
+    "title": "3  Run GraphHopper on Databricks",
+    "section": "",
+    "text": "Note that there is no particular advantage of running GraphHopper on Databricks, but if it is part of your larger workflow, then it is practical to keep this step in the same environment.\n\nCATALOG = \"spd_workspace\"\nSCHEMA = \"default\"\nVOLUME = \"spd_vol\"\nVOLDIR = \"graphhopper\"\n\nvolpath = f\"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{VOLDIR}\"\n\n\nimport os\n\nos.environ[\"VOLPATH\"] = volpath\n\n\n%sh\nrm -rf ${VOLPATH}\nmkdir ${VOLPATH}\ncd ${VOLPATH}\n\nwget -nv https://github.com/graphhopper/graphhopper/releases/download/8.0/graphhopper-web-8.0.jar\n\n# example config, trace, and matching pbf\nwget -nv https://github.com/graphhopper/graphhopper/raw/refs/tags/8.0/config-example.yml\nwget -nv https://raw.githubusercontent.com/graphhopper/graphhopper/refs/tags/8.0/web/src/test/resources/issue-13.gpx\nwget -nv https://download.geofabrik.de/europe/turkey-latest.osm.pbf\n\n#edit config to match the pbf\nsed -i \"s|datareader\\.file: \\\"\\\"|datareader.file: \\\"turkey-latest.osm.pbf\\\"|\" config-example.yml\n\n# note that this fails on many of the other gpx examples within the same folder, but that's a different problem.\njava -jar graphhopper-web-8.0.jar match --file config-example.yml --profile car issue-13.gpx\n\nVisualizing the generated GPX file with GPX Studio:\n\n\n\nissue-13 matched",
+    "crumbs": [
+      "Mapmatching",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Run GraphHopper on Databricks</span>"
+    ]
+  },
+  {
     "objectID": "appendix/https_install_duckdbextension.html",
     "href": "appendix/https_install_duckdbextension.html",
-    "title": "3  Install DuckDB Extensions via HTTPS",
+    "title": "4  Install DuckDB Extensions via HTTPS",
     "section": "",
     "text": "If your network blocks HTTP requests, you cannot simply install DuckDB extensions by e.g. INSTALL spatial; (it will fail after ~10 minutes), because of the dependency on httpfs, an extension itself – see details here.\nThe workaround is to separately download the httpfs extension (see here for the list of architectures, even though within Databricks, the below preset is correct):\n\n%pip install duckdb --quiet\n\nimport duckdb\nimport os\nfrom urllib.parse import urlparse\nimport requests\n\nARCHITECTURE = \"linux_amd64\"\nduckdb_version = duckdb.__version__\nurl = f\"https://extensions.duckdb.org/v{duckdb_version}/{ARCHITECTURE}/httpfs.duckdb_extension.gz\"\n\noutput_file = os.path.basename(urlparse(url).path)\nresponse = requests.get(url, timeout=30)\nresponse.raise_for_status()\nwith open(output_file, \"wb\") as f:\n    f.write(response.content)\n\nduckdb.install_extension(output_file)\n\nos.remove(output_file)\n\nduckdb.sql(\"SET custom_extension_repository='https://extensions.duckdb.org'\")\n\nAnd now you can install other extensions, such as:\n\nduckdb.sql(\"install spatial; load spatial\")",
     "crumbs": [
       "Appendix",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Install DuckDB Extensions via HTTPS</span>"
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Install DuckDB Extensions via HTTPS</span>"
     ]
   }
 ]
