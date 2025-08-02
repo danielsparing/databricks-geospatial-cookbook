@@ -1,3 +1,27 @@
 project:
-  type: website
+  type: book
   output-dir: docs
+
+book:
+  title: "Databricks Free Edition Geospatial Cookbook with DuckDB"
+  author: "Daniel Sparing"
+  repo-url: https://github.com/danielsparing/databricks-geospatial-cookbook
+  repo-actions: [edit, issue]
+  sharing: [linkedin]
+
+  chapters:
+    - index.qmd
+        
+    - part: "part1"
+      chapters:
+        - e.qmd
+        - e.qmd
+    
+    - part: "part2"
+      chapters: 
+        - e.qmd
+
+format:
+  html:
+    theme: cosmo
+    code-line-numbers: true

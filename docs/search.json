@@ -131,5 +131,15 @@
     "title": "Point Map Visualization",
     "section": "",
     "text": "Point map visualization is natively supported, if your table outputs longitude-latitude pairs. It is recommended to limit the query to not too many rows for performance reasons.\n\n[!NOTE] We are using Spatial Functions and the GEOMETRY data type below, and as of 2025-07-16, you need to use Databricks Runtime 17.1+ for this. It is expected that this feature becomes available on Serverless Compute and DBSQL as well soon, see here.\n\n\n%pip install geoarrow-pyarrow lonboard shapely --quiet\n\n\nfrom lonboard import viz\nimport geoarrow.pyarrow as ga\nimport pyarrow as pa\nimport pyproj\n\n\n%sql\ncreate\nor replace table tmp_geometries as\nselect\n  \"Onze Lieve Vrouwetoren\" as name,\n  st_transform(st_point(155000, 463000, 28992), 4326) as geometry\nunion all\nselect\n  \"Bermuda Triangle\" as name,\n  st_makepolygon(\n    st_makeline(\n      array(\n        st_point(- 80.1935973, 25.7741566, 4326),\n        st_point(- 64.7563086, 32.3040273, 4326),\n        st_point(- 66.1166669, 18.4653003, 4326),\n        st_point(- 80.1935973, 25.7741566, 4326)\n      )\n    )\n  ) as geometry;\n\nselect\n  *\nfrom\n  tmp_geometries\n\nOur example table contains not only points, but the native visualization can only show points, so one thing we can do is to show the centroids.\nIn the above example, the SRID happens to be 4326, therefore the below st_transform is a unnecessary. In general, however, you’d want to transform the geometries to 4326 in order to obtain valid (lon, lat) tuples.\n\n%sql\nselect\n  name,\n  st_transform(st_centroid(geometry), 4326) centroid,\n  st_x(centroid) lon,\n  st_y(centroid) lat\nfrom\n  tmp_geometries\n\n\ndfa = spark.table(\"tmp_geometries\").limit(10_000).toArrow()\n\n\n# Assuming that all SRID's within the table are the same, which they should be as the\n# SRID is part of the column type.\ncrs = pyproj.CRS.from_epsg(dfa[\"geometry\"][0][\"srid\"]).to_json()\n\n\nfield_chunks = [chunk.field(\"wkb\") for chunk in dfa[\"geometry\"].chunks]\ndfa_geoarrow = dfa.append_column(\n    \"geoarrow\", ga.with_crs(ga.as_geoarrow(pa.chunked_array(field_chunks)), crs)\n).drop(\"geometry\")\n\n\nviz(dfa_geoarrow).as_html()\n\nAlternatively, you can use DuckDB to visualize in lonboard, see the DuckDB tutorial for that."
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Databricks Free Edition Geospatial Cookbook with DuckDB",
+    "section": "",
+    "text": "DuckDB on Databricks\nImport PostgreSQL/PostGIS backup files via Lakebase\ncookbook: postgis table to delta lake table via duckdb or via the code examples",
+    "crumbs": [
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>index.html</span>"
+    ]
   }
 ]
