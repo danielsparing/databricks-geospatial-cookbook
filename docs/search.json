@@ -4,9 +4,9 @@
     "href": "index.html",
     "title": "Databricks Free Edition Geospatial Cookbook with DuckDB",
     "section": "",
-    "text": "DuckDB on Databricks\nImport PostgreSQL/PostGIS backup files via Lakebase\ncookbook: postgis table to delta lake table via duckdb or via the code examples",
+    "text": "1 Introduction\nGeospatial (vector) data cookbook using Databricks Spatial SQL with a helping hand from DuckDB Spatial Extension where needed.\nAll pages are available as IPython notebooks as well in the source GitHub repository and they were successfully tested on Databricks Free Edition, Serverless environment version 3 unless otherwise noted.",
     "crumbs": [
-      "<span class='chapter-number'>1</span>  <span class='chapter-title'>index.html</span>"
+      "<span class='chapter-number'>1</span>  <span class='chapter-title'>Introduction</span>"
     ]
   },
   {
