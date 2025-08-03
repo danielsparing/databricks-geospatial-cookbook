@@ -18,9 +18,10 @@ book:
     
     - part: "Geospatial Delta Lake"
       chapters:
-        - delta/WKB.ipynb
+        - delta/GEOMETRY_vs_GEOGRAPHY.ipynb
         - delta/GEOMETRY.ipynb
         - delta/GEOGRAPHY.ipynb
+        - delta/WKB.ipynb
     
     - part: "Import formats"
       chapters:
