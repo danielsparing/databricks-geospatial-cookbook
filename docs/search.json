@@ -122,34 +122,56 @@
   {
     "objectID": "other_formats/export.html",
     "href": "other_formats/export.html",
-    "title": "8  Export Delta Lake table to Geoparquet with DuckDB",
+    "title": "8  Export Delta Lake table to other formats with DuckDB",
     "section": "",
-    "text": "8.1 Setup\n%pip install duckdb --quiet\n\nimport duckdb\n\nduckdb.sql(\"install spatial; load spatial\")\nCATALOG = \"workspace\"\nSCHEMA = \"default\"\nVOLUME = \"default\"\n\nGEOMETRY_COLUMN = \"geometry\"\n\nspark.sql(f\"create volume if not exists {CATALOG}.{SCHEMA}.{VOLUME}\")\nLet’s first create an example table with GEOMETRY columns:\n%sql\ncreate or replace table tmp_geometries as\nselect\n  st_point(0, 0, 4326) as geometry,\n  \"Null Island\" as name\nunion all\nselect\n  st_transform(st_point(155000, 463000, 28992), 4326) as geometry,\n  \"Onze Lieve Vrouwetoren\" as name\nunion all\nselect\n  st_makepolygon(\n    st_makeline(\n      array(\n        st_point(- 80.1935973, 25.7741566, 4326),\n        st_point(- 64.7563086, 32.3040273, 4326),\n        st_point(- 66.1166669, 18.4653003, 4326),\n        st_point(- 80.1935973, 25.7741566, 4326)\n      )\n    )\n  ) as geometry,\n  \"Bermuda Triangle\" as name;\n\nselect\n  *\nfrom\n  tmp_geometries\n-- Returns:\n\n-- _sqldf:pyspark.sql.connect.dataframe.DataFrame\n-- geometry:geometry(OGC:CRS84)\n-- name:string\n\n-- geometry name\n-- SRID=4326;POINT(0 0) Null Island\n-- SRID=4326;POINT(5.3872035084137675 52.15517230119224)    Onze Lieve Vrouwetoren\n-- SRID=4326;POLYGON((-80.1935973 25.7741566,-64.7563086 32.3040273,-66.1166669 18.4653003,-80.1935973 25.7741566)) Bermuda Triangle\nWe’ll use DuckDB Spatial to write he Geoparquet file, so first, we output the above Delta Lake table as a directory of Parquet files, using lon/lat coordinates.\n(You could also use Databricks Temporary Table Credentials API to directly read the Delta Lake table with the DuckDB Delta Extension instead.)\nfrom pyspark.sql import functions as F\n\nspark.table(\"tmp_geometries\").withColumn(\n    \"geometry\", F.expr(\"st_transform(geometry, 4326)\")\n).write.mode(\"overwrite\").parquet(\n    f\"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet\"\n)\nNow we can use duckdb to transform the Parquet files into a valid Geoparquet files:\nquery = f\"\"\"\nload spatial;\ncopy (\nselect \n    * replace (st_geomfromwkb({GEOMETRY_COLUMN}) as geometry)\nfrom\n    read_parquet('/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet/part-*.parquet')\n) to '/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries_geo.parquet' (format parquet)\"\"\"\nduckdb.sql(query)\nThere are more details around writing Geoparquet such as writing custom CRS’s or defining a “covering” using bounding boxes, but the above example is already a valid Geoparquet. For example, if your QGIS already supports the Parquet format (as of Aug 2025, the latest Windows version does but the latest macOS version doesn’t), then you can open this file in QGIS:\n(in fact, the GDAL Parquet reader used by QGIS can even open parquet files that are not valid geoparquet, as long as they have a WKB or WKT column and the column name and CRS matches the expected defaults or correctly defined)",
+    "text": "8.1 Setup\n%pip install duckdb --quiet\n\nimport duckdb\n\nduckdb.sql(\"install spatial; load spatial\")\nCATALOG = \"workspace\"\nSCHEMA = \"default\"\nVOLUME = \"default\"\n\nGEOMETRY_COLUMN = \"geometry\"\n\nspark.sql(f\"create volume if not exists {CATALOG}.{SCHEMA}.{VOLUME}\")\nLet’s first create an example table with GEOMETRY columns:\n%sql\ncreate or replace table tmp_geometries as\nselect\n  st_point(0, 0, 4326) as geometry,\n  \"Null Island\" as name\nunion all\nselect\n  st_transform(st_point(155000, 463000, 28992), 4326) as geometry,\n  \"Onze Lieve Vrouwetoren\" as name\nunion all\nselect\n  st_makepolygon(\n    st_makeline(\n      array(\n        st_point(- 80.1935973, 25.7741566, 4326),\n        st_point(- 64.7563086, 32.3040273, 4326),\n        st_point(- 66.1166669, 18.4653003, 4326),\n        st_point(- 80.1935973, 25.7741566, 4326)\n      )\n    )\n  ) as geometry,\n  \"Bermuda Triangle\" as name;\n\nselect\n  *\nfrom\n  tmp_geometries\n-- Returns:\n\n-- _sqldf:pyspark.sql.connect.dataframe.DataFrame\n-- geometry:geometry(OGC:CRS84)\n-- name:string\n\n-- geometry name\n-- SRID=4326;POINT(0 0) Null Island\n-- SRID=4326;POINT(5.3872035084137675 52.15517230119224)    Onze Lieve Vrouwetoren\n-- SRID=4326;POLYGON((-80.1935973 25.7741566,-64.7563086 32.3040273,-66.1166669 18.4653003,-80.1935973 25.7741566)) Bermuda Triangle",
     "crumbs": [
       "Import/Export to other formats",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to Geoparquet with DuckDB</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to other formats with DuckDB</span>"
     ]
   },
   {
-    "objectID": "other_formats/export.html#setup",
-    "href": "other_formats/export.html#setup",
-    "title": "8  Export Delta Lake table to Geoparquet with DuckDB",
-    "section": "",
-    "text": "Note\n\n\n\n(Note that if you didn’t load the DuckDB Spatial extension, the below would still succeed but Geoparquet metadata would not be written.)\n\n\n\n\n\n\n\ngeoparquet in qgis",
+    "objectID": "other_formats/export.html#parquet-files",
+    "href": "other_formats/export.html#parquet-files",
+    "title": "8  Export Delta Lake table to other formats with DuckDB",
+    "section": "8.2 Parquet files",
+    "text": "8.2 Parquet files\nWe’ll use DuckDB Spatial to write he Geoparquet file, so first, we output the above Delta Lake table as a directory of Parquet files, using lon/lat coordinates.\n(You could also use Databricks Temporary Table Credentials API to directly read the Delta Lake table with the DuckDB Delta Extension instead.)\n\nfrom pyspark.sql import functions as F\n\nspark.table(\"tmp_geometries\").withColumn(\n    \"geometry\", F.expr(\"st_transform(geometry, 4326)\")\n).write.mode(\"overwrite\").parquet(\n    f\"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet\"\n)\n\nWe will use the above parquet export as a stepping stone to produce other formats below.",
     "crumbs": [
       "Import/Export to other formats",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to Geoparquet with DuckDB</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to other formats with DuckDB</span>"
+    ]
+  },
+  {
+    "objectID": "other_formats/export.html#geoparquet",
+    "href": "other_formats/export.html#geoparquet",
+    "title": "8  Export Delta Lake table to other formats with DuckDB",
+    "section": "8.3 Geoparquet",
+    "text": "8.3 Geoparquet\nWe can use duckdb to transform the Parquet files into a valid Geoparquet files:\n\n\n\n\n\n\nNote\n\n\n\n(Note that if you didn’t load the DuckDB Spatial extension, the below would still succeed but Geoparquet metadata would not be written.)\n\n\n\nquery = f\"\"\"\nload spatial;\ncopy (\nselect \n    * replace (st_geomfromwkb({GEOMETRY_COLUMN}) as geometry)\nfrom\n    read_parquet('/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet/part-*.parquet')\n) to '/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries_geo.parquet' (format parquet)\"\"\"\nduckdb.sql(query)\n\nThere are more details around writing Geoparquet such as writing custom CRS’s or defining a “covering” using bounding boxes, but the above example is already a valid Geoparquet. For example, if your QGIS already supports the Parquet format (as of Aug 2025, the latest Windows version does but the latest macOS version doesn’t), then you can open this file in QGIS:\n\n\n\ngeoparquet in qgis\n\n\n(in fact, the GDAL Parquet reader used by QGIS can even open parquet files that are not valid geoparquet, as long as they have a WKB or WKT column and the column name and CRS matches the expected defaults or correctly defined)",
+    "crumbs": [
+      "Import/Export to other formats",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to other formats with DuckDB</span>"
+    ]
+  },
+  {
+    "objectID": "other_formats/export.html#flatgeobuf",
+    "href": "other_formats/export.html#flatgeobuf",
+    "title": "8  Export Delta Lake table to other formats with DuckDB",
+    "section": "8.4 Flatgeobuf",
+    "text": "8.4 Flatgeobuf\nExporting to Flatgeobuf is very similar to the above. Flatgeobuf as a format has two key advantages here: - It is faster to render (e.g. in QGIS) than Geoparquet, and - It can act as input to tippecanoe (see below), which we’ll use to produce PMTiles, which is even better suited for web mapping.\n\nquery = f\"\"\"\nload spatial;\ncopy (\nselect \n    * replace (st_geomfromwkb({GEOMETRY_COLUMN}) as geometry)\nfrom\n    read_parquet('/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet/part-*.parquet')\n) to '/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.fgb' (format flatgeobuf)\"\"\"\nduckdb.sql(query)",
+    "crumbs": [
+      "Import/Export to other formats",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to other formats with DuckDB</span>"
     ]
   },
   {
     "objectID": "other_formats/export.html#cleanup",
     "href": "other_formats/export.html#cleanup",
-    "title": "8  Export Delta Lake table to Geoparquet with DuckDB",
-    "section": "8.2 Cleanup",
-    "text": "8.2 Cleanup\n\n%sql\ndrop table tmp_geometries",
+    "title": "8  Export Delta Lake table to other formats with DuckDB",
+    "section": "9.1 Cleanup",
+    "text": "9.1 Cleanup\n\n%sql\ndrop table tmp_geometries",
     "crumbs": [
       "Import/Export to other formats",
-      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to Geoparquet with DuckDB</span>"
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to other formats with DuckDB</span>"
     ]
   },
   {
