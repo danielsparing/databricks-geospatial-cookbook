@@ -54,25 +54,201 @@
     ]
   },
   {
+    "objectID": "delta/GEOMETRY_vs_GEOGRAPHY.html",
+    "href": "delta/GEOMETRY_vs_GEOGRAPHY.html",
+    "title": "3  GEOMETRY vs GEOGRAPHY vs WKB",
+    "section": "",
+    "text": "If in a Delta Lake table you only store (lat, lon) values, use GEOGRAPHY (with the caveat that for st_distanceshpere and st_distancespheroid to work, you would need to cast geographies to geometry as geog::geometry(4326)).\nIf you use an SRID other than 4326 or multiple SRID’s, use GEOMETRY. If you need to calculate values in meters from lat/lon, you can still cast to GEOGRAPHY as needed and use measurement functions like st_area, st_length or st_perimeter.\nIf you need compatility with other tools, you might consider WKB – however, spark.write.parquet() would export GEOMETRY/GEOGRAPHY columns as WKB anyway.",
+    "crumbs": [
+      "Geospatial Delta Lake",
+      "<span class='chapter-number'>3</span>  <span class='chapter-title'>GEOMETRY vs GEOGRAPHY vs WKB</span>"
+    ]
+  },
+  {
+    "objectID": "delta/GEOMETRY.html",
+    "href": "delta/GEOMETRY.html",
+    "title": "4  Storing spatial data in Delta Lake as GEOMETRY type",
+    "section": "",
+    "text": "4.1 Cleanup\nYou can store geometry or geography data in a Delta Lake table in a GEOMETRY column. See also GEOMETRY_vs_GEOGRAPHY.\nNOTE: As of 2025-08-03, the GEOMETRY and GEOGRAPHY types are not available yet in Serverless Compute and you need a DBR 17.1+ cluster to use this feature. This means that this is also not available in the Databricks Free Edition. This limitation is expected to be lifted in the very near future.\n(Note that you could mix multiple SRID’s in one GEOMETRY column inside a Spark Dataframe, including inside a view, but must have a single SRID in a table.)\nLet’s calculate the distance in kilometers (on the surface of the spheroid Earth) between the two point examples above. st_distancespheroid expects lat/lon, so we’ll first convert everything to SRID 4326 – Null Island already is though.\nThe GEOGRAPHY type also offers further functions that take lon/lat as input and produce meters as output, such as st_area. So let’s calculate the size of the Bermuda Triangle in square kms:\n%sql\n-- drop table tmp_geometries",
+    "crumbs": [
+      "Geospatial Delta Lake",
+      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Storing spatial data in Delta Lake as GEOMETRY type</span>"
+    ]
+  },
+  {
+    "objectID": "delta/GEOGRAPHY.html",
+    "href": "delta/GEOGRAPHY.html",
+    "title": "5  Storing spatial data in Delta Lake as GEOGRAPHY type",
+    "section": "",
+    "text": "5.1 Cleanup\nYou can store geography data in a Delta Lake table in a GEOGRAPHY column. See also GEOMETRY_vs_GEOGRAPHY.\nNOTE: As of 2025-08-03, the GEOMETRY and GEOGRAPHY types are not available yet in Serverless Compute and you need a DBR 17.1+ cluster to use this feature. This means that this is also not available in the Databricks Free Edition. This limitation is expected to be lifted in the very near future.\nLet’s calculate the distance in kilometers (on the surface of the spheroid Earth) between the two point examples above. st_distancespheroid expects GEOMETRIES of lat/lon, so we’ll need to cast.\nThe GEOGRAPHY type also offers further functions that take lon/lat as input and produce meters as output, such as st_area. So let’s calculate the size of the Bermuda Triangle in square kms:\n%sql\n-- drop table tmp_geographies",
+    "crumbs": [
+      "Geospatial Delta Lake",
+      "<span class='chapter-number'>5</span>  <span class='chapter-title'>Storing spatial data in Delta Lake as GEOGRAPHY type</span>"
+    ]
+  },
+  {
+    "objectID": "delta/WKB.html",
+    "href": "delta/WKB.html",
+    "title": "6  Storing spatial data in Delta Lake as WKB",
+    "section": "",
+    "text": "6.1 Example usage with ST functions\nYou can store geometry or geography data in a Delta Lake table in a BINARY column as Well-known binary (WKB or EWKB). This is a more compact representation than well-known text (WKT), and widely supported incl. in the Geoparquet specification. On the other hand, unlike the newer GEOMETRY and GEOGRAPHY types, there is no higher level semantic support possible such as automatic spatial indexing (as of Aug 2025, coming soon). Also, you need to use the conversion function st_geomfromwkb or st_geomfromwekb before any other ST function.\nAnother example of Delta Lake tables with WKB columns are the Overture Maps datasets prepared by CARTO, available via the Databricks Marketplace. Follow the previous link to add any them (at no cost) to your catalog, if you haven’t yet. For example, for the below query, use Divisions (borders of countries and other administrative divisions):\nThese CARTO tables also show one pattern to organize and cluster tables with geometries: they include the bounding box columns __carto_xmin, __carto_xmax, __carto_ymin, ___carto_ymax and are clustered by these colums.\nAnother pattern would be to make use of spatial indexing such as H3.\nNOTE: as of 2025-08-03, ST functions are only available on DBR 17.1+ and thus not available on Databricks Free Edition, but this limitation might be lifted soon.\nBut what if you wanted to use\nshow srid\n%sql\n-- The distance between the UK and France\nwith countries as (\n  select\n    country,\n    st_geomfromwkb(geometry) wkb_geometry\n  from\n    carto_overture_maps_divisions.carto.division_area\n  where\n    subtype = 'country'\n    and class = 'land'\n),\nuk as (\n  select\n    wkb_geometry\n  from\n    countries\n  where\n    country = 'GB'\n),\nfr as (\n  select\n    wkb_geometry\n  from\n    countries\n  where\n    country = 'FR'\n)\nselect\n  st_distancespheroid(uk.wkb_geometry, fr.wkb_geometry) / 1e3 distance_km\nfrom\n  uk, fr\nNow the question is, if the Strait of Dover is about 32 kms narrow, why did we get more above? For this, we’d need to find out where exactly the shortest line is between the two countries. There is no st_shortestline yet in Databricks ST functions as of 2025-08-03, but we can use a Spark UDF with DuckDB spatial to fill this gap, see here TODO: .",
+    "crumbs": [
+      "Geospatial Delta Lake",
+      "<span class='chapter-number'>6</span>  <span class='chapter-title'>Storing spatial data in Delta Lake as WKB</span>"
+    ]
+  },
+  {
+    "objectID": "import/gpkg.html",
+    "href": "import/gpkg.html",
+    "title": "7  Import GeoPackage into Delta Lake with DuckDB",
+    "section": "",
+    "text": "NOTE: This example is focusing on using DuckDB to parse the GeoPackage. For more complex GeoPackages, you may need to install GDAL yourself and use the GDAL command line tools.\nThis example in facts works just as much for any spatial formats that DuckDB Spatial supports via its GDAL integration, see the output of ST_Drivers.\n\n%pip install duckdb --quiet\n\n\nimport duckdb\n\nduckdb.sql(\"install spatial; load spatial\")\n\n\nGPKG_URL = \"https://service.pdok.nl/kadaster/bestuurlijkegebieden/atom/v1_0/downloads/BestuurlijkeGebieden_2025.gpkg\"\n\nCATALOG = \"workspace\"\nSCHEMA = \"default\"\nVOLUME = \"default\"\n\n\nlayers = duckdb.sql(\n    f\"\"\"\nwith t as (\n    select unnest(layers) layer\n     from st_read_meta('{GPKG_URL}'))\nselect\n    layer.name layer_name,\n    layer.geometry_fields[1].name geom_field\nfrom t\"\"\"\n).df()\n\nlayers\n\n# Returns:\n\n# layer_name    geom_field\n# 0 gemeentegebied  geom\n# 1 landgebied  geom\n# 2 provinciegebied geom\n\n\n# pick a layer to read\nlayer_name, geom_field = layers.loc[0, [\"layer_name\", \"geom_field\"]]\n\nduckdb.sql(\n    f\"\"\"copy (\n  select * replace(st_aswkb({geom_field}) as {geom_field})\n  from\n    st_read(\n      '{GPKG_URL}',\n      layer='{layer_name}')\n  ) to '/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{layer_name}.parquet' (format parquet)\"\"\"\n)\n\n\nspark.read.parquet(\"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{layer_name}.parquet\").display()  # noqa: S108\n\nYou can store the above spark data frame as a Delta Lake table as needed.",
+    "crumbs": [
+      "Import formats",
+      "<span class='chapter-number'>7</span>  <span class='chapter-title'>Import GeoPackage into Delta Lake with DuckDB</span>"
+    ]
+  },
+  {
+    "objectID": "export/geoparquet.html",
+    "href": "export/geoparquet.html",
+    "title": "8  Export Delta Lake table to Geoparquet with DuckDB",
+    "section": "",
+    "text": "8.1 Setup\n%pip install duckdb --quiet\n\nimport duckdb\n\nduckdb.sql(\"install spatial; load spatial\")\nCATALOG = \"workspace\"\nSCHEMA = \"default\"\nVOLUME = \"default\"\n\nGEOMETRY_COLUMN = \"geometry\"\n\nspark.sql(f\"create volume if not exists {CATALOG}.{SCHEMA}.{VOLUME}\")\nLet’s first create an example table with GEOMETRY columns:\n%sql\ncreate or replace table tmp_geometries as\nselect\n  st_point(0, 0, 4326) as geometry,\n  \"Null Island\" as name\nunion all\nselect\n  st_transform(st_point(155000, 463000, 28992), 4326) as geometry,\n  \"Onze Lieve Vrouwetoren\" as name\nunion all\nselect\n  st_makepolygon(\n    st_makeline(\n      array(\n        st_point(- 80.1935973, 25.7741566, 4326),\n        st_point(- 64.7563086, 32.3040273, 4326),\n        st_point(- 66.1166669, 18.4653003, 4326),\n        st_point(- 80.1935973, 25.7741566, 4326)\n      )\n    )\n  ) as geometry,\n  \"Bermuda Triangle\" as name;\n\nselect\n  *\nfrom\n  tmp_geometries\n-- Returns:\n\n-- _sqldf:pyspark.sql.connect.dataframe.DataFrame\n-- geometry:geometry(OGC:CRS84)\n-- name:string\n\n-- geometry name\n-- SRID=4326;POINT(0 0) Null Island\n-- SRID=4326;POINT(5.3872035084137675 52.15517230119224)    Onze Lieve Vrouwetoren\n-- SRID=4326;POLYGON((-80.1935973 25.7741566,-64.7563086 32.3040273,-66.1166669 18.4653003,-80.1935973 25.7741566)) Bermuda Triangle\nWe’ll use DuckDB Spatial to write he Geoparquet file, so first, we output the above Delta Lake table as a directory of Parquet files, using lon/lat coordinates.\n(You could also use Databricks Temporary Table Credentials API to directly read the Delta Lake table with the DuckDB Delta Extension instead.)\nfrom pyspark.sql import functions as F\n\nspark.table(\"tmp_geometries\").withColumn(\n    \"geometry\", F.expr(\"st_transform(geometry, 4326)\")\n).write.mode(\"overwrite\").parquet(f\"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet\")\nNow we can use duckdb to transform the Parquet files into a valid Geoparquet files:\nquery = f\"\"\"\nload spatial;\ncopy (\nselect \n    * replace (st_geomfromwkb({GEOMETRY_COLUMN}) as geometry)\nfrom\n    read_parquet('/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet/part-*.parquet')\n) to '/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries_geo.parquet' (format parquet)\"\"\"\nduckdb.sql(query)\nThere are more details around writing Geoparquet such as writing custom CRS’s or defining a “covering” using bounding boxes, but the above example is already a valid Geoparquet. For example, if your QGIS already supports the Parquet format (as of Aug 2025, the latest Windows version does but the latest macOS version doesn’t), then you can open this file in QGIS:\n(in fact, the GDAL Parquet reader used by QGIS can even open parquet files that are not valid geoparquet, as long as they have a WKB or WKT column and the column name and CRS matches the expected defaults or correctly defined)",
+    "crumbs": [
+      "Export formats",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to Geoparquet with DuckDB</span>"
+    ]
+  },
+  {
+    "objectID": "export/geoparquet.html#setup",
+    "href": "export/geoparquet.html#setup",
+    "title": "8  Export Delta Lake table to Geoparquet with DuckDB",
+    "section": "",
+    "text": "[!NOTE] (Note that if you didn’t load the DuckDB Spatial extension, the below would still succeed but Geoparquet metadata would not be written.)\n\n\n\n\n\n\n\nNote\n\n\n\n(Note that if you didn’t load the DuckDB Spatial extension, the below would still succeed but Geoparquet metadata would not be written.)\n\n\n\n\n\n\n\n\nNote\n\n\n\n(Note that if you didn’t load the DuckDB Spatial extension, the below would still succeed but Geoparquet metadata would not be written.)\n\n\n\n\n\n\n\ngeoparquet in qgis",
+    "crumbs": [
+      "Export formats",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to Geoparquet with DuckDB</span>"
+    ]
+  },
+  {
+    "objectID": "export/geoparquet.html#cleanup",
+    "href": "export/geoparquet.html#cleanup",
+    "title": "8  Export Delta Lake table to Geoparquet with DuckDB",
+    "section": "8.2 Cleanup",
+    "text": "8.2 Cleanup\n\n%sql\ndrop table tmp_geometries",
+    "crumbs": [
+      "Export formats",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to Geoparquet with DuckDB</span>"
+    ]
+  },
+  {
+    "objectID": "export/flatgeobuf.html",
+    "href": "export/flatgeobuf.html",
+    "title": "Databricks Free Edition Geospatial Cookbook with DuckDB",
+    "section": "",
+    "text": "todo",
+    "crumbs": [
+      "Export formats",
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>flatgeobuf.html</span>"
+    ]
+  },
+  {
+    "objectID": "export/PMTiles.html",
+    "href": "export/PMTiles.html",
+    "title": "Databricks Free Edition Geospatial Cookbook with DuckDB",
+    "section": "",
+    "text": "todo",
+    "crumbs": [
+      "Export formats",
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>PMTiles.html</span>"
+    ]
+  },
+  {
+    "objectID": "viz/native.html",
+    "href": "viz/native.html",
+    "title": "Databricks Free Edition Geospatial Cookbook with DuckDB",
+    "section": "",
+    "text": "todo",
+    "crumbs": [
+      "Visualization",
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>native.html</span>"
+    ]
+  },
+  {
+    "objectID": "viz/lonboard.html",
+    "href": "viz/lonboard.html",
+    "title": "Databricks Free Edition Geospatial Cookbook with DuckDB",
+    "section": "",
+    "text": "todo",
+    "crumbs": [
+      "Visualization",
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>lonboard.html</span>"
+    ]
+  },
+  {
+    "objectID": "viz/PMTiles.html",
+    "href": "viz/PMTiles.html",
+    "title": "Databricks Free Edition Geospatial Cookbook with DuckDB",
+    "section": "",
+    "text": "todo",
+    "crumbs": [
+      "Visualization",
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>PMTiles.html</span>"
+    ]
+  },
+  {
+    "objectID": "viz/QGIS.html",
+    "href": "viz/QGIS.html",
+    "title": "Databricks Free Edition Geospatial Cookbook with DuckDB",
+    "section": "",
+    "text": "todo",
+    "crumbs": [
+      "Visualization",
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>QGIS.html</span>"
+    ]
+  },
+  {
+    "objectID": "stfunctions/native.html",
+    "href": "stfunctions/native.html",
+    "title": "Databricks Free Edition Geospatial Cookbook with DuckDB",
+    "section": "",
+    "text": "todo",
+    "crumbs": [
+      "Spatial functions",
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>native.html</span>"
+    ]
+  },
+  {
+    "objectID": "stfunctions/duckdb.html",
+    "href": "stfunctions/duckdb.html",
+    "title": "Databricks Free Edition Geospatial Cookbook with DuckDB",
+    "section": "",
+    "text": "todo",
+    "crumbs": [
+      "Spatial functions",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>duckdb.html</span>"
+    ]
+  },
+  {
     "objectID": "mapmatching/databricks_graphhopper.html",
     "href": "mapmatching/databricks_graphhopper.html",
-    "title": "3  Run GraphHopper on Databricks",
+    "title": "17  Run GraphHopper on Databricks",
     "section": "",
-    "text": "Note that there is no particular advantage of running GraphHopper on Databricks, but if it is part of your larger workflow, then it is practical to keep this step in the same environment.\n\nCATALOG = \"spd_workspace\"\nSCHEMA = \"default\"\nVOLUME = \"spd_vol\"\nVOLDIR = \"graphhopper\"\n\nvolpath = f\"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{VOLDIR}\"\n\n\nimport os\n\nos.environ[\"VOLPATH\"] = volpath\n\n\n%sh\nrm -rf ${VOLPATH}\nmkdir ${VOLPATH}\ncd ${VOLPATH}\n\nwget -nv https://github.com/graphhopper/graphhopper/releases/download/8.0/graphhopper-web-8.0.jar\n\n# example config, trace, and matching pbf\nwget -nv https://github.com/graphhopper/graphhopper/raw/refs/tags/8.0/config-example.yml\nwget -nv https://raw.githubusercontent.com/graphhopper/graphhopper/refs/tags/8.0/web/src/test/resources/issue-13.gpx\nwget -nv https://download.geofabrik.de/europe/turkey-latest.osm.pbf\n\n#edit config to match the pbf\nsed -i \"s|datareader\\.file: \\\"\\\"|datareader.file: \\\"turkey-latest.osm.pbf\\\"|\" config-example.yml\n\n# note that this fails on many of the other gpx examples within the same folder, but that's a different problem.\njava -jar graphhopper-web-8.0.jar match --file config-example.yml --profile car issue-13.gpx\n\nVisualizing the generated GPX file with GPX Studio:\n\n\n\nissue-13 matched",
+    "text": "Note that there is no particular advantage of running GraphHopper on Databricks, but if it is part of your larger workflow, then it is practical to keep this step in the same environment.\n\n# Replace the below parameters with the volume path you use.\n\nCATALOG = \"workspace\"\nSCHEMA = \"default\"\nVOLUME = \"default\"\nVOLDIR = \"graphhopper\"\n\nvolpath = f\"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{VOLDIR}\"\n\nspark.sql(f\"create volume if not exists {CATALOG}.{SCHEMA}.{VOLUME}\")\n!mkdir -p /Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{VOLDIR}\n\n\nimport os\n\nos.environ[\"VOLPATH\"] = volpath\n\n\n%sh\nrm -rf ${VOLPATH}\nmkdir ${VOLPATH}\ncd ${VOLPATH}\n\nwget -nv https://github.com/graphhopper/graphhopper/releases/download/8.0/graphhopper-web-8.0.jar\n\n# example config, trace, and matching pbf\nwget -nv https://github.com/graphhopper/graphhopper/raw/refs/tags/8.0/config-example.yml\nwget -nv https://raw.githubusercontent.com/graphhopper/graphhopper/refs/tags/8.0/web/src/test/resources/issue-13.gpx\nwget -nv https://download.geofabrik.de/europe/turkey-latest.osm.pbf\n\n#edit config to match the pbf\nsed -i \"s|datareader\\.file: \\\"\\\"|datareader.file: \\\"turkey-latest.osm.pbf\\\"|\" config-example.yml\n\n# note that this fails on many of the other gpx examples within the same folder, but that's a different problem.\njava -jar graphhopper-web-8.0.jar match --file config-example.yml --profile car issue-13.gpx\n\nVisualizing the generated GPX file with GPX Studio:\n\n\n\nissue-13 matched",
     "crumbs": [
       "Mapmatching",
-      "<span class='chapter-number'>3</span>  <span class='chapter-title'>Run GraphHopper on Databricks</span>"
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Run GraphHopper on Databricks</span>"
     ]
   },
   {
     "objectID": "appendix/https_install_duckdbextension.html",
     "href": "appendix/https_install_duckdbextension.html",
-    "title": "4  Install DuckDB Extensions via HTTPS",
+    "title": "18  Install DuckDB Extensions via HTTPS",
     "section": "",
     "text": "If your network blocks HTTP requests, you cannot simply install DuckDB extensions by e.g. INSTALL spatial; (it will fail after ~10 minutes), because of the dependency on httpfs, an extension itself – see details here.\nThe workaround is to separately download the httpfs extension (see here for the list of architectures, even though within Databricks, the below preset is correct):\n\n%pip install duckdb --quiet\n\nimport duckdb\nimport os\nfrom urllib.parse import urlparse\nimport requests\n\nARCHITECTURE = \"linux_amd64\"\nduckdb_version = duckdb.__version__\nurl = f\"https://extensions.duckdb.org/v{duckdb_version}/{ARCHITECTURE}/httpfs.duckdb_extension.gz\"\n\noutput_file = os.path.basename(urlparse(url).path)\nresponse = requests.get(url, timeout=30)\nresponse.raise_for_status()\nwith open(output_file, \"wb\") as f:\n    f.write(response.content)\n\nduckdb.install_extension(output_file)\n\nos.remove(output_file)\n\nduckdb.sql(\"SET custom_extension_repository='https://extensions.duckdb.org'\")\n\nAnd now you can install other extensions, such as:\n\nduckdb.sql(\"install spatial; load spatial\")",
     "crumbs": [
       "Appendix",
-      "<span class='chapter-number'>4</span>  <span class='chapter-title'>Install DuckDB Extensions via HTTPS</span>"
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Install DuckDB Extensions via HTTPS</span>"
     ]
   }
 ]
