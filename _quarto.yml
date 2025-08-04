@@ -23,16 +23,11 @@ book:
         - delta/GEOGRAPHY.ipynb
         - delta/WKB.ipynb
     
-    - part: "Import formats"
+    - part: "Import/Export to other formats"
       chapters:
-        - import/gpkg.ipynb
-    
-    - part: "Export formats"
-      chapters:
-        - export/geoparquet.ipynb
-        - export/flatgeobuf.ipynb
-        - export/PMTiles.ipynb
-    
+        - other_formats/import.ipynb
+        - other_formats/export.ipynb
+        
     - part: "Visualization"
       chapters:
         - viz/native.ipynb

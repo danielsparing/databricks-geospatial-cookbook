@@ -109,69 +109,47 @@
     ]
   },
   {
-    "objectID": "import/gpkg.html",
-    "href": "import/gpkg.html",
+    "objectID": "other_formats/import.html",
+    "href": "other_formats/import.html",
     "title": "7  Import GeoPackage into Delta Lake with DuckDB",
     "section": "",
-    "text": "Note\n\n\n\nNOTE: This example is focusing on using DuckDB to parse the GeoPackage. For more complex GeoPackages, you may need to install GDAL yourself and use the GDAL command line tools.\n\n\nThis example in facts works just as much for any spatial formats that DuckDB Spatial supports via its GDAL integration, see the output of ST_Drivers.\n\n%pip install duckdb --quiet\n\n\nimport duckdb\n\nduckdb.sql(\"install spatial; load spatial\")\n\n\nGPKG_URL = \"https://service.pdok.nl/kadaster/bestuurlijkegebieden/atom/v1_0/downloads/BestuurlijkeGebieden_2025.gpkg\"\n\nCATALOG = \"workspace\"\nSCHEMA = \"default\"\nVOLUME = \"default\"\n\n\nlayers = duckdb.sql(\n    f\"\"\"\nwith t as (\n    select unnest(layers) layer\n     from st_read_meta('{GPKG_URL}'))\nselect\n    layer.name layer_name,\n    layer.geometry_fields[1].name geom_field\nfrom t\"\"\"\n).df()\n\nlayers\n\n# Returns:\n\n# layer_name    geom_field\n# 0 gemeentegebied  geom\n# 1 landgebied  geom\n# 2 provinciegebied geom\n\n\n# pick a layer to read\nlayer_name, geom_field = layers.loc[0, [\"layer_name\", \"geom_field\"]]\n\nduckdb.sql(\n    f\"\"\"copy (\n  select * replace(st_aswkb({geom_field}) as {geom_field})\n  from\n    st_read(\n      '{GPKG_URL}',\n      layer='{layer_name}')\n  ) to '/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{layer_name}.parquet' (format parquet)\"\"\"\n)\n\n\nspark.read.parquet(\"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{layer_name}.parquet\").display()  # noqa: S108\n\nYou can store the above spark data frame as a Delta Lake table as needed.",
+    "text": "Note\n\n\n\nNOTE: This example is focusing on using DuckDB to parse the GeoPackage. For more complex GeoPackages, you may need to install GDAL yourself and use the GDAL command line tools.\n\n\nThis example in facts works just as much for any spatial formats that DuckDB Spatial supports via its GDAL integration, see the output of ST_Drivers.\n\n%pip install duckdb --quiet\n\n\nimport duckdb\n\nduckdb.sql(\"install spatial; load spatial\")\n\n\nGPKG_URL = \"https://service.pdok.nl/kadaster/bestuurlijkegebieden/atom/v1_0/downloads/BestuurlijkeGebieden_2025.gpkg\"\n\nCATALOG = \"workspace\"\nSCHEMA = \"default\"\nVOLUME = \"default\"\n\n\nlayers = duckdb.sql(\n    f\"\"\"\nwith t as (\n    select unnest(layers) layer\n     from st_read_meta('{GPKG_URL}'))\nselect\n    layer.name layer_name,\n    layer.geometry_fields[1].name geom_field\nfrom t\"\"\"\n).df()\n\nlayers\n\n# Returns:\n\n# layer_name    geom_field\n# 0 gemeentegebied  geom\n# 1 landgebied  geom\n# 2 provinciegebied geom\n\n\n# pick a layer to read\nlayer_name, geom_field = layers.loc[0, [\"layer_name\", \"geom_field\"]]\n\nduckdb.sql(\n    f\"\"\"copy (\n  select * replace(st_aswkb({geom_field}) as {geom_field})\n  from\n    st_read(\n      '{GPKG_URL}',\n      layer='{layer_name}')\n  ) to '/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{layer_name}.parquet' (format parquet)\"\"\"\n)\n\n\nspark.read.parquet(\n    \"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{layer_name}.parquet\"\n).display()  # noqa: S108\n\nYou can store the above spark data frame as a Delta Lake table as needed.",
     "crumbs": [
-      "Import formats",
+      "Import/Export to other formats",
       "<span class='chapter-number'>7</span>  <span class='chapter-title'>Import GeoPackage into Delta Lake with DuckDB</span>"
     ]
   },
   {
-    "objectID": "export/geoparquet.html",
-    "href": "export/geoparquet.html",
+    "objectID": "other_formats/export.html",
+    "href": "other_formats/export.html",
     "title": "8  Export Delta Lake table to Geoparquet with DuckDB",
     "section": "",
-    "text": "8.1 Setup\n%pip install duckdb --quiet\n\nimport duckdb\n\nduckdb.sql(\"install spatial; load spatial\")\nCATALOG = \"workspace\"\nSCHEMA = \"default\"\nVOLUME = \"default\"\n\nGEOMETRY_COLUMN = \"geometry\"\n\nspark.sql(f\"create volume if not exists {CATALOG}.{SCHEMA}.{VOLUME}\")\nLet’s first create an example table with GEOMETRY columns:\n%sql\ncreate or replace table tmp_geometries as\nselect\n  st_point(0, 0, 4326) as geometry,\n  \"Null Island\" as name\nunion all\nselect\n  st_transform(st_point(155000, 463000, 28992), 4326) as geometry,\n  \"Onze Lieve Vrouwetoren\" as name\nunion all\nselect\n  st_makepolygon(\n    st_makeline(\n      array(\n        st_point(- 80.1935973, 25.7741566, 4326),\n        st_point(- 64.7563086, 32.3040273, 4326),\n        st_point(- 66.1166669, 18.4653003, 4326),\n        st_point(- 80.1935973, 25.7741566, 4326)\n      )\n    )\n  ) as geometry,\n  \"Bermuda Triangle\" as name;\n\nselect\n  *\nfrom\n  tmp_geometries\n-- Returns:\n\n-- _sqldf:pyspark.sql.connect.dataframe.DataFrame\n-- geometry:geometry(OGC:CRS84)\n-- name:string\n\n-- geometry name\n-- SRID=4326;POINT(0 0) Null Island\n-- SRID=4326;POINT(5.3872035084137675 52.15517230119224)    Onze Lieve Vrouwetoren\n-- SRID=4326;POLYGON((-80.1935973 25.7741566,-64.7563086 32.3040273,-66.1166669 18.4653003,-80.1935973 25.7741566)) Bermuda Triangle\nWe’ll use DuckDB Spatial to write he Geoparquet file, so first, we output the above Delta Lake table as a directory of Parquet files, using lon/lat coordinates.\n(You could also use Databricks Temporary Table Credentials API to directly read the Delta Lake table with the DuckDB Delta Extension instead.)\nfrom pyspark.sql import functions as F\n\nspark.table(\"tmp_geometries\").withColumn(\n    \"geometry\", F.expr(\"st_transform(geometry, 4326)\")\n).write.mode(\"overwrite\").parquet(f\"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet\")\nNow we can use duckdb to transform the Parquet files into a valid Geoparquet files:\nquery = f\"\"\"\nload spatial;\ncopy (\nselect \n    * replace (st_geomfromwkb({GEOMETRY_COLUMN}) as geometry)\nfrom\n    read_parquet('/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet/part-*.parquet')\n) to '/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries_geo.parquet' (format parquet)\"\"\"\nduckdb.sql(query)\nThere are more details around writing Geoparquet such as writing custom CRS’s or defining a “covering” using bounding boxes, but the above example is already a valid Geoparquet. For example, if your QGIS already supports the Parquet format (as of Aug 2025, the latest Windows version does but the latest macOS version doesn’t), then you can open this file in QGIS:\n(in fact, the GDAL Parquet reader used by QGIS can even open parquet files that are not valid geoparquet, as long as they have a WKB or WKT column and the column name and CRS matches the expected defaults or correctly defined)",
+    "text": "8.1 Setup\n%pip install duckdb --quiet\n\nimport duckdb\n\nduckdb.sql(\"install spatial; load spatial\")\nCATALOG = \"workspace\"\nSCHEMA = \"default\"\nVOLUME = \"default\"\n\nGEOMETRY_COLUMN = \"geometry\"\n\nspark.sql(f\"create volume if not exists {CATALOG}.{SCHEMA}.{VOLUME}\")\nLet’s first create an example table with GEOMETRY columns:\n%sql\ncreate or replace table tmp_geometries as\nselect\n  st_point(0, 0, 4326) as geometry,\n  \"Null Island\" as name\nunion all\nselect\n  st_transform(st_point(155000, 463000, 28992), 4326) as geometry,\n  \"Onze Lieve Vrouwetoren\" as name\nunion all\nselect\n  st_makepolygon(\n    st_makeline(\n      array(\n        st_point(- 80.1935973, 25.7741566, 4326),\n        st_point(- 64.7563086, 32.3040273, 4326),\n        st_point(- 66.1166669, 18.4653003, 4326),\n        st_point(- 80.1935973, 25.7741566, 4326)\n      )\n    )\n  ) as geometry,\n  \"Bermuda Triangle\" as name;\n\nselect\n  *\nfrom\n  tmp_geometries\n-- Returns:\n\n-- _sqldf:pyspark.sql.connect.dataframe.DataFrame\n-- geometry:geometry(OGC:CRS84)\n-- name:string\n\n-- geometry name\n-- SRID=4326;POINT(0 0) Null Island\n-- SRID=4326;POINT(5.3872035084137675 52.15517230119224)    Onze Lieve Vrouwetoren\n-- SRID=4326;POLYGON((-80.1935973 25.7741566,-64.7563086 32.3040273,-66.1166669 18.4653003,-80.1935973 25.7741566)) Bermuda Triangle\nWe’ll use DuckDB Spatial to write he Geoparquet file, so first, we output the above Delta Lake table as a directory of Parquet files, using lon/lat coordinates.\n(You could also use Databricks Temporary Table Credentials API to directly read the Delta Lake table with the DuckDB Delta Extension instead.)\nfrom pyspark.sql import functions as F\n\nspark.table(\"tmp_geometries\").withColumn(\n    \"geometry\", F.expr(\"st_transform(geometry, 4326)\")\n).write.mode(\"overwrite\").parquet(\n    f\"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet\"\n)\nNow we can use duckdb to transform the Parquet files into a valid Geoparquet files:\nquery = f\"\"\"\nload spatial;\ncopy (\nselect \n    * replace (st_geomfromwkb({GEOMETRY_COLUMN}) as geometry)\nfrom\n    read_parquet('/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet/part-*.parquet')\n) to '/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries_geo.parquet' (format parquet)\"\"\"\nduckdb.sql(query)\nThere are more details around writing Geoparquet such as writing custom CRS’s or defining a “covering” using bounding boxes, but the above example is already a valid Geoparquet. For example, if your QGIS already supports the Parquet format (as of Aug 2025, the latest Windows version does but the latest macOS version doesn’t), then you can open this file in QGIS:\n(in fact, the GDAL Parquet reader used by QGIS can even open parquet files that are not valid geoparquet, as long as they have a WKB or WKT column and the column name and CRS matches the expected defaults or correctly defined)",
     "crumbs": [
-      "Export formats",
+      "Import/Export to other formats",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to Geoparquet with DuckDB</span>"
     ]
   },
   {
-    "objectID": "export/geoparquet.html#setup",
-    "href": "export/geoparquet.html#setup",
+    "objectID": "other_formats/export.html#setup",
+    "href": "other_formats/export.html#setup",
     "title": "8  Export Delta Lake table to Geoparquet with DuckDB",
     "section": "",
     "text": "Note\n\n\n\n(Note that if you didn’t load the DuckDB Spatial extension, the below would still succeed but Geoparquet metadata would not be written.)\n\n\n\n\n\n\n\ngeoparquet in qgis",
     "crumbs": [
-      "Export formats",
+      "Import/Export to other formats",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to Geoparquet with DuckDB</span>"
     ]
   },
   {
-    "objectID": "export/geoparquet.html#cleanup",
-    "href": "export/geoparquet.html#cleanup",
+    "objectID": "other_formats/export.html#cleanup",
+    "href": "other_formats/export.html#cleanup",
     "title": "8  Export Delta Lake table to Geoparquet with DuckDB",
     "section": "8.2 Cleanup",
     "text": "8.2 Cleanup\n\n%sql\ndrop table tmp_geometries",
     "crumbs": [
-      "Export formats",
+      "Import/Export to other formats",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to Geoparquet with DuckDB</span>"
-    ]
-  },
-  {
-    "objectID": "export/flatgeobuf.html",
-    "href": "export/flatgeobuf.html",
-    "title": "Databricks Free Edition Geospatial Cookbook with DuckDB",
-    "section": "",
-    "text": "todo",
-    "crumbs": [
-      "Export formats",
-      "<span class='chapter-number'>9</span>  <span class='chapter-title'>flatgeobuf.html</span>"
-    ]
-  },
-  {
-    "objectID": "export/PMTiles.html",
-    "href": "export/PMTiles.html",
-    "title": "Databricks Free Edition Geospatial Cookbook with DuckDB",
-    "section": "",
-    "text": "todo",
-    "crumbs": [
-      "Export formats",
-      "<span class='chapter-number'>10</span>  <span class='chapter-title'>PMTiles.html</span>"
     ]
   },
   {
@@ -182,7 +160,7 @@
     "text": "todo",
     "crumbs": [
       "Visualization",
-      "<span class='chapter-number'>11</span>  <span class='chapter-title'>native.html</span>"
+      "<span class='chapter-number'>9</span>  <span class='chapter-title'>native.html</span>"
     ]
   },
   {
@@ -193,7 +171,7 @@
     "text": "todo",
     "crumbs": [
       "Visualization",
-      "<span class='chapter-number'>12</span>  <span class='chapter-title'>lonboard.html</span>"
+      "<span class='chapter-number'>10</span>  <span class='chapter-title'>lonboard.html</span>"
     ]
   },
   {
@@ -204,7 +182,7 @@
     "text": "todo",
     "crumbs": [
       "Visualization",
-      "<span class='chapter-number'>13</span>  <span class='chapter-title'>PMTiles.html</span>"
+      "<span class='chapter-number'>11</span>  <span class='chapter-title'>PMTiles.html</span>"
     ]
   },
   {
@@ -215,7 +193,7 @@
     "text": "todo",
     "crumbs": [
       "Visualization",
-      "<span class='chapter-number'>14</span>  <span class='chapter-title'>QGIS.html</span>"
+      "<span class='chapter-number'>12</span>  <span class='chapter-title'>QGIS.html</span>"
     ]
   },
   {
@@ -226,7 +204,7 @@
     "text": "todo",
     "crumbs": [
       "Spatial functions",
-      "<span class='chapter-number'>15</span>  <span class='chapter-title'>native.html</span>"
+      "<span class='chapter-number'>13</span>  <span class='chapter-title'>native.html</span>"
     ]
   },
   {
@@ -237,29 +215,29 @@
     "text": "todo",
     "crumbs": [
       "Spatial functions",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>duckdb.html</span>"
+      "<span class='chapter-number'>14</span>  <span class='chapter-title'>duckdb.html</span>"
     ]
   },
   {
     "objectID": "mapmatching/databricks_graphhopper.html",
     "href": "mapmatching/databricks_graphhopper.html",
-    "title": "17  Run GraphHopper on Databricks",
+    "title": "15  Run GraphHopper on Databricks",
     "section": "",
     "text": "Note that there is no particular advantage of running GraphHopper on Databricks, but if it is part of your larger workflow, then it is practical to keep this step in the same environment.\n\n# Replace the below parameters with the volume path you use.\n\nCATALOG = \"workspace\"\nSCHEMA = \"default\"\nVOLUME = \"default\"\nVOLDIR = \"graphhopper\"\n\nvolpath = f\"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{VOLDIR}\"\n\nspark.sql(f\"create volume if not exists {CATALOG}.{SCHEMA}.{VOLUME}\")\n!mkdir -p /Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{VOLDIR}\n\n\nimport os\n\nos.environ[\"VOLPATH\"] = volpath\n\n\n%sh\nrm -rf ${VOLPATH}\nmkdir ${VOLPATH}\ncd ${VOLPATH}\n\nwget -nv https://github.com/graphhopper/graphhopper/releases/download/8.0/graphhopper-web-8.0.jar\n\n# example config, trace, and matching pbf\nwget -nv https://github.com/graphhopper/graphhopper/raw/refs/tags/8.0/config-example.yml\nwget -nv https://raw.githubusercontent.com/graphhopper/graphhopper/refs/tags/8.0/web/src/test/resources/issue-13.gpx\nwget -nv https://download.geofabrik.de/europe/turkey-latest.osm.pbf\n\n#edit config to match the pbf\nsed -i \"s|datareader\\.file: \\\"\\\"|datareader.file: \\\"turkey-latest.osm.pbf\\\"|\" config-example.yml\n\n# note that this fails on many of the other gpx examples within the same folder, but that's a different problem.\njava -jar graphhopper-web-8.0.jar match --file config-example.yml --profile car issue-13.gpx\n\nVisualizing the generated GPX file with GPX Studio:\n\n\n\nissue-13 matched",
     "crumbs": [
       "Mapmatching",
-      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Run GraphHopper on Databricks</span>"
+      "<span class='chapter-number'>15</span>  <span class='chapter-title'>Run GraphHopper on Databricks</span>"
     ]
   },
   {
     "objectID": "appendix/https_install_duckdbextension.html",
     "href": "appendix/https_install_duckdbextension.html",
-    "title": "18  Install DuckDB Extensions via HTTPS",
+    "title": "16  Install DuckDB Extensions via HTTPS",
     "section": "",
     "text": "If your network blocks HTTP requests, you cannot simply install DuckDB extensions by e.g. INSTALL spatial; (it will fail after ~10 minutes), because of the dependency on httpfs, an extension itself – see details here.\nThe workaround is to separately download the httpfs extension (see here for the list of architectures, even though within Databricks, the below preset is correct):\n\n%pip install duckdb --quiet\n\nimport duckdb\nimport os\nfrom urllib.parse import urlparse\nimport requests\n\nARCHITECTURE = \"linux_amd64\"\nduckdb_version = duckdb.__version__\nurl = f\"https://extensions.duckdb.org/v{duckdb_version}/{ARCHITECTURE}/httpfs.duckdb_extension.gz\"\n\noutput_file = os.path.basename(urlparse(url).path)\nresponse = requests.get(url, timeout=30)\nresponse.raise_for_status()\nwith open(output_file, \"wb\") as f:\n    f.write(response.content)\n\nduckdb.install_extension(output_file)\n\nos.remove(output_file)\n\nduckdb.sql(\"SET custom_extension_repository='https://extensions.duckdb.org'\")\n\nAnd now you can install other extensions, such as:\n\nduckdb.sql(\"install spatial; load spatial\")",
     "crumbs": [
       "Appendix",
-      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Install DuckDB Extensions via HTTPS</span>"
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Install DuckDB Extensions via HTTPS</span>"
     ]
   }
 ]
