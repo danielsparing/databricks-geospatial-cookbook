@@ -379,7 +379,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>You can store geography data in a Delta Lake table in a <a href="https://docs.databricks.com/aws/en/sql/language-manual/data-types/geography-type">GEOGRAPHY</a> column. See also <a href="../delta/GEOMETRY_vs_GEOGRAPHY.html">GEOMETRY_vs_GEOGRAPHY</a>.</p>
-<p><em>NOTE: As of 2025-08-03, the GEOMETRY and GEOGRAPHY types are not available yet in Serverless Compute and you need a DBR 17.1+ cluster to use this feature. This means that this is also not available in the Databricks Free Edition. This limitation is expected to be lifted in the very near future.</em></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As of 2025-08-03, the GEOMETRY and GEOGRAPHY types are not available yet in Serverless Compute and you need a DBR 17.1+ cluster to use this feature. This means that this is also not available in the Databricks Free Edition. This limitation is expected to be lifted in the very near future.</p>
+</div>
+</div>
 <div id="cell-1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;fb8b2454-2e55-4aa3-ae0f-0c2329db108e&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>sql</span>
 <span id="cb1-2"><a href="#cb1-2"></a>create <span class="kw">or</span> replace table tmp_geographies <span class="im">as</span></span>

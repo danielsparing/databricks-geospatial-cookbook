@@ -447,22 +447,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb4-5"><a href="#cb4-5"></a>).write.mode(<span class="st">"overwrite"</span>).parquet(<span class="ss">f"/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries.parquet"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can use duckdb to transform the Parquet files into a valid Geoparquet files:</p>
-<blockquote class="blockquote">
-<p>[!NOTE] (Note that if you didn’t load the DuckDB Spatial extension, the below would still succeed but Geoparquet metadata would <em>not</em> be written.)</p>
-</blockquote>
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>(Note that if you didn’t load the DuckDB Spatial extension, the below would still succeed but Geoparquet metadata would <em>not</em> be written.)</p>
-</div>
-</div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
