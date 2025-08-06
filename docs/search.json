@@ -157,7 +157,7 @@
     "href": "other_formats/export.html#flatgeobuf",
     "title": "8  Export Delta Lake table to other formats with DuckDB",
     "section": "8.4 Flatgeobuf",
-    "text": "8.4 Flatgeobuf\nExporting to Flatgeobuf is very similar to the above. Flatgeobuf as a format has two key advantages here: - It is faster to render (e.g. in QGIS) than Geoparquet, and - It can act as input to tippecanoe (see below), which we’ll use to produce PMTiles, which is even better suited for web mapping.\n\nquery = f\"\"\"\nload spatial;\ncopy (\nselect \n    * replace (st_geomfromwkb({GEOMETRY_COLUMN}) as geometry)\nfrom\n    read_parquet('/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet/part-*.parquet')\n) to '/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.fgb' (format flatgeobuf)\"\"\"\nduckdb.sql(query)",
+    "text": "8.4 Flatgeobuf\nExporting to Flatgeobuf is very similar to the above. Flatgeobuf as a format has two key advantages here: - It is faster to render (e.g. in QGIS) than Geoparquet, and - It can act as input to tippecanoe (see below), which we’ll use to produce PMTiles, which is even better suited for web mapping.\n\nquery = f\"\"\"\nload spatial;\ncopy (\nselect \n    * replace (st_geomfromwkb({GEOMETRY_COLUMN}) as geometry)\nfrom\n    read_parquet('/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet/part-*.parquet')\n) to '/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.fgb'\n(FORMAT GDAL, DRIVER flatgeobuf, LAYER_CREATION_OPTIONS 'TEMPORARY_DIR=/tmp/')\"\"\"\nduckdb.sql(query)",
     "crumbs": [
       "Import/Export to other formats",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to other formats with DuckDB</span>"
@@ -168,7 +168,7 @@
     "href": "other_formats/export.html#cleanup",
     "title": "8  Export Delta Lake table to other formats with DuckDB",
     "section": "9.1 Cleanup",
-    "text": "9.1 Cleanup\n\n%sql\ndrop table tmp_geometries",
+    "text": "9.1 Cleanup\n\n%sql\n-- drop table tmp_geometries",
     "crumbs": [
       "Import/Export to other formats",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to other formats with DuckDB</span>"
@@ -252,14 +252,36 @@
     ]
   },
   {
+    "objectID": "appendix/databricks_ogr2ogr_parquet.html",
+    "href": "appendix/databricks_ogr2ogr_parquet.html",
+    "title": "16  How to install ogr2ogr in a Databricks notebook (incl. Parquet support)",
+    "section": "",
+    "text": "ogr2ogr is a geospatial file conversion tool, part of GDAL. For example, you can use it to read in a directory of GML (geo XML) files, and write them out to GeoPackage (.gpkg), or even GeoParquet.\nTODO: mirroring the colab version, we can add the apt install that doesn’t include parquet yet, spell it out: because you can’t as of june 2025 apt install libgdal-arrow-parquet\nThe libgdal-arrow-parquet extension package that we need can be installed via conda-forge. So let’s first install conda-forge 1:\nNow we can add arrow/parquet support:\nAnd that’s it:",
+    "crumbs": [
+      "Appendix",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>How to install `ogr2ogr` in a Databricks notebook (incl. Parquet support)</span>"
+    ]
+  },
+  {
+    "objectID": "appendix/databricks_ogr2ogr_parquet.html#footnotes",
+    "href": "appendix/databricks_ogr2ogr_parquet.html#footnotes",
+    "title": "16  How to install ogr2ogr in a Databricks notebook (incl. Parquet support)",
+    "section": "",
+    "text": "The curl download link comes from conda-forge and their installation instructions on GitHub.↩︎",
+    "crumbs": [
+      "Appendix",
+      "<span class='chapter-number'>16</span>  <span class='chapter-title'>How to install `ogr2ogr` in a Databricks notebook (incl. Parquet support)</span>"
+    ]
+  },
+  {
     "objectID": "appendix/https_install_duckdbextension.html",
     "href": "appendix/https_install_duckdbextension.html",
-    "title": "16  Install DuckDB Extensions via HTTPS",
+    "title": "17  Install DuckDB Extensions via HTTPS",
     "section": "",
     "text": "If your network blocks HTTP requests, you cannot simply install DuckDB extensions by e.g. INSTALL spatial; (it will fail after ~10 minutes), because of the dependency on httpfs, an extension itself – see details here.\nThe workaround is to separately download the httpfs extension (see here for the list of architectures, even though within Databricks, the below preset is correct):\n\n%pip install duckdb --quiet\n\nimport duckdb\nimport os\nfrom urllib.parse import urlparse\nimport requests\n\nARCHITECTURE = \"linux_amd64\"\nduckdb_version = duckdb.__version__\nurl = f\"https://extensions.duckdb.org/v{duckdb_version}/{ARCHITECTURE}/httpfs.duckdb_extension.gz\"\n\noutput_file = os.path.basename(urlparse(url).path)\nresponse = requests.get(url, timeout=30)\nresponse.raise_for_status()\nwith open(output_file, \"wb\") as f:\n    f.write(response.content)\n\nduckdb.install_extension(output_file)\n\nos.remove(output_file)\n\nduckdb.sql(\"SET custom_extension_repository='https://extensions.duckdb.org'\")\n\nAnd now you can install other extensions, such as:\n\nduckdb.sql(\"install spatial; load spatial\")",
     "crumbs": [
       "Appendix",
-      "<span class='chapter-number'>16</span>  <span class='chapter-title'>Install DuckDB Extensions via HTTPS</span>"
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Install DuckDB Extensions via HTTPS</span>"
     ]
   }
 ]

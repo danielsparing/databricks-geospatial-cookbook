@@ -46,6 +46,7 @@ book:
     
     - part: "Appendix"
       chapters: 
+        - appendix/databricks_ogr2ogr_parquet.ipynb
         - appendix/https_install_duckdbextension.ipynb
 
 format:
