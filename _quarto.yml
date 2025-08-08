@@ -31,6 +31,7 @@ book:
     - part: "Visualization"
       chapters:
         - viz/native.ipynb
+        - viz/GeoPandas.ipynb
         - viz/lonboard.ipynb
         - viz/PMTiles.ipynb
         - viz/QGIS.ipynb
@@ -39,6 +40,7 @@ book:
       chapters:
         - stfunctions/native.ipynb
         - stfunctions/duckdb_udf.ipynb
+        - stfunctions/GeoPandas.ipynb
     
     - part: "Mapmatching"
       chapters:
