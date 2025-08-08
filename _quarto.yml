@@ -38,7 +38,7 @@ book:
     - part: "Spatial functions"
       chapters:
         - stfunctions/native.ipynb
-        - stfunctions/duckdb.ipynb
+        - stfunctions/duckdb_udf.ipynb
     
     - part: "Mapmatching"
       chapters:
