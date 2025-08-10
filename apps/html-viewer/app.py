@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 import requests
 from databricks.sdk import WorkspaceClient
 from flask import Flask, Response, redirect, request
@@ -15,8 +17,9 @@ def index():
 
     return """
         <form method="post">
-            <label>Enter API path:</label>
-            <input type="text" name="path" placeholder="/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{FILE_PATH}" required>
+            <label>Enter Volume path:</label>
+            <input type="text" name="path" 
+            placeholder="/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{FILE_PATH}" required>
             <input type="submit" value="Fetch HTML">
         </form>
     """
@@ -31,7 +34,7 @@ def proxy_html(path):
     headers = {"Authorization": f"Bearer {user_token}"}
     resp = requests.get(api_url, headers=headers)
 
-    if resp.status_code == 200:
+    if resp.status_code == HTTPStatus.OK:
         return Response(resp.text, mimetype="text/html")
     else:
         return Response(
@@ -40,4 +43,4 @@ def proxy_html(path):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
