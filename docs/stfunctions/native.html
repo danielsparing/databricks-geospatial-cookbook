@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>native – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
+<title>14&nbsp; Databricks Native ST geospatial functions – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -30,7 +65,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../stfunctions/duckdb.html" rel="next">
+<link href="../stfunctions/duckdb_udf.html" rel="next">
 <link href="../viz/QGIS.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
@@ -73,7 +108,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar floating fullcontent quarto-light">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stfunctions/native.html">Spatial functions</a></li><li class="breadcrumb-item"><a href="../stfunctions/native.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">native.html</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stfunctions/native.html">Spatial functions</a></li><li class="breadcrumb-item"><a href="../stfunctions/native.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Databricks Native ST geospatial functions</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -181,7 +216,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../other_formats/import.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Import GeoPackage into Delta Lake with DuckDB</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Import geospatial formats into Delta Lake with DuckDB</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -209,20 +244,26 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../viz/GeoPandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">GeoPandas.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../viz/lonboard.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">lonboard.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Visualize a geospatial Delta Lake table with Lonboard</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../viz/PMTiles.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">PMTiles.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">PMTiles.html</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../viz/QGIS.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">QGIS.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">QGIS.html</span></span></a>
   </div>
 </li>
       </ul>
@@ -239,13 +280,19 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stfunctions/native.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">native.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Databricks Native ST geospatial functions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../stfunctions/duckdb.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">duckdb.html</span></span></a>
+  <a href="../stfunctions/duckdb_udf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stfunctions/GeoPandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">GeoPandas.html</span></span></a>
   </div>
 </li>
       </ul>
@@ -262,7 +309,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../mapmatching/databricks_graphhopper.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Run GraphHopper on Databricks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Run GraphHopper on Databricks</span></span></a>
   </div>
 </li>
       </ul>
@@ -279,13 +326,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../appendix/databricks_ogr2ogr_parquet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">How to install <code>ogr2ogr</code> in a Databricks notebook (incl.&nbsp;Parquet support)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">How to install <code>ogr2ogr</code> in a Databricks notebook (incl.&nbsp;Parquet support)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../appendix/https_install_duckdbextension.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Install DuckDB Extensions via HTTPS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Install DuckDB Extensions via HTTPS</span></span></a>
   </div>
 </li>
       </ul>
@@ -295,16 +342,305 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup"><span class="header-section-number">14.1</span> Setup</a></li>
+  <li><a href="#geography-operations" id="toc-geography-operations" class="nav-link" data-scroll-target="#geography-operations"><span class="header-section-number">14.2</span> GEOGRAPHY operations</a></li>
+  <li><a href="#geometry-operations" id="toc-geometry-operations" class="nav-link" data-scroll-target="#geometry-operations"><span class="header-section-number">14.3</span> GEOMETRY operations</a></li>
+  <li><a href="#spatial-join" id="toc-spatial-join" class="nav-link" data-scroll-target="#spatial-join"><span class="header-section-number">14.4</span> Spatial join</a></li>
+  <li><a href="#cleanup" id="toc-cleanup" class="nav-link" data-scroll-target="#cleanup"><span class="header-section-number">14.5</span> Cleanup</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/stfunctions/native.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stfunctions/native.html">Spatial functions</a></li><li class="breadcrumb-item"><a href="../stfunctions/native.html"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">native.html</span></a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stfunctions/native.html">Spatial functions</a></li><li class="breadcrumb-item"><a href="../stfunctions/native.html"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Databricks Native ST geospatial functions</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Databricks Native ST geospatial functions</span></h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<p>todo</p>
+    
+  
+    
+  </div>
+  
 
 
+</header>
+
+
+<p>Databricks SQL includes a large number of <a href="https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-st-geospatial-functions">ST geospatial functions</a> for large-scale, native processing of geodata. Just a few examples:</p>
+<section id="setup" class="level2" data-number="14.1">
+<h2 data-number="14.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">14.1</span> Setup</h2>
+<div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;270ea053-4411-4c2c-a40a-2e96cb01265a&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>CATALOG <span class="op">=</span> <span class="st">"workspace"</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>SCHEMA <span class="op">=</span> <span class="st">"default"</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>VOLUME <span class="op">=</span> <span class="st">"default"</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>spark.sql(<span class="ss">f"use </span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="geography-operations" class="level2" data-number="14.2">
+<h2 data-number="14.2" class="anchored" data-anchor-id="geography-operations"><span class="header-section-number">14.2</span> GEOGRAPHY operations</h2>
+<p>You can use <code>st_area</code>, <code>st_length</code> and <code>st_perimeter</code> directly on GEOGRAPHY (lon/lat) columns to get results in meters:</p>
+<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;043782a8-6bbd-4f87-8aa2-24a0c366b6e3&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1754629004417}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">%</span>sql</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="op">--</span> Areas of countries. Note that a country might <span class="kw">not</span> be listed <span class="cf">if</span> they cross the date line, leading to either missing geometry <span class="kw">in</span> the CARTO dataset already, <span class="kw">or</span> unsupported coordinates <span class="cf">for</span> `st_geogfromwkb` (hence the use of `try_to_geography`)</span>
+<span id="cb2-3"><a href="#cb2-3"></a>select</span>
+<span id="cb2-4"><a href="#cb2-4"></a>  country,</span>
+<span id="cb2-5"><a href="#cb2-5"></a>  names:primary name,</span>
+<span id="cb2-6"><a href="#cb2-6"></a>  st_area(try_to_geography(geometry)) <span class="op">/</span> <span class="fl">1e6</span> area_km2</span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="im">from</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>  carto_overture_maps_divisions.carto.division_area</span>
+<span id="cb2-9"><a href="#cb2-9"></a>where</span>
+<span id="cb2-10"><a href="#cb2-10"></a>  subtype <span class="op">=</span> <span class="st">'country'</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a>  <span class="kw">and</span> <span class="kw">class</span> <span class="op">=</span> <span class="st">'land'</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a>order by</span>
+<span id="cb2-13"><a href="#cb2-13"></a>  area_km2 desc</span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="op">--</span> Returns:</span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="op">--</span> country  name    area_km2</span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="op">--</span> CA   <span class="st">"""Canada"""</span>    <span class="fl">9966895.526025355</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="op">--</span> US   <span class="st">"""United States"""</span> <span class="fl">9476994.623136332</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="op">--</span> CN   <span class="st">"""中国"""</span>    <span class="fl">9390439.241133066</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="op">--</span> BR   <span class="st">"""Brasil"""</span>    <span class="fl">8507809.984099092</span></span>
+<span id="cb2-20"><a href="#cb2-20"></a><span class="op">--</span> IN   <span class="st">"""India"""</span> <span class="fl">3149764.8857977577</span></span>
+<span id="cb2-21"><a href="#cb2-21"></a><span class="op">--</span> ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>If you store (lon, lat) point data as GEOGRAPHY, you can calculate distance in meters by converting to <code>GEOMETRY(4326)</code> first:</p>
+<div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;9a6e0e2d-d21b-4e7f-829a-0a2f2cc47739&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1754632322022}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="cf">with</span> cities <span class="im">as</span> (</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  select</span>
+<span id="cb3-4"><a href="#cb3-4"></a>    names:primary::string <span class="im">as</span> name,</span>
+<span id="cb3-5"><a href="#cb3-5"></a>    st_geogfromwkb(geometry) geog</span>
+<span id="cb3-6"><a href="#cb3-6"></a>  <span class="im">from</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>    carto_overture_maps_divisions.carto.division</span>
+<span id="cb3-8"><a href="#cb3-8"></a>  where</span>
+<span id="cb3-9"><a href="#cb3-9"></a>    subtype <span class="op">=</span> <span class="st">'locality'</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a>    <span class="kw">and</span> <span class="kw">class</span> <span class="op">=</span> <span class="st">'city'</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a>    <span class="op">--</span> just to speed up the lookup</span>
+<span id="cb3-12"><a href="#cb3-12"></a>    <span class="kw">and</span> `__carto_xmax` between <span class="op">-</span> <span class="fl">1.41</span> <span class="kw">and</span> <span class="fl">2.99</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a>    <span class="kw">and</span> `__carto_ymax` between <span class="fl">48.57</span> <span class="kw">and</span> <span class="fl">52.21</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a>),</span>
+<span id="cb3-15"><a href="#cb3-15"></a>london <span class="im">as</span> (</span>
+<span id="cb3-16"><a href="#cb3-16"></a>  select</span>
+<span id="cb3-17"><a href="#cb3-17"></a>    <span class="op">*</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a>  <span class="im">from</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a>    cities</span>
+<span id="cb3-20"><a href="#cb3-20"></a>  where</span>
+<span id="cb3-21"><a href="#cb3-21"></a>    name <span class="op">=</span> <span class="st">"London"</span></span>
+<span id="cb3-22"><a href="#cb3-22"></a>),</span>
+<span id="cb3-23"><a href="#cb3-23"></a>paris <span class="im">as</span> (</span>
+<span id="cb3-24"><a href="#cb3-24"></a>  select</span>
+<span id="cb3-25"><a href="#cb3-25"></a>    <span class="op">*</span></span>
+<span id="cb3-26"><a href="#cb3-26"></a>  <span class="im">from</span></span>
+<span id="cb3-27"><a href="#cb3-27"></a>    cities</span>
+<span id="cb3-28"><a href="#cb3-28"></a>  where</span>
+<span id="cb3-29"><a href="#cb3-29"></a>    name <span class="op">=</span> <span class="st">"Paris"</span></span>
+<span id="cb3-30"><a href="#cb3-30"></a>)</span>
+<span id="cb3-31"><a href="#cb3-31"></a>select</span>
+<span id="cb3-32"><a href="#cb3-32"></a>  st_distancespheroid(london.geog::geometry(<span class="dv">4326</span>), paris.geog::geometry(<span class="dv">4326</span>)) <span class="op">/</span> <span class="fl">1e3</span> dist_km</span>
+<span id="cb3-33"><a href="#cb3-33"></a><span class="im">from</span></span>
+<span id="cb3-34"><a href="#cb3-34"></a>  london,</span>
+<span id="cb3-35"><a href="#cb3-35"></a>  paris</span>
+<span id="cb3-36"><a href="#cb3-36"></a><span class="op">--</span></span>
+<span id="cb3-37"><a href="#cb3-37"></a><span class="op">--</span> Returns:</span>
+<span id="cb3-38"><a href="#cb3-38"></a><span class="op">--</span></span>
+<span id="cb3-39"><a href="#cb3-39"></a><span class="op">--</span> dist_km</span>
+<span id="cb3-40"><a href="#cb3-40"></a><span class="op">--</span> <span class="fl">344.08532856606695</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="geometry-operations" class="level2" data-number="14.3">
+<h2 data-number="14.3" class="anchored" data-anchor-id="geometry-operations"><span class="header-section-number">14.3</span> GEOMETRY operations</h2>
+<p>We can also calculate the distance in meters between two GEOMETRY lon-lat polygons (i.e.&nbsp;not just between points) if we transform to an appropriate local Cartesian coordinate system first:</p>
+<div id="cell-8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;357df58d-53e7-4344-b2f5-0eecb3a451b4&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">%</span>sql</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="cf">with</span> dutch_provinces <span class="im">as</span> (</span>
+<span id="cb4-3"><a href="#cb4-3"></a>  select</span>
+<span id="cb4-4"><a href="#cb4-4"></a>    names:primary::string <span class="im">as</span> name,</span>
+<span id="cb4-5"><a href="#cb4-5"></a>    <span class="op">--</span> <span class="dv">28992</span> <span class="kw">is</span> the SRID of the Dutch local Cartesian coordinate system:</span>
+<span id="cb4-6"><a href="#cb4-6"></a>    <span class="op">--</span> https:<span class="op">//</span>epsg.io<span class="op">/</span><span class="dv">28992</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>    st_transform(st_geomfromwkb(geometry, <span class="dv">4326</span>), <span class="dv">28992</span>) geom_rd</span>
+<span id="cb4-8"><a href="#cb4-8"></a>  <span class="im">from</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a>    carto_overture_maps_divisions.carto.division</span>
+<span id="cb4-10"><a href="#cb4-10"></a>  where</span>
+<span id="cb4-11"><a href="#cb4-11"></a>    subtype <span class="op">=</span> <span class="st">'region'</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a>    <span class="kw">and</span> country <span class="op">=</span> <span class="st">'NL'</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a>),</span>
+<span id="cb4-14"><a href="#cb4-14"></a>noord_holland <span class="im">as</span> (</span>
+<span id="cb4-15"><a href="#cb4-15"></a>  select</span>
+<span id="cb4-16"><a href="#cb4-16"></a>    <span class="op">*</span></span>
+<span id="cb4-17"><a href="#cb4-17"></a>  <span class="im">from</span></span>
+<span id="cb4-18"><a href="#cb4-18"></a>    dutch_provinces</span>
+<span id="cb4-19"><a href="#cb4-19"></a>  where</span>
+<span id="cb4-20"><a href="#cb4-20"></a>    name <span class="op">=</span> <span class="st">"Noord-Holland"</span></span>
+<span id="cb4-21"><a href="#cb4-21"></a>),</span>
+<span id="cb4-22"><a href="#cb4-22"></a>noord_brabant <span class="im">as</span> (</span>
+<span id="cb4-23"><a href="#cb4-23"></a>  select</span>
+<span id="cb4-24"><a href="#cb4-24"></a>    <span class="op">*</span></span>
+<span id="cb4-25"><a href="#cb4-25"></a>  <span class="im">from</span></span>
+<span id="cb4-26"><a href="#cb4-26"></a>    dutch_provinces</span>
+<span id="cb4-27"><a href="#cb4-27"></a>  where</span>
+<span id="cb4-28"><a href="#cb4-28"></a>    name <span class="op">=</span> <span class="st">"Noord-Brabant"</span></span>
+<span id="cb4-29"><a href="#cb4-29"></a>)</span>
+<span id="cb4-30"><a href="#cb4-30"></a>select</span>
+<span id="cb4-31"><a href="#cb4-31"></a>  st_distance(noord_holland.geom_rd, noord_brabant.geom_rd) <span class="op">/</span> <span class="fl">1e3</span> dist_km</span>
+<span id="cb4-32"><a href="#cb4-32"></a><span class="im">from</span></span>
+<span id="cb4-33"><a href="#cb4-33"></a>  noord_holland,</span>
+<span id="cb4-34"><a href="#cb4-34"></a>  noord_brabant</span>
+<span id="cb4-35"><a href="#cb4-35"></a><span class="op">--</span></span>
+<span id="cb4-36"><a href="#cb4-36"></a><span class="op">--</span> Returns:</span>
+<span id="cb4-37"><a href="#cb4-37"></a><span class="op">--</span></span>
+<span id="cb4-38"><a href="#cb4-38"></a><span class="op">--</span> dist_km</span>
+<span id="cb4-39"><a href="#cb4-39"></a><span class="op">--</span> <span class="fl">131.66041515751186</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-notes">
+<p>If you want to find the actual shortest line as well, not just the distance, see <a href="../stfunctions/duckdb_udf.html">how to define UDFs with DuckDB</a>.</p>
+</div>
+</section>
+<section id="spatial-join" class="level2" data-number="14.4">
+<h2 data-number="14.4" class="anchored" data-anchor-id="spatial-join"><span class="header-section-number">14.4</span> Spatial join</h2>
+<p>Optimizing for efficient spatial joins is out of scope here – you’d need to use some spatial indexing such as <a href="https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-h3-geospatial-functions">H3</a>. (Databricks might add support to spatial joins of GEOMETRY/GEOGRAPHY types over time, but as of Aug 2025, using an explicit spatial index is highly benefitial.)</p>
+<p>We were using the Delta Lake tables of Overture Maps provided by CARTO as our examples. Notice that these are clustered by the <code>__carto_[x|y][min|max]</code> columns:</p>
+<div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;9a24e393-edc2-4fe8-ad4e-3017cc62b5de&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">%</span>sql</span>
+<span id="cb5-2"><a href="#cb5-2"></a>describe extended carto_overture_maps_divisions.carto.division</span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="op">--</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="op">--</span> Returns:</span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="op">--</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="op">--</span> ...</span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="op">--</span> <span class="co"># Clustering Information</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="op">--</span> <span class="co"># col_name   data_type</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="op">--</span> __carto_xmin double</span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="op">--</span> __carto_xmax double</span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="op">--</span> __carto_ymin double</span>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="op">--</span> __carto_ymax double</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>So in the case of these tables, we can make use of these columns for efficient joins, filtering for bounding boxes before calling <code>st_contains</code> (or <code>st_intersects</code>) for a precise join.</p>
+<p>Let’s fetch all buildings of Amsterdam:</p>
+<div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;397cf8b3-9ecc-437d-ad96-109c2197b612&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="op">%</span>sql</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="op">--</span> capture the city bbox <span class="kw">in</span> a table</span>
+<span id="cb6-3"><a href="#cb6-3"></a>create <span class="kw">or</span> replace table tmp_ams <span class="im">as</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>select</span>
+<span id="cb6-5"><a href="#cb6-5"></a>  st_geomfromwkb(geometry) geometry, `__carto_xmin`, `__carto_xmax`, `__carto_ymin`, `__carto_ymax`</span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="im">from</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>  carto_overture_maps_divisions.carto.division_area</span>
+<span id="cb6-8"><a href="#cb6-8"></a>where</span>
+<span id="cb6-9"><a href="#cb6-9"></a>  country <span class="op">=</span> <span class="st">'NL'</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a>  <span class="kw">and</span> subtype <span class="op">=</span> <span class="st">'county'</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a>  <span class="kw">and</span> names:primary::string <span class="op">=</span> <span class="st">"Amsterdam"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We’ll fetch the bbox values from above to inject into the SQL query below – yes, it would be way more elegant to avoid hardcoding and use a join, but as of current testing, this is way faster.</p>
+<div id="cell-15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;8db7cacc-8191-43aa-97d9-55bd4f5f1599&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>bbox <span class="op">=</span> spark.table(<span class="st">"tmp_ams"</span>).toPandas().iloc[<span class="dv">0</span>,]</span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a>spark.sql(<span class="ss">f"""create or replace table tmp_ams_buildings_bbox as</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="ss">select</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="ss">  building.* except (geometry),</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="ss">  st_geomfromwkb(building.geometry) building_geometry</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="ss">from</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="ss">  -- first approximate join on bounding boxes</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="ss">  carto_overture_maps_buildings.carto.building</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="ss">where</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="ss">  building.__carto_xmin between </span><span class="sc">{</span>bbox[<span class="st">"__carto_xmin"</span>]<span class="sc">}</span><span class="ss"> and </span><span class="sc">{</span>bbox[<span class="st">"__carto_xmax"</span>]<span class="sc">}</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="ss">  and building.__carto_ymin between </span><span class="sc">{</span>bbox[<span class="st">"__carto_ymin"</span>]<span class="sc">}</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="ss">    and </span><span class="sc">{</span>bbox[<span class="st">"__carto_ymax"</span>]<span class="sc">}</span><span class="ss">"""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can filter with <code>st_contains</code> to leave out the false positives:</p>
+<div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;2a8ed129-701d-4591-a462-c664af6f2118&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">%</span>sql</span>
+<span id="cb8-2"><a href="#cb8-2"></a>create <span class="kw">or</span> replace table tmp_ams_buildings <span class="im">as</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a>select</span>
+<span id="cb8-4"><a href="#cb8-4"></a>  b.<span class="op">*</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="im">from</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a>  tmp_ams join</span>
+<span id="cb8-7"><a href="#cb8-7"></a>  tmp_ams_buildings_bbox b on</span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="op">--</span> then more precise <span class="bu">filter</span> on `st_contains`</span>
+<span id="cb8-9"><a href="#cb8-9"></a>  st_contains(tmp_ams.geometry, building_geometry)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;5c664d04-61cf-4654-b741-3eee540df977&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="op">%</span>pip install duckdb lonboard shapely <span class="op">--</span>quiet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;1eab4a3b-56d8-481c-a43f-46a68880040e&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">def</span> spark_viz(df, wkb_col<span class="op">=</span><span class="st">"geometry"</span>, other_cols<span class="op">=</span><span class="va">None</span>, limit<span class="op">=</span><span class="dv">10_000</span>, output_html<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb10-2"><a href="#cb10-2"></a>    <span class="co"># needs `%pip install duckdb lonboard shapely`</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a>    <span class="cf">if</span> other_cols <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb10-5"><a href="#cb10-5"></a>        other_cols <span class="op">=</span> []</span>
+<span id="cb10-6"><a href="#cb10-6"></a></span>
+<span id="cb10-7"><a href="#cb10-7"></a>    <span class="im">import</span> duckdb</span>
+<span id="cb10-8"><a href="#cb10-8"></a>    <span class="im">from</span> lonboard <span class="im">import</span> viz</span>
+<span id="cb10-9"><a href="#cb10-9"></a></span>
+<span id="cb10-10"><a href="#cb10-10"></a>    <span class="cf">try</span>:</span>
+<span id="cb10-11"><a href="#cb10-11"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
+<span id="cb10-12"><a href="#cb10-12"></a>    <span class="cf">except</span> duckdb.duckdb.IOException:</span>
+<span id="cb10-13"><a href="#cb10-13"></a>        duckdb.install_extension(<span class="st">"spatial"</span>)</span>
+<span id="cb10-14"><a href="#cb10-14"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
+<span id="cb10-15"><a href="#cb10-15"></a></span>
+<span id="cb10-16"><a href="#cb10-16"></a>    dfa <span class="op">=</span> df.select([wkb_col] <span class="op">+</span> other_cols).limit(limit).toArrow()</span>
+<span id="cb10-17"><a href="#cb10-17"></a>    <span class="cf">if</span> dfa.num_rows <span class="op">==</span> limit:</span>
+<span id="cb10-18"><a href="#cb10-18"></a>        <span class="bu">print</span>(<span class="ss">f"Data truncated to limit </span><span class="sc">{</span>limit<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-19"><a href="#cb10-19"></a></span>
+<span id="cb10-20"><a href="#cb10-20"></a>    query <span class="op">=</span> duckdb.sql(</span>
+<span id="cb10-21"><a href="#cb10-21"></a>        <span class="ss">f"""select * replace (st_geomfromwkb(</span><span class="sc">{</span>wkb_col<span class="sc">}</span><span class="ss">) as </span><span class="sc">{</span>wkb_col<span class="sc">}</span><span class="ss">)</span></span>
+<span id="cb10-22"><a href="#cb10-22"></a><span class="ss">        from dfa</span></span>
+<span id="cb10-23"><a href="#cb10-23"></a><span class="ss">        where </span><span class="sc">{</span>wkb_col<span class="sc">}</span><span class="ss"> is not null"""</span></span>
+<span id="cb10-24"><a href="#cb10-24"></a>    )</span>
+<span id="cb10-25"><a href="#cb10-25"></a>    <span class="cf">if</span> output_html <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb10-26"><a href="#cb10-26"></a>        <span class="cf">return</span> viz(query).as_html()</span>
+<span id="cb10-27"><a href="#cb10-27"></a>    <span class="cf">else</span>:</span>
+<span id="cb10-28"><a href="#cb10-28"></a>        viz(query).to_html(output_html)</span>
+<span id="cb10-29"><a href="#cb10-29"></a>        <span class="cf">return</span> output_html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-20" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;10e22957-6e45-4abd-b786-e5c08c9421bd&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>spark_viz(</span>
+<span id="cb11-2"><a href="#cb11-2"></a>    spark.table(<span class="st">"tmp_ams_buildings"</span>).selectExpr(</span>
+<span id="cb11-3"><a href="#cb11-3"></a>        <span class="st">"st_asbinary(building_geometry) as geometry"</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>    )</span>
+<span id="cb11-5"><a href="#cb11-5"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/ams_buildings_10k.png" class="img-fluid figure-img"></p>
+<figcaption>ams_buildings_10k</figcaption>
+</figure>
+</div>
+<p>If you want to see a much larger sample (or possibly the whole dataset), you’ll need to output to a HTML into Volumes, download the file and open it locally:</p>
+<div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;38c46dd0-5fa6-4144-8b48-4eed274fe6ea&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>spark_viz(</span>
+<span id="cb12-2"><a href="#cb12-2"></a>    spark.table(<span class="st">"tmp_ams_buildings"</span>).selectExpr(</span>
+<span id="cb12-3"><a href="#cb12-3"></a>        <span class="st">"st_asbinary(building_geometry) as geometry"</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>    ),</span>
+<span id="cb12-5"><a href="#cb12-5"></a>    limit<span class="op">=</span><span class="dv">1_000_000</span>,</span>
+<span id="cb12-6"><a href="#cb12-6"></a>    output_html<span class="op">=</span><span class="ss">f"/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/ams_buildings.html"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/ams_all_buildings.png" class="img-fluid figure-img"></p>
+<figcaption>ams-all-buildings</figcaption>
+</figure>
+</div>
+</section>
+<section id="cleanup" class="level2" data-number="14.5">
+<h2 data-number="14.5" class="anchored" data-anchor-id="cleanup"><span class="header-section-number">14.5</span> Cleanup</h2>
+<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;73b5a8c2-1daf-4ad6-94a8-844682ba60cb&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="op">%</span>sql</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="op">--</span> drop table tmp_ams</span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="op">--</span> drop table tmp_ams_buildings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -709,12 +1045,12 @@ ul.task-list li input[type="checkbox"] {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../viz/QGIS.html" class="pagination-link" aria-label="QGIS.html">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">QGIS.html</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">QGIS.html</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../stfunctions/duckdb.html" class="pagination-link" aria-label="duckdb.html">
-        <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">duckdb.html</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../stfunctions/duckdb_udf.html" class="pagination-link" aria-label="Define a Spark UDF using a DuckDB Spatial function">
+        <span class="nav-page-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -723,4 +1059,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/stfunctions/native.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/stfunctions/native.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

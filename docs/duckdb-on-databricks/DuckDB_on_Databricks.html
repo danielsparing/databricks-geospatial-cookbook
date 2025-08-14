@@ -216,7 +216,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../other_formats/import.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Import GeoPackage into Delta Lake with DuckDB</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Import geospatial formats into Delta Lake with DuckDB</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -244,20 +244,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../viz/GeoPandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">GeoPandas.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../viz/lonboard.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">lonboard.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Visualize a geospatial Delta Lake table with Lonboard</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../viz/PMTiles.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">PMTiles.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">PMTiles.html</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../viz/QGIS.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">QGIS.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">QGIS.html</span></span></a>
   </div>
 </li>
       </ul>
@@ -274,13 +280,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stfunctions/native.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">native.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Databricks Native ST geospatial functions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../stfunctions/duckdb.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">duckdb.html</span></span></a>
+  <a href="../stfunctions/duckdb_udf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stfunctions/GeoPandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">GeoPandas.html</span></span></a>
   </div>
 </li>
       </ul>
@@ -297,7 +309,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../mapmatching/databricks_graphhopper.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Run GraphHopper on Databricks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Run GraphHopper on Databricks</span></span></a>
   </div>
 </li>
       </ul>
@@ -314,13 +326,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../appendix/databricks_ogr2ogr_parquet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">How to install <code>ogr2ogr</code> in a Databricks notebook (incl.&nbsp;Parquet support)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">How to install <code>ogr2ogr</code> in a Databricks notebook (incl.&nbsp;Parquet support)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../appendix/https_install_duckdbextension.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Install DuckDB Extensions via HTTPS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Install DuckDB Extensions via HTTPS</span></span></a>
   </div>
 </li>
       </ul>
@@ -339,6 +351,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#visualize-duckdb-spatial-output" id="toc-visualize-duckdb-spatial-output" class="nav-link" data-scroll-target="#visualize-duckdb-spatial-output"><span class="header-section-number">2.2</span> Visualize DuckDB Spatial output</a></li>
   <li><a href="#write-delta-lake-tables-from-duckdb" id="toc-write-delta-lake-tables-from-duckdb" class="nav-link" data-scroll-target="#write-delta-lake-tables-from-duckdb"><span class="header-section-number">2.3</span> Write Delta Lake Tables from DuckDB</a></li>
   <li><a href="#read-delta-lake-tables-with-duckdb" id="toc-read-delta-lake-tables-with-duckdb" class="nav-link" data-scroll-target="#read-delta-lake-tables-with-duckdb"><span class="header-section-number">2.4</span> Read Delta Lake Tables with DuckDB</a></li>
+  <li><a href="#use-cell-magic-jupysql-for-duckdb-queries" id="toc-use-cell-magic-jupysql-for-duckdb-queries" class="nav-link" data-scroll-target="#use-cell-magic-jupysql-for-duckdb-queries"><span class="header-section-number">2.5</span> Use cell magic <code>%%jupysql</code> for duckdb queries</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/duckdb-on-databricks/DuckDB_on_Databricks.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -388,7 +401,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If <code>install spatial</code> fails, check whether HTTP is blocked on your (corporate) network. If so, then you need to work around it as described <a href="../appendix/https_install_duckdbextension.html">here</a>.</p>
+<p>If <code>install spatial</code> fails (especially if you are <em>not</em> using the Free Edition or Serverless Compute, but classic compute), check whether HTTP is blocked on your (corporate) network. If so, then you need to work around it as described <a href="../appendix/https_install_duckdbextension.html">here</a>.</p>
 </div>
 </div>
 <p>This allows you to directly use the DuckDB Spatial, for example:</p>
@@ -547,6 +560,63 @@ Note
 <span id="cb9-25"><a href="#cb9-25"></a><span class="co"># └────────────────┘</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Another, more scalable way to read Delta Lake tables with DuckDB is to use the Databricks <a href="https://docs.databricks.com/api/workspace/temporarytablecredentials">Temporary Table Credentials API</a> and the DuckDB <a href="https://duckdb.org/docs/stable/core_extensions/delta.html">Delta extension</a>.</p>
+</section>
+<section id="use-cell-magic-jupysql-for-duckdb-queries" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="use-cell-magic-jupysql-for-duckdb-queries"><span class="header-section-number">2.5</span> Use cell magic <code>%%jupysql</code> for duckdb queries</h2>
+<p>In Databricks, you can write Databricks SQL code (so not DuckDB SQL code) in SQL code cells, using the <code>%sql</code> cell magic. DuckDB is also <a href="https://duckdb.org/docs/stable/guides/python/jupyter.html">compatible</a> with similar cell magic tooling, but in order to not get crossed with Databricks SQL, we’ll need to use another magic, <code>%%jupysql</code> (which is also the name of the <a href="https://github.com/ploomber/jupysql">package</a> that makes this possible). Furthermore, we’ll not call <code>duckdb.sql()</code> directly, but use the following, more verbose approach:</p>
+<pre><code>con = duckdb.connect()
+con.sql()</code></pre>
+<p>Putting it together:</p>
+<div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;12f59984-e581-4bf6-89a2-fe4a33abc2bf&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="op">%</span>pip install jupysql <span class="op">--</span>quiet</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="op">%</span>restart_python</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;8c44de6f-2a7a-49b9-a22b-0268c31e4f21&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>load_ext sql</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;a5ab7b1a-7a13-4ed2-9a5c-8fe0a8f0c093&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="im">import</span> duckdb</span>
+<span id="cb13-2"><a href="#cb13-2"></a></span>
+<span id="cb13-3"><a href="#cb13-3"></a>con <span class="op">=</span> duckdb.<span class="ex">connect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;8482714b-e5f8-4e97-ad48-3237eb3777a5&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="op">%%</span>jupysql con <span class="op">--</span>alias duckdb</span>
+<span id="cb14-2"><a href="#cb14-2"></a>install spatial<span class="op">;</span> load spatial</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;76fc86c4-cdc3-44cd-bdbc-2f53d8455380&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="op">%%</span>jupysql</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="cf">with</span> t <span class="im">as</span> (</span>
+<span id="cb15-3"><a href="#cb15-3"></a>  SELECT</span>
+<span id="cb15-4"><a href="#cb15-4"></a>    <span class="bu">id</span>,</span>
+<span id="cb15-5"><a href="#cb15-5"></a>    names.primary <span class="im">as</span> name,</span>
+<span id="cb15-6"><a href="#cb15-6"></a>    confidence AS confidence,</span>
+<span id="cb15-7"><a href="#cb15-7"></a>    CAST(socials AS JSON) <span class="im">as</span> socials,</span>
+<span id="cb15-8"><a href="#cb15-8"></a>    geometry</span>
+<span id="cb15-9"><a href="#cb15-9"></a>  FROM</span>
+<span id="cb15-10"><a href="#cb15-10"></a>    read_parquet(<span class="st">'s3://overturemaps-us-west-2/release/2025-07-23.0/theme=places/type=place/*'</span>)</span>
+<span id="cb15-11"><a href="#cb15-11"></a>  WHERE</span>
+<span id="cb15-12"><a href="#cb15-12"></a>    categories.primary <span class="op">=</span> <span class="st">'pizza_restaurant'</span></span>
+<span id="cb15-13"><a href="#cb15-13"></a>    AND bbox.xmin BETWEEN <span class="fl">4.7</span> AND <span class="fl">5.0</span></span>
+<span id="cb15-14"><a href="#cb15-14"></a>    AND bbox.ymin BETWEEN <span class="fl">52.3</span> AND <span class="fl">52.4</span></span>
+<span id="cb15-15"><a href="#cb15-15"></a>)</span>
+<span id="cb15-16"><a href="#cb15-16"></a>select st_x(geometry) lon, st_y(geometry) lat, name <span class="im">from</span> t</span>
+<span id="cb15-17"><a href="#cb15-17"></a></span>
+<span id="cb15-18"><a href="#cb15-18"></a><span class="op">--</span> Returns:</span>
+<span id="cb15-19"><a href="#cb15-19"></a></span>
+<span id="cb15-20"><a href="#cb15-20"></a><span class="op">--</span> Running query <span class="kw">in</span> <span class="st">'duckdb'</span></span>
+<span id="cb15-21"><a href="#cb15-21"></a><span class="op">--</span> lon  lat name</span>
+<span id="cb15-22"><a href="#cb15-22"></a><span class="op">--</span> <span class="fl">4.762994</span> <span class="fl">52.3099144</span>  Per Tutti</span>
+<span id="cb15-23"><a href="#cb15-23"></a><span class="op">--</span> <span class="fl">4.7789755</span>    <span class="fl">52.3381557</span>  New York Pizza</span>
+<span id="cb15-24"><a href="#cb15-24"></a><span class="op">--</span> <span class="fl">4.7811585</span>    <span class="fl">52.3367951</span>  CiCi Pizza</span>
+<span id="cb15-25"><a href="#cb15-25"></a><span class="op">--</span> <span class="fl">4.7812061</span>    <span class="fl">52.3368685</span>  Joey<span class="st">'s kitchen</span></span>
+<span id="cb15-26"><a href="#cb15-26"></a><span class="er">-- 4.7500226    52.3816196  Gastronoom</span></span>
+<span id="cb15-27"><a href="#cb15-27"></a><span class="op">--</span> <span class="fl">4.7905345</span>    <span class="fl">52.34096</span>    Amon</span>
+<span id="cb15-28"><a href="#cb15-28"></a><span class="op">--</span> <span class="fl">4.7948139</span>    <span class="fl">52.3512209</span>  Moeruth Pizza</span>
+<span id="cb15-29"><a href="#cb15-29"></a><span class="op">--</span> <span class="fl">4.797318</span> <span class="fl">52.3516662</span>  Il Delfino Blu</span>
+<span id="cb15-30"><a href="#cb15-30"></a><span class="op">--</span> <span class="fl">4.7988733</span>    <span class="fl">52.351978</span>   Domino<span class="st">'s Pizza</span></span>
+<span id="cb15-31"><a href="#cb15-31"></a><span class="er">-- 4.8107487    52.3539346  New York Pizza</span></span>
+<span id="cb15-32"><a href="#cb15-32"></a><span class="op">--</span> Truncated to displaylimit of <span class="fl">10.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 
 
 </section>

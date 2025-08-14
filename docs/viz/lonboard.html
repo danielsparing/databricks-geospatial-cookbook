@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>lonboard – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
+<title>11&nbsp; Visualize a geospatial Delta Lake table with Lonboard – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +20,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -31,7 +66,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../viz/PMTiles.html" rel="next">
-<link href="../viz/native.html" rel="prev">
+<link href="../viz/GeoPandas.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -73,7 +108,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar floating fullcontent quarto-light">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +117,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/lonboard.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">lonboard.html</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/lonboard.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Visualize a geospatial Delta Lake table with Lonboard</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -181,7 +216,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../other_formats/import.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Import GeoPackage into Delta Lake with DuckDB</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Import geospatial formats into Delta Lake with DuckDB</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -209,20 +244,26 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
+  <a href="../viz/GeoPandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">GeoPandas.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
   <a href="../viz/lonboard.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">lonboard.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Visualize a geospatial Delta Lake table with Lonboard</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../viz/PMTiles.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">PMTiles.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">PMTiles.html</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../viz/QGIS.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">QGIS.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">QGIS.html</span></span></a>
   </div>
 </li>
       </ul>
@@ -239,13 +280,19 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../stfunctions/native.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">native.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Databricks Native ST geospatial functions</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../stfunctions/duckdb.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">duckdb.html</span></span></a>
+  <a href="../stfunctions/duckdb_udf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stfunctions/GeoPandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">GeoPandas.html</span></span></a>
   </div>
 </li>
       </ul>
@@ -262,7 +309,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../mapmatching/databricks_graphhopper.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Run GraphHopper on Databricks</span></span></a>
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Run GraphHopper on Databricks</span></span></a>
   </div>
 </li>
       </ul>
@@ -279,13 +326,13 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../appendix/databricks_ogr2ogr_parquet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">How to install <code>ogr2ogr</code> in a Databricks notebook (incl.&nbsp;Parquet support)</span></span></a>
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">How to install <code>ogr2ogr</code> in a Databricks notebook (incl.&nbsp;Parquet support)</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../appendix/https_install_duckdbextension.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Install DuckDB Extensions via HTTPS</span></span></a>
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Install DuckDB Extensions via HTTPS</span></span></a>
   </div>
 </li>
       </ul>
@@ -295,16 +342,173 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#in-notebook-widget-example" id="toc-in-notebook-widget-example" class="nav-link active" data-scroll-target="#in-notebook-widget-example"><span class="header-section-number">11.1</span> In-notebook widget example</a></li>
+  <li><a href="#export-to-html" id="toc-export-to-html" class="nav-link" data-scroll-target="#export-to-html"><span class="header-section-number">11.2</span> Export to HTML</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/viz/lonboard.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/lonboard.html"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">lonboard.html</span></a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/lonboard.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Visualize a geospatial Delta Lake table with Lonboard</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Visualize a geospatial Delta Lake table with Lonboard</span></h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<p>todo</p>
+    
+  
+    
+  </div>
+  
 
 
+</header>
+
+
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Tested on Serverless environment version 2. Note that on version 3, the widget size limit is lower, so can visualize fewer rows.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The below example uses a column where the geometries are stored as WKB in a BINARY column. If you have a table using the newer GEOMETRY or GEOGRAPHY types, you can use the same logic but first use <code>st_asbinary()</code>, as well as <code>st_transform(..., ..., 4326)</code> as needed.</p>
+</div>
+</div>
+<p><a href="https://developmentseed.org/lonboard/latest/">Lonboard</a> is an excellent tool to visualize geospatial data via Arrow or <a href="../duckdb-on-databricks/DuckDB_on_Databricks.html">DuckDB</a>. While it cannot visualize as large datasets as you can with using <a href="../other_formats/export.html">streaming Flatgeobuf or PMTiles</a>, it can go far – theoretically the driver’s memory, your browser’s memory and your network is the limit. On Databricks, however, there is a quite frugal limit for the sizes of widgets, so we’ll have to limit the sample dataset a bit more, or you can generate a separate HTML file instead.</p>
+<div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;59a10374-fa62-4124-bbe4-1763b60fbe4d&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install duckdb lonboard shapely <span class="op">--</span>quiet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;fdc0d775-545a-417a-a785-3f344d3f7447&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">def</span> spark_viz(df, wkb_col<span class="op">=</span><span class="st">"geometry"</span>, other_cols<span class="op">=</span><span class="va">None</span>, limit<span class="op">=</span><span class="dv">10_000</span>, output_html<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb2-2"><a href="#cb2-2"></a>    <span class="co"># needs `%pip install duckdb lonboard shapely`</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a>    <span class="cf">if</span> other_cols <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb2-5"><a href="#cb2-5"></a>        other_cols <span class="op">=</span> []</span>
+<span id="cb2-6"><a href="#cb2-6"></a></span>
+<span id="cb2-7"><a href="#cb2-7"></a>    <span class="im">import</span> duckdb</span>
+<span id="cb2-8"><a href="#cb2-8"></a>    <span class="im">from</span> lonboard <span class="im">import</span> viz</span>
+<span id="cb2-9"><a href="#cb2-9"></a></span>
+<span id="cb2-10"><a href="#cb2-10"></a>    <span class="cf">try</span>:</span>
+<span id="cb2-11"><a href="#cb2-11"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
+<span id="cb2-12"><a href="#cb2-12"></a>    <span class="cf">except</span> duckdb.duckdb.IOException:</span>
+<span id="cb2-13"><a href="#cb2-13"></a>        duckdb.install_extension(<span class="st">"spatial"</span>)</span>
+<span id="cb2-14"><a href="#cb2-14"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
+<span id="cb2-15"><a href="#cb2-15"></a></span>
+<span id="cb2-16"><a href="#cb2-16"></a>    dfa <span class="op">=</span> df.select([wkb_col] <span class="op">+</span> other_cols).limit(limit).toArrow()</span>
+<span id="cb2-17"><a href="#cb2-17"></a>    <span class="cf">if</span> dfa.num_rows <span class="op">==</span> limit:</span>
+<span id="cb2-18"><a href="#cb2-18"></a>        <span class="bu">print</span>(<span class="ss">f"Data truncated to limit </span><span class="sc">{</span>limit<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-19"><a href="#cb2-19"></a></span>
+<span id="cb2-20"><a href="#cb2-20"></a>    query <span class="op">=</span> duckdb.sql(</span>
+<span id="cb2-21"><a href="#cb2-21"></a>        <span class="ss">f"""select * replace (st_geomfromwkb(</span><span class="sc">{</span>wkb_col<span class="sc">}</span><span class="ss">) as </span><span class="sc">{</span>wkb_col<span class="sc">}</span><span class="ss">)</span></span>
+<span id="cb2-22"><a href="#cb2-22"></a><span class="ss">        from dfa</span></span>
+<span id="cb2-23"><a href="#cb2-23"></a><span class="ss">        where </span><span class="sc">{</span>wkb_col<span class="sc">}</span><span class="ss"> is not null"""</span></span>
+<span id="cb2-24"><a href="#cb2-24"></a>    )</span>
+<span id="cb2-25"><a href="#cb2-25"></a>    <span class="cf">if</span> output_html <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb2-26"><a href="#cb2-26"></a>        <span class="cf">return</span> viz(query).as_html()</span>
+<span id="cb2-27"><a href="#cb2-27"></a>    <span class="cf">else</span>:</span>
+<span id="cb2-28"><a href="#cb2-28"></a>        viz(query).to_html(output_html)</span>
+<span id="cb2-29"><a href="#cb2-29"></a>        <span class="cf">return</span> output_html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="in-notebook-widget-example" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="in-notebook-widget-example"><span class="header-section-number">11.1</span> In-notebook widget example</h2>
+<p>Note that we use quite conservative limits, only a few hundred polygons – for vizualising more, see the HTML export option below.</p>
+<div class="callout.note">
+<p>If you don’t have the below Overture Maps catalog visible from your workspace yet, add it via the <a href="https://marketplace.databricks.com/provider/dd56dcf4-cb70-449e-abad-c8038c0de3d9/CARTO">Marketplace</a>.</p>
+</div>
+<div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;6d885abf-ada7-4fc2-9e6d-9d1cb7fa4af2&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Example dataset: Municipalities in the Netherlands via Overture Maps</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>df <span class="op">=</span> (</span>
+<span id="cb3-3"><a href="#cb3-3"></a>    spark.table(<span class="st">"carto_overture_maps_divisions.carto.division_area"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4"></a>    .selectExpr(<span class="st">"geometry"</span>, <span class="st">"names:primary::string as name"</span>)</span>
+<span id="cb3-5"><a href="#cb3-5"></a>    .where(<span class="st">"""country = 'NL' and subtype='county'"""</span>)</span>
+<span id="cb3-6"><a href="#cb3-6"></a>)</span>
+<span id="cb3-7"><a href="#cb3-7"></a></span>
+<span id="cb3-8"><a href="#cb3-8"></a>spark_viz(df, wkb_col<span class="op">=</span><span class="st">"geometry"</span>, other_cols<span class="op">=</span>[<span class="st">"name"</span>], limit<span class="op">=</span><span class="dv">1000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/lonboard.png" class="img-fluid figure-img"></p>
+<figcaption>lonboard</figcaption>
+</figure>
+</div>
+<p>If all went well and you see data on the map: note that you can not just zoom and pan, but can also click on a polygon to see the value of the non-geometry column(s).</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>If you receive the error:</p>
+<pre><code>Command result size exceeds limit: Exceeded XXXX bytes (current = XXXX)</code></pre>
+<p>Then you need to reduce your <code>LIMIT</code> or tighten your filter.</p>
+</div>
+</div>
+</section>
+<section id="export-to-html" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="export-to-html"><span class="header-section-number">11.2</span> Export to HTML</h2>
+<p>To see much more data at the same time (than what fits within Databricks’ widget size limits), we can generate a HTML file to a Volume, download and open that file. If you want to avoid downloading, you could serve it via Databricks Apps instead, see <a href="../apps/databricks_apps.ipynb">the html-viewer app here</a> – note, however, the the data to visualize still needs to travel through the network to your browser anyway.</p>
+<p>You will see that you can use this method to generate HTML files of hundreds of megabytes – so then the limit becomes your <em>local</em> memory for what your browser can open.</p>
+<div id="cell-8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;fe75d295-4f2e-4269-8c82-9652e75bdbe9&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>df <span class="op">=</span> (</span>
+<span id="cb5-2"><a href="#cb5-2"></a>    spark.table(<span class="st">"carto_overture_maps_divisions.carto.division_area"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3"></a>    .selectExpr(<span class="st">"geometry"</span>, <span class="st">"names:primary::string as name"</span>)</span>
+<span id="cb5-4"><a href="#cb5-4"></a>    .where(</span>
+<span id="cb5-5"><a href="#cb5-5"></a>        <span class="st">"""</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="st">           country in ('BE', 'NL', 'LU', 'DE', 'FR', 'PL', 'CZ', 'SK', 'CH')</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="st">           and subtype='county'"""</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a>    )</span>
+<span id="cb5-9"><a href="#cb5-9"></a>    .orderBy(<span class="st">"name"</span>)  <span class="co"># just to make the results reproducible</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a>)</span>
+<span id="cb5-11"><a href="#cb5-11"></a></span>
+<span id="cb5-12"><a href="#cb5-12"></a></span>
+<span id="cb5-13"><a href="#cb5-13"></a>spark_viz(</span>
+<span id="cb5-14"><a href="#cb5-14"></a>    df,</span>
+<span id="cb5-15"><a href="#cb5-15"></a>    wkb_col<span class="op">=</span><span class="st">"geometry"</span>,</span>
+<span id="cb5-16"><a href="#cb5-16"></a>    other_cols<span class="op">=</span>[<span class="st">"name"</span>],</span>
+<span id="cb5-17"><a href="#cb5-17"></a>    limit<span class="op">=</span><span class="dv">100_000</span>,</span>
+<span id="cb5-18"><a href="#cb5-18"></a>    output_html<span class="op">=</span><span class="st">"/Volumes/workspace/default/default/output.html"</span>,</span>
+<span id="cb5-19"><a href="#cb5-19"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Downloading the above html and opening it, we can see much more data than what fits into an inline widget:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/lonboard_html.png" class="img-fluid figure-img"></p>
+<figcaption>lonboard html</figcaption>
+</figure>
+</div>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -708,13 +912,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../viz/native.html" class="pagination-link" aria-label="native.html">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">native.html</span></span>
+      <a href="../viz/GeoPandas.html" class="pagination-link" aria-label="GeoPandas.html">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">GeoPandas.html</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../viz/PMTiles.html" class="pagination-link" aria-label="PMTiles.html">
-        <span class="nav-page-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">PMTiles.html</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">PMTiles.html</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -723,4 +927,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/viz/lonboard.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/viz/lonboard.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
