@@ -75,7 +75,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -385,26 +385,34 @@ Note
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install duckdb <span class="op">--</span>quiet</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> os</span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="im">from</span> urllib.parse <span class="im">import</span> urlparse</span>
-<span id="cb1-5"><a href="#cb1-5"></a></span>
-<span id="cb1-6"><a href="#cb1-6"></a><span class="im">import</span> duckdb</span>
-<span id="cb1-7"><a href="#cb1-7"></a><span class="im">import</span> requests</span>
-<span id="cb1-8"><a href="#cb1-8"></a></span>
-<span id="cb1-9"><a href="#cb1-9"></a>ARCHITECTURE <span class="op">=</span> <span class="st">"linux_amd64"</span></span>
-<span id="cb1-10"><a href="#cb1-10"></a>duckdb_version <span class="op">=</span> duckdb.__version__</span>
-<span id="cb1-11"><a href="#cb1-11"></a>url <span class="op">=</span> <span class="ss">f"https://extensions.duckdb.org/v</span><span class="sc">{</span>duckdb_version<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>ARCHITECTURE<span class="sc">}</span><span class="ss">/httpfs.duckdb_extension.gz"</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a></span>
-<span id="cb1-13"><a href="#cb1-13"></a>output_file <span class="op">=</span> os.path.basename(urlparse(url).path)</span>
-<span id="cb1-14"><a href="#cb1-14"></a>response <span class="op">=</span> requests.get(url, timeout<span class="op">=</span><span class="dv">30</span>)</span>
-<span id="cb1-15"><a href="#cb1-15"></a>response.raise_for_status()</span>
-<span id="cb1-16"><a href="#cb1-16"></a><span class="cf">with</span> <span class="bu">open</span>(output_file, <span class="st">"wb"</span>) <span class="im">as</span> f:</span>
-<span id="cb1-17"><a href="#cb1-17"></a>    f.write(response.content)</span>
-<span id="cb1-18"><a href="#cb1-18"></a></span>
-<span id="cb1-19"><a href="#cb1-19"></a>duckdb.install_extension(output_file)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="im">import</span> platform</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="im">from</span> urllib.parse <span class="im">import</span> urlparse</span>
+<span id="cb1-6"><a href="#cb1-6"></a></span>
+<span id="cb1-7"><a href="#cb1-7"></a><span class="im">import</span> duckdb</span>
+<span id="cb1-8"><a href="#cb1-8"></a><span class="im">import</span> requests</span>
+<span id="cb1-9"><a href="#cb1-9"></a></span>
+<span id="cb1-10"><a href="#cb1-10"></a>arch <span class="op">=</span> platform.machine()</span>
+<span id="cb1-11"><a href="#cb1-11"></a><span class="cf">if</span> arch <span class="op">==</span> <span class="st">"x86_64"</span>:</span>
+<span id="cb1-12"><a href="#cb1-12"></a>    architecture <span class="op">=</span> <span class="st">"linux_amd64"</span></span>
+<span id="cb1-13"><a href="#cb1-13"></a><span class="cf">elif</span> arch <span class="op">==</span> <span class="st">"aarch64"</span>:</span>
+<span id="cb1-14"><a href="#cb1-14"></a>    architecture <span class="op">=</span> <span class="st">"linux_arm64"</span></span>
+<span id="cb1-15"><a href="#cb1-15"></a><span class="cf">else</span>:</span>
+<span id="cb1-16"><a href="#cb1-16"></a>    <span class="cf">raise</span> <span class="pp">Exception</span>(<span class="ss">f"unknown_arch: </span><span class="sc">{</span>arch<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-17"><a href="#cb1-17"></a></span>
+<span id="cb1-18"><a href="#cb1-18"></a>duckdb_version <span class="op">=</span> duckdb.__version__</span>
+<span id="cb1-19"><a href="#cb1-19"></a>url <span class="op">=</span> <span class="ss">f"https://extensions.duckdb.org/v</span><span class="sc">{</span>duckdb_version<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>architecture<span class="sc">}</span><span class="ss">/httpfs.duckdb_extension.gz"</span></span>
 <span id="cb1-20"><a href="#cb1-20"></a></span>
-<span id="cb1-21"><a href="#cb1-21"></a>os.remove(output_file)</span>
-<span id="cb1-22"><a href="#cb1-22"></a></span>
-<span id="cb1-23"><a href="#cb1-23"></a>duckdb.sql(<span class="st">"SET custom_extension_repository='https://extensions.duckdb.org'"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-21"><a href="#cb1-21"></a>output_file <span class="op">=</span> os.path.basename(urlparse(url).path)</span>
+<span id="cb1-22"><a href="#cb1-22"></a>response <span class="op">=</span> requests.get(url, timeout<span class="op">=</span><span class="dv">30</span>)</span>
+<span id="cb1-23"><a href="#cb1-23"></a>response.raise_for_status()</span>
+<span id="cb1-24"><a href="#cb1-24"></a><span class="cf">with</span> <span class="bu">open</span>(output_file, <span class="st">"wb"</span>) <span class="im">as</span> f:</span>
+<span id="cb1-25"><a href="#cb1-25"></a>    f.write(response.content)</span>
+<span id="cb1-26"><a href="#cb1-26"></a></span>
+<span id="cb1-27"><a href="#cb1-27"></a>duckdb.install_extension(output_file)</span>
+<span id="cb1-28"><a href="#cb1-28"></a></span>
+<span id="cb1-29"><a href="#cb1-29"></a>os.remove(output_file)</span>
+<span id="cb1-30"><a href="#cb1-30"></a></span>
+<span id="cb1-31"><a href="#cb1-31"></a>duckdb.sql(<span class="st">"SET custom_extension_repository='https://extensions.duckdb.org'"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And now you can install other extensions, such as:</p>
 <div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;72c60666-cb0d-40d4-89ad-469152e5f71f&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">

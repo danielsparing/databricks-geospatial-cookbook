@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -546,10 +546,11 @@ Note
 <section id="pmtiles" class="level1" data-number="9">
 <h1 data-number="9"><span class="header-section-number">9</span> PMTiles</h1>
 <p>For PMTiles, while theoretically we could keep using DuckDB Spatial with GDAL, we’ll instead use <a href="https://github.com/felt/tippecanoe">tippecanoe</a>.</p>
+<p>The below <code>make install</code> runs in 3-4 min on <a href="https://docs.databricks.com/aws/en/compute/serverless/dependencies#high-memory">high memory</a> serverless.</p>
 <div id="cell-21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;b824448a-3f70-4500-9cbf-b646c2766f5b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">%</span>sh</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co"># ~5 min</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a>cd <span class="op">/</span>tmp <span class="op">&amp;&amp;</span> git clone https:<span class="op">//</span>github.com<span class="op">/</span>felt<span class="op">/</span>tippecanoe.git</span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="co"># ~3.5 min on high memory serverless https://docs.databricks.com/aws/en/compute/serverless/dependencies#high-memory</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a>git clone https:<span class="op">//</span>github.com<span class="op">/</span>felt<span class="op">/</span>tippecanoe.git</span>
 <span id="cb8-4"><a href="#cb8-4"></a>cd tippecanoe</span>
 <span id="cb8-5"><a href="#cb8-5"></a>make <span class="op">-</span>j</span>
 <span id="cb8-6"><a href="#cb8-6"></a>make install PREFIX<span class="op">=</span>$HOME<span class="op">/</span>.local</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -562,10 +563,38 @@ Note
 <span id="cb9-5"><a href="#cb9-5"></a><span class="co"># see https://github.com/felt/tippecanoe/blob/main/README.md#try-this-first and e.g.</span></span>
 <span id="cb9-6"><a href="#cb9-6"></a><span class="co"># https://github.com/OvertureMaps/overture-tiles/blob/main/scripts/2024-07-22/places.sh</span></span>
 <span id="cb9-7"><a href="#cb9-7"></a><span class="co"># for possible options</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="op">!</span>{HOME}<span class="op">/</span>.local<span class="op">/</span><span class="bu">bin</span><span class="op">/</span>tippecanoe <span class="op">-</span>zg <span class="op">-</span>rg <span class="op">-</span>o <span class="op">/</span>tmp<span class="op">/</span>geometries.pmtiles <span class="op">--</span>drop<span class="op">-</span>densest<span class="op">-</span><span class="im">as</span><span class="op">-</span>needed <span class="op">--</span>extend<span class="op">-</span>zooms<span class="op">-</span><span class="cf">if</span><span class="op">-</span>still<span class="op">-</span>dropping <span class="op">--</span>maximum<span class="op">-</span>tile<span class="op">-</span><span class="bu">bytes</span><span class="op">=</span><span class="dv">2500000</span> <span class="op">--</span>progress<span class="op">-</span>interval<span class="op">=</span><span class="dv">10</span> <span class="op">-</span>l geometries <span class="op">--</span>force <span class="op">/</span>Volumes<span class="op">/</span>{CATALOG}<span class="op">/</span>{SCHEMA}<span class="op">/</span>{VOLUME}<span class="op">/</span>geometries.fgb</span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="op">!</span>{HOME}<span class="op">/</span>.local<span class="op">/</span><span class="bu">bin</span><span class="op">/</span>tippecanoe <span class="op">-</span>zg <span class="op">-</span>rg <span class="op">-</span>o <span class="op">/</span>tmp<span class="op">/</span>geometries.pmtiles  <span class="op">--</span>simplification<span class="op">=</span><span class="dv">10</span> <span class="op">--</span>drop<span class="op">-</span>smallest<span class="op">-</span><span class="im">as</span><span class="op">-</span>needed <span class="op">--</span>drop<span class="op">-</span>densest<span class="op">-</span><span class="im">as</span><span class="op">-</span>needed <span class="op">--</span>extend<span class="op">-</span>zooms<span class="op">-</span><span class="cf">if</span><span class="op">-</span>still<span class="op">-</span>dropping <span class="op">--</span>maximum<span class="op">-</span>tile<span class="op">-</span><span class="bu">bytes</span><span class="op">=</span><span class="dv">2500000</span> <span class="op">--</span>progress<span class="op">-</span>interval<span class="op">=</span><span class="dv">10</span> <span class="op">-</span>l geometries <span class="op">--</span>force <span class="op">/</span>Volumes<span class="op">/</span>{CATALOG}<span class="op">/</span>{SCHEMA}<span class="op">/</span>{VOLUME}<span class="op">/</span>geometries.fgb</span>
 <span id="cb9-9"><a href="#cb9-9"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: this mv will emit an error related to updating metadata ("mv: preserving</span></span>
 <span id="cb9-10"><a href="#cb9-10"></a><span class="co"># permissions for ‘[...]’: Operation not permitted"), this can be ignored.</span></span>
 <span id="cb9-11"><a href="#cb9-11"></a><span class="op">!</span>mv <span class="op">/</span>tmp<span class="op">/</span>geometries.pmtiles <span class="op">/</span>Volumes<span class="op">/</span>{CATALOG}<span class="op">/</span>{SCHEMA}<span class="op">/</span>{VOLUME}<span class="op">/</span>geometries.pmtiles</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Alternatively, you can feed a directory of JSONL to tippecanoe (make sure you use the <a href="https://github.com/felt/tippecanoe?tab=readme-ov-file#parallel-processing-of-input"><code>--read-parallel</code> flag</a>), such as:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a>(</span>
+<span id="cb10-2"><a href="#cb10-2"></a>    spark.table(<span class="st">'&lt;TABLENAME&gt;'</span>)</span>
+<span id="cb10-3"><a href="#cb10-3"></a>    .selectExpr(</span>
+<span id="cb10-4"><a href="#cb10-4"></a>        <span class="st">"'Feature' as type"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5"></a>        <span class="st">"parse_json('</span><span class="sc">{}</span><span class="st">') as properties"</span>,</span>
+<span id="cb10-6"><a href="#cb10-6"></a>        <span class="st">"parse_json(st_asgeojson(geometry)) as geometry"</span>,</span>
+<span id="cb10-7"><a href="#cb10-7"></a>    )</span>
+<span id="cb10-8"><a href="#cb10-8"></a>    .write.mode(<span class="st">"overwrite"</span>)</span>
+<span id="cb10-9"><a href="#cb10-9"></a>    .option(<span class="st">"ignoreNullFields"</span>, <span class="st">"false"</span>)</span>
+<span id="cb10-10"><a href="#cb10-10"></a>    .json(<span class="st">"/Volumes/.../output.jsonl"</span>)</span>
+<span id="cb10-11"><a href="#cb10-11"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>and then read as:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1"></a><span class="ex">tippecanoe</span> <span class="pp">[</span><span class="ss">...</span><span class="pp">]</span> <span class="at">--read-parallel</span> /Volumes/.../output.jsonl/part-<span class="pp">*</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Can come in handy if for some reason the Flatgeobuf export is not working.</p>
+<p>(Yet another approach is to stream JSON with DuckDB Spatial to tippecanoe, as in <a href="https://github.com/OvertureMaps/overture-tiles/tree/main/scripts">here</a>, but then tippecanoe cannot parallel read.)</p>
+</div>
 </div>
 <p>To visualize, download the PMTiles from Volumes, and upload it to https://pmtiles.io/ (see below screenshot). To directly visualize it via Databricks Apps via downloading, see TODO:.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -577,9 +606,9 @@ Note
 <p>TO be clear: the advantage the PMTiles format is to be able to visualize very large datasets such as all of OpenStreetMap – this notebook only uses a very simple example but see TODO: for a larger case.</p>
 <section id="cleanup" class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="cleanup"><span class="header-section-number">9.1</span> Cleanup</h2>
-<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;f430c3e5-1384-4150-920c-5969c26ecb0d&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="op">%</span>sql</span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="op">--</span> drop table tmp_geometries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;f430c3e5-1384-4150-920c-5969c26ecb0d&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="op">%</span>sql</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="op">--</span> drop table tmp_geometries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
