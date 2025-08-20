@@ -1,0 +1,27 @@
+{
+  "name": "pmtiles_viewer",
+  "version": "1.0.0",
+  "description": "A Node.js web-based viewer for PMTiles files using MapLibre GL JS and the PMTiles protocol",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danielsparing/pmtiles_viewer.git"
+  },
+  "keywords": ["pmtiles", "maplibre", "maps", "geospatial", "vector-tiles"],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/danielsparing/pmtiles_viewer/issues"
+  },
+  "homepage": "https://github.com/danielsparing/pmtiles_viewer#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "axios": "^1.6.0"
+  }
+}
