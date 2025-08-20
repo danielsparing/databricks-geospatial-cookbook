@@ -596,14 +596,15 @@ Note
 <p>(Yet another approach is to stream JSON with DuckDB Spatial to tippecanoe, as in <a href="https://github.com/OvertureMaps/overture-tiles/tree/main/scripts">here</a>, but then tippecanoe cannot parallel read.)</p>
 </div>
 </div>
-<p>To visualize, download the PMTiles from Volumes, and upload it to https://pmtiles.io/ (see below screenshot). To directly visualize it via Databricks Apps via downloading, see TODO:.</p>
+<p>To visualize, download the PMTiles from Volumes, and upload it to https://pmtiles.io/ (see below screenshot).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/pmtilesio_geometries.png" class="img-fluid figure-img"></p>
 <figcaption>pmtiles_io</figcaption>
 </figure>
 </div>
-<p>TO be clear: the advantage the PMTiles format is to be able to visualize very large datasets such as all of OpenStreetMap – this notebook only uses a very simple example but see TODO: for a larger case.</p>
+<p>Or more elegantly, to directly visualize it via Databricks Apps instead of downloading, you can port pmtiles.io to open the .pmtiles files in Volumes via the Files API – see <a href="../apps/pmtiles-viewer/">this app</a> for a rudimentary example with <a href="https://docs.databricks.com/aws/en/dev-tools/databricks-apps/auth#app-authorization">App Authorization</a>.</p>
+<p>TO be clear: the advantage the PMTiles format is to be able to visualize very large datasets such as all of OpenStreetMap – this notebook only uses a very small example.</p>
 <section id="cleanup" class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="cleanup"><span class="header-section-number">9.1</span> Cleanup</h2>
 <div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;f430c3e5-1384-4150-920c-5969c26ecb0d&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">

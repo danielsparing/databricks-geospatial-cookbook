@@ -391,6 +391,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="geography-operations" class="level2" data-number="14.2">
 <h2 data-number="14.2" class="anchored" data-anchor-id="geography-operations"><span class="header-section-number">14.2</span> GEOGRAPHY operations</h2>
 <p>You can use <code>st_area</code>, <code>st_length</code> and <code>st_perimeter</code> directly on GEOGRAPHY (lon/lat) columns to get results in meters:</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tip
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This example uses the CARTO/Overture Maps datasets that you can add to your workspace via the <a href="https://marketplace.databricks.com/provider/dd56dcf4-cb70-449e-abad-c8038c0de3d9/CARTO">Marketplace</a>.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The CARTO/Overture Maps tables are stored in <code>us-west-2</code> as of writing, so if you are <em>not</em> using Databricks Free Edition and you are in any other region, you will have to pay egress charges based on the amount of data you read.</p>
+</div>
+</div>
 <div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;043782a8-6bbd-4f87-8aa2-24a0c366b6e3&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1754629004417}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">%</span>sql</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="op">--</span> Areas of countries. Note that a country might <span class="kw">not</span> be listed <span class="cf">if</span> they cross the date line, leading to either missing geometry <span class="kw">in</span> the CARTO dataset already, <span class="kw">or</span> unsupported coordinates <span class="cf">for</span> `st_geogfromwkb` (hence the use of `try_to_geography`)</span>
@@ -636,7 +662,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;73b5a8c2-1daf-4ad6-94a8-844682ba60cb&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="op">%</span>sql</span>
 <span id="cb13-2"><a href="#cb13-2"></a><span class="op">--</span> drop table tmp_ams</span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="op">--</span> drop table tmp_ams_buildings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="op">--</span> drop table tmp_ams_buildings_bbox</span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="op">--</span> drop table tmp_ams_buildings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

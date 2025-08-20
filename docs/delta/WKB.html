@@ -388,6 +388,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-6"><a href="#cb2-6"></a>  t_ewkb</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Another example of Delta Lake tables with WKB columns are the <a href="https://marketplace.databricks.com/provider/dd56dcf4-cb70-449e-abad-c8038c0de3d9/CARTO">Overture Maps datasets</a> prepared by CARTO, available via the Databricks Marketplace. Follow the previous link to add any them (at no cost) to your catalog, if you haven’t yet. For example, for the below query, use <a href="https://dbc-63c92876-2d84.cloud.databricks.com/marketplace/consumer/listings/2b2d3511-55cf-493c-8224-f5c5103a8d74?o=3737817604111714">Divisions</a> (borders of countries and other administrative divisions):</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Caution
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The CARTO/Overture Maps tables are stored in <code>us-west-2</code> as of writing, so if you are <em>not</em> using Databricks Free Edition and you are in any other region, you will have to pay egress charges based on the amount of data you read.</p>
+</div>
+</div>
 <div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;4abc1430-5118-49dc-9bb0-3c48c05d3b1f&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
 <span id="cb3-2"><a href="#cb3-2"></a>select</span>
