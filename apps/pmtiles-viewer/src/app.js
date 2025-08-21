@@ -79,7 +79,7 @@ async function initializeMap() {
                         },
                         // PMTiles layers (rendered on top of base map)
                         {
-                            'id': 'geometries',
+                            'id': 'fill',
                             'type': 'fill',
                             'source': 'example_source',
                             'source-layer': config.sourceLayer,  // use from config
@@ -134,33 +134,22 @@ async function initializeMap() {
                 console.error('Map error:', e);
             });
 
-            // Add click event handler for PMTiles objects
-            map.on('click', 'geometries', (e) => {
-                // Prevent the click from propagating to the map
+            // Reusable function to show feature popup
+            function showFeaturePopup(e, map, config) {
                 e.preventDefault();
-
-                // Get the clicked feature
                 const feature = e.features[0];
                 if (!feature) return;
-
-                // Get the coordinates of the click
                 const coordinates = e.lngLat;
 
-                // Create HTML content for the popup
                 let popupContent = '<div style="font-family: Arial, sans-serif; max-width: 350px;">';
                 popupContent += '<h3 style="margin: 0 0 10px 0; color: #333;">Feature Properties</h3>';
 
-                // Display all properties of the feature
                 if (feature.properties) {
                     const properties = feature.properties;
                     popupContent += '<div class="popup-scroll" style="max-height: 300px; overflow-y: auto;">';
-
-                    // Sort properties alphabetically for better organization
                     const sortedKeys = Object.keys(properties).sort();
-
                     sortedKeys.forEach(key => {
                         const value = properties[key];
-                        // Format the value for display
                         let displayValue = value;
                         if (typeof value === 'number') {
                             displayValue = value.toLocaleString();
@@ -169,7 +158,6 @@ async function initializeMap() {
                         } else if (value === null || value === undefined) {
                             displayValue = 'N/A';
                         }
-
                         popupContent += `
                             <div style="margin-bottom: 8px; padding: 5px; background-color: #f8f9fa; border-radius: 4px;">
                                 <strong style="color: #495057; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">${key}</strong>
@@ -177,35 +165,35 @@ async function initializeMap() {
                             </div>
                         `;
                     });
-
                     popupContent += '</div>';
                 } else {
                     popupContent += '<p style="color: #6c757d; font-style: italic;">No properties available for this feature.</p>';
                 }
 
-                // Add source layer information
                 popupContent += `
                     <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #dee2e6; font-size: 12px; color: #6c757d;">
                         <strong>Source Layer:</strong> ${config.sourceLayer || 'Unknown'}
                     </div>
                 `;
-
                 popupContent += '</div>';
 
-                // Set the popup content and show it
                 popup.setHTML(popupContent);
                 popup.setLngLat(coordinates).addTo(map);
 
                 console.log('Clicked feature:', feature);
                 console.log('Feature properties:', feature.properties);
-            });
+            }
+
+            // Add click event handler for PMTiles objects
+            map.on('click', 'fill', (e) => showFeaturePopup(e, map, config));
+            map.on('click', 'line', (e) => showFeaturePopup(e, map, config));
 
             // Change cursor to pointer when hovering over PMTiles objects
-            map.on('mouseenter', 'geometries', () => {
+            map.on('mouseenter', 'fill', () => {
                 map.getCanvas().style.cursor = 'pointer';
             });
 
-            map.on('mouseleave', 'geometries', () => {
+            map.on('mouseleave', 'fill', () => {
                 map.getCanvas().style.cursor = '';
             });
 
@@ -219,4 +207,4 @@ async function initializeMap() {
 
 
 // Initialize the map when the page loads
-document.addEventListener('DOMContentLoaded', initializeMap); 
+document.addEventListener('DOMContentLoaded', initializeMap);
