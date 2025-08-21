@@ -187,6 +187,7 @@ async function initializeMap() {
             // Add click event handler for PMTiles objects
             map.on('click', 'fill', (e) => showFeaturePopup(e, map, config));
             map.on('click', 'line', (e) => showFeaturePopup(e, map, config));
+            map.on('click', 'circle', (e) => showFeaturePopup(e, map, config));
 
             // Change cursor to pointer when hovering over PMTiles objects
             map.on('mouseenter', 'fill', () => {

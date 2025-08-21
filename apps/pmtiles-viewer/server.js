@@ -195,20 +195,24 @@ app.options('/proxy/pmtiles', (req, res) => {
 
 // API endpoint to get PMTiles configuration
 app.get('/api/config', async (req, res) => {
-    
-    // Get filePath and sourceLayer from query parameters or use defaults
+    // Get filePath from query parameters
     const filePath = req.query.filePath;
-    const sourceLayer = req.query.sourceLayer;
-    
-    console.log('Received parameters:', { filePath, sourceLayer });
-        
+
+    console.log('Received filePath:', filePath);
+
+    // Extract base filename without extension for sourceLayer
+    let sourceLayer = 'default';
+    if (filePath) {
+        const baseName = path.basename(filePath);
+        sourceLayer = baseName.replace(/\.pmtiles$/i, '');
+    }
+
     const ucUrl = `https://${DATABRICKS_HOST}/api/2.0/fs/files${filePath}`;
-    
     console.log('Generated URL:', ucUrl);
-    
+
     // Create a proxy URL that includes the auth token
     const proxyUrl = `/proxy/pmtiles?url=${encodeURIComponent(ucUrl)}`;
-    
+
     res.json({
         pmtilesUrl: proxyUrl,
         sourceLayer: sourceLayer,
@@ -231,4 +235,4 @@ app.get('/', (req, res) => {
 app.listen(PORT, () => {
     console.log(`PMTiles Viewer server running on http://localhost:${PORT}`);
     console.log(`API available at http://localhost:${PORT}/api/config`);
-}); 
+});
