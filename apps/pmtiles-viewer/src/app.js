@@ -27,19 +27,19 @@ async function initializeMap() {
         const urlParams = new URLSearchParams(window.location.search);
         const filePath = urlParams.get('filePath');
         const sourceLayer = urlParams.get('sourceLayer');
-        
+
         console.log('Raw URL parameters:', { filePath, sourceLayer });
-                
+
         // Build API URL with parameters
         const apiUrl = `/api/config?filePath=${encodeURIComponent(filePath)}&sourceLayer=${encodeURIComponent(sourceLayer)}`;
         console.log('API URL:', apiUrl);
-        
+
         const response = await fetch(apiUrl);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         config = await response.json();
-        
+
         // Create a new PMTiles instance
         const p = new pmtiles.PMTiles(config.pmtilesUrl);
 
@@ -66,7 +66,6 @@ async function initializeMap() {
                         'example_source': {
                             type: 'vector',
                             url: `pmtiles://${config.pmtilesUrl}`,
-                            attribution: '© <a href="https://openstreetmap.org/copyright">OpenStreetMap</a>'
                         }
                     },
                     layers: [
@@ -81,15 +80,47 @@ async function initializeMap() {
                         // PMTiles layers (rendered on top of base map)
                         {
                             'id': 'geometries',
+                            'type': 'fill',
                             'source': 'example_source',
                             'source-layer': config.sourceLayer,  // use from config
-                            'type': 'fill',
-                            'paint': {
-                                'fill-color': 'steelblue',
-                                'fill-opacity': 0.7,
+                            paint: {
+                                "fill-color": "steelblue",
+                                "fill-opacity": 0.7,
                                 'fill-outline-color': '#000000'  // black border for better visibility
-                            }
-                        }
+                            },
+                            filter: ["==", ["geometry-type"], "Polygon"],
+
+                        },
+                        {
+                            'id': 'line',
+                            'type': 'line',
+                            'source': 'example_source',
+                            'source-layer': config.sourceLayer,  // use from config
+                            paint: {
+                                "line-color": "steelblue",
+                                "line-width": 2,
+                            },
+                            filter: ["==", ["geometry-type"], "LineString"],
+                        },
+                        {
+                            'id': 'circle',
+                            'type': 'circle',
+                            'source': 'example_source',
+                            'source-layer': config.sourceLayer,  // use from config
+                            paint: {
+                                "circle-color": "steelblue",
+                                "circle-radius": ["interpolate", ["linear"], ["zoom"], 4, 2, 12, 4],
+                                "circle-opacity": 0.5,
+                                "circle-stroke-color": "white",
+                                "circle-stroke-width": [
+                                    "case",
+                                    ["boolean", ["feature-state", "hover"], false],
+                                    3,
+                                    0,
+                                ],
+                            },
+                            filter: ["==", ["geometry-type"], "Point"],
+                        },
                     ]
                 }
             });
@@ -107,26 +138,26 @@ async function initializeMap() {
             map.on('click', 'geometries', (e) => {
                 // Prevent the click from propagating to the map
                 e.preventDefault();
-                
+
                 // Get the clicked feature
                 const feature = e.features[0];
                 if (!feature) return;
-                
+
                 // Get the coordinates of the click
                 const coordinates = e.lngLat;
-                
+
                 // Create HTML content for the popup
                 let popupContent = '<div style="font-family: Arial, sans-serif; max-width: 350px;">';
                 popupContent += '<h3 style="margin: 0 0 10px 0; color: #333;">Feature Properties</h3>';
-                
+
                 // Display all properties of the feature
                 if (feature.properties) {
                     const properties = feature.properties;
                     popupContent += '<div class="popup-scroll" style="max-height: 300px; overflow-y: auto;">';
-                    
+
                     // Sort properties alphabetically for better organization
                     const sortedKeys = Object.keys(properties).sort();
-                    
+
                     sortedKeys.forEach(key => {
                         const value = properties[key];
                         // Format the value for display
@@ -138,7 +169,7 @@ async function initializeMap() {
                         } else if (value === null || value === undefined) {
                             displayValue = 'N/A';
                         }
-                        
+
                         popupContent += `
                             <div style="margin-bottom: 8px; padding: 5px; background-color: #f8f9fa; border-radius: 4px;">
                                 <strong style="color: #495057; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px;">${key}</strong>
@@ -146,25 +177,25 @@ async function initializeMap() {
                             </div>
                         `;
                     });
-                    
+
                     popupContent += '</div>';
                 } else {
                     popupContent += '<p style="color: #6c757d; font-style: italic;">No properties available for this feature.</p>';
                 }
-                
+
                 // Add source layer information
                 popupContent += `
                     <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #dee2e6; font-size: 12px; color: #6c757d;">
                         <strong>Source Layer:</strong> ${config.sourceLayer || 'Unknown'}
                     </div>
                 `;
-                
+
                 popupContent += '</div>';
-                
+
                 // Set the popup content and show it
                 popup.setHTML(popupContent);
                 popup.setLngLat(coordinates).addTo(map);
-                
+
                 console.log('Clicked feature:', feature);
                 console.log('Feature properties:', feature.properties);
             });
