@@ -484,7 +484,7 @@ Note
 <span id="cb7-3"><a href="#cb7-3"></a>).display()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You can store the above spark data frame as a Delta Lake table as needed:</p>
-<div id="cell-12" class="cell">
+<div id="cell-12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;e804becb-457a-4913-af5b-abe69f3abe53&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># TABLENAME = None  # FILL ME IN</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a></span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="co"># spark.read.parquet(</span></span>
@@ -550,15 +550,16 @@ Note
 <span id="cb14-17"><a href="#cb14-17"></a>    posexplode(refs) <span class="im">as</span> (pos, <span class="bu">id</span>)</span>
 <span id="cb14-18"><a href="#cb14-18"></a>  <span class="im">from</span></span>
 <span id="cb14-19"><a href="#cb14-19"></a>    route join tmp_osm using (<span class="bu">id</span>)</span>
-<span id="cb14-20"><a href="#cb14-20"></a>    where tags.railway <span class="op">=</span> <span class="st">'rail'</span></span>
-<span id="cb14-21"><a href="#cb14-21"></a>)</span>
-<span id="cb14-22"><a href="#cb14-22"></a>select</span>
-<span id="cb14-23"><a href="#cb14-23"></a>  rail_id,</span>
-<span id="cb14-24"><a href="#cb14-24"></a>  st_makeline(</span>
-<span id="cb14-25"><a href="#cb14-25"></a>    collect_list(st_point(tmp_osm.lon, tmp_osm.lat)) over (partition by rail_id order by pos)</span>
-<span id="cb14-26"><a href="#cb14-26"></a>  ) <span class="im">as</span> geometry</span>
-<span id="cb14-27"><a href="#cb14-27"></a><span class="im">from</span></span>
-<span id="cb14-28"><a href="#cb14-28"></a>  rail join tmp_osm using (<span class="bu">id</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-20"><a href="#cb14-20"></a>  where</span>
+<span id="cb14-21"><a href="#cb14-21"></a>    tags.railway <span class="op">=</span> <span class="st">'rail'</span></span>
+<span id="cb14-22"><a href="#cb14-22"></a>)</span>
+<span id="cb14-23"><a href="#cb14-23"></a>select</span>
+<span id="cb14-24"><a href="#cb14-24"></a>  rail_id,</span>
+<span id="cb14-25"><a href="#cb14-25"></a>  st_makeline(</span>
+<span id="cb14-26"><a href="#cb14-26"></a>    collect_list(st_point(tmp_osm.lon, tmp_osm.lat)) over (partition by rail_id order by pos)</span>
+<span id="cb14-27"><a href="#cb14-27"></a>  ) <span class="im">as</span> geometry</span>
+<span id="cb14-28"><a href="#cb14-28"></a><span class="im">from</span></span>
+<span id="cb14-29"><a href="#cb14-29"></a>  rail join tmp_osm using (<span class="bu">id</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;a17a66e9-d384-48be-889e-459736032e22&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="kw">def</span> spark_viz(df, wkb_col<span class="op">=</span><span class="st">"geometry"</span>, other_cols<span class="op">=</span><span class="va">None</span>, limit<span class="op">=</span><span class="dv">10_000</span>, output_html<span class="op">=</span><span class="va">None</span>):</span>
@@ -608,8 +609,8 @@ Note
 <h2 data-number="7.4" class="anchored" data-anchor-id="cleanup"><span class="header-section-number">7.4</span> Cleanup</h2>
 <div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;c55076c2-2a56-4687-9c54-25fdb775d450&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="op">%</span>sql</span>
-<span id="cb17-2"><a href="#cb17-2"></a><span class="op">--</span> drop table tmp_nodes<span class="op">;</span></span>
-<span id="cb17-3"><a href="#cb17-3"></a><span class="op">--</span> drop table tmp_route_shapes<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-2"><a href="#cb17-2"></a> <span class="op">--</span> drop table tmp_nodes<span class="op">;</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a> <span class="op">--</span> drop table tmp_route_shapes<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

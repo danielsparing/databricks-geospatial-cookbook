@@ -522,13 +522,11 @@ Note
 <span id="cb9-4"><a href="#cb9-4"></a>  st_asewkt(geometry) geometry</span>
 <span id="cb9-5"><a href="#cb9-5"></a><span class="im">from</span></span>
 <span id="cb9-6"><a href="#cb9-6"></a>  skiresorts</span>
-<span id="cb9-7"><a href="#cb9-7"></a></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="op">--</span> Returns:</span>
-<span id="cb9-9"><a href="#cb9-9"></a></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="op">--</span> wintersports_id  name    geometry</span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="op">--</span> <span class="dv">23079840</span> Isola <span class="dv">2000</span>  SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="fl">7.1524774</span> <span class="fl">44.204359200000006</span>,...))</span>
-<span id="cb9-12"><a href="#cb9-12"></a><span class="op">--</span> <span class="dv">27163365</span> Estación de Esquí Aramón Formigal   SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="op">-</span><span class="fl">0.41821430000000004</span> <span class="fl">42.8009106</span>,...))</span>
-<span id="cb9-13"><a href="#cb9-13"></a><span class="op">--</span> ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="op">--</span> Returns:</span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="op">--</span> wintersports_id  name    geometry</span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="op">--</span> <span class="dv">23079840</span> Isola <span class="dv">2000</span>  SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="fl">7.1524774</span> <span class="fl">44.204359200000006</span>,...))</span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="op">--</span> <span class="dv">27163365</span> Estación de Esquí Aramón Formigal   SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="op">-</span><span class="fl">0.41821430000000004</span> <span class="fl">42.8009106</span>,...))</span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="op">--</span> ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="visualize-with-lonboard" class="level2" data-number="17.3">
@@ -609,20 +607,21 @@ Note
 <span id="cb12-18"><a href="#cb12-18"></a>    posexplode(refs) <span class="im">as</span> (pos, <span class="bu">id</span>)</span>
 <span id="cb12-19"><a href="#cb12-19"></a>  <span class="im">from</span></span>
 <span id="cb12-20"><a href="#cb12-20"></a>    t1 join planet_osm_france p using (<span class="bu">id</span>)</span>
-<span id="cb12-21"><a href="#cb12-21"></a>    where p.tags.railway <span class="op">=</span> <span class="st">'rail'</span></span>
-<span id="cb12-22"><a href="#cb12-22"></a>)</span>
-<span id="cb12-23"><a href="#cb12-23"></a>select</span>
-<span id="cb12-24"><a href="#cb12-24"></a>  t2.name,</span>
-<span id="cb12-25"><a href="#cb12-25"></a>  <span class="op">--</span>subname,</span>
-<span id="cb12-26"><a href="#cb12-26"></a>  route_id,</span>
-<span id="cb12-27"><a href="#cb12-27"></a>  <span class="op">--</span>subroute_id,</span>
-<span id="cb12-28"><a href="#cb12-28"></a>  st_makeline(</span>
-<span id="cb12-29"><a href="#cb12-29"></a>    transform(sort_array(array_agg(struct(pos, lon, lat))), x <span class="op">-&gt;</span> st_point(x.lon, x.lat, <span class="dv">4326</span>))</span>
-<span id="cb12-30"><a href="#cb12-30"></a>  ) geometry</span>
-<span id="cb12-31"><a href="#cb12-31"></a><span class="im">from</span></span>
-<span id="cb12-32"><a href="#cb12-32"></a>  t2 join planet_osm_france p using (<span class="bu">id</span>)</span>
-<span id="cb12-33"><a href="#cb12-33"></a>group by</span>
-<span id="cb12-34"><a href="#cb12-34"></a>  <span class="bu">all</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-21"><a href="#cb12-21"></a>  where</span>
+<span id="cb12-22"><a href="#cb12-22"></a>    p.tags.railway <span class="op">=</span> <span class="st">'rail'</span></span>
+<span id="cb12-23"><a href="#cb12-23"></a>)</span>
+<span id="cb12-24"><a href="#cb12-24"></a>select</span>
+<span id="cb12-25"><a href="#cb12-25"></a>  t2.name,</span>
+<span id="cb12-26"><a href="#cb12-26"></a>  <span class="op">--</span>subname,</span>
+<span id="cb12-27"><a href="#cb12-27"></a>  route_id,</span>
+<span id="cb12-28"><a href="#cb12-28"></a>  <span class="op">--</span>subroute_id,</span>
+<span id="cb12-29"><a href="#cb12-29"></a>  st_makeline(</span>
+<span id="cb12-30"><a href="#cb12-30"></a>    transform(sort_array(array_agg(struct(pos, lon, lat))), x <span class="op">-&gt;</span> st_point(x.lon, x.lat, <span class="dv">4326</span>))</span>
+<span id="cb12-31"><a href="#cb12-31"></a>  ) geometry</span>
+<span id="cb12-32"><a href="#cb12-32"></a><span class="im">from</span></span>
+<span id="cb12-33"><a href="#cb12-33"></a>  t2 join planet_osm_france p using (<span class="bu">id</span>)</span>
+<span id="cb12-34"><a href="#cb12-34"></a>group by</span>
+<span id="cb12-35"><a href="#cb12-35"></a>  <span class="bu">all</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;6e4eeacd-0948-40f7-89ba-72b0c405a184&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>spark.table(<span class="st">"train_routes"</span>).withColumn(</span>
@@ -674,7 +673,8 @@ Note
 <span id="cb17-5"><a href="#cb17-5"></a>git clone https:<span class="op">//</span>github.com<span class="op">/</span>felt<span class="op">/</span>tippecanoe.git</span>
 <span id="cb17-6"><a href="#cb17-6"></a>cd tippecanoe</span>
 <span id="cb17-7"><a href="#cb17-7"></a>make <span class="op">-</span>j</span>
-<span id="cb17-8"><a href="#cb17-8"></a>make install PREFIX<span class="op">=</span>$HOME<span class="op">/</span>.local</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb17-8"><a href="#cb17-8"></a>make install PREFIX<span class="op">=</span>$HOME<span class="op">/</span>.local</span>
+<span id="cb17-9"><a href="#cb17-9"></a>rm <span class="op">-</span>r tippecanoe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;950aa4ba-03c5-41a9-9f18-9033a60c6bbc&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="im">import</span> os</span>

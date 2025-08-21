@@ -403,20 +403,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-9"><a href="#cb1-9"></a>  <span class="co">"Onze Lieve Vrouwetoren"</span> <span class="im">as</span> name</span>
 <span id="cb1-10"><a href="#cb1-10"></a>union <span class="bu">all</span></span>
 <span id="cb1-11"><a href="#cb1-11"></a>select</span>
-<span id="cb1-12"><a href="#cb1-12"></a>  st_makepolygon(st_makeline(array(</span>
-<span id="cb1-13"><a href="#cb1-13"></a>    st_point(<span class="op">-</span><span class="fl">80.1935973</span>, <span class="fl">25.7741566</span>, <span class="dv">4326</span>),</span>
-<span id="cb1-14"><a href="#cb1-14"></a>    st_point(<span class="op">-</span><span class="fl">64.7563086</span>, <span class="fl">32.3040273</span>, <span class="dv">4326</span>),</span>
-<span id="cb1-15"><a href="#cb1-15"></a>    st_point(<span class="op">-</span><span class="fl">66.1166669</span>, <span class="fl">18.4653003</span>, <span class="dv">4326</span>),</span>
-<span id="cb1-16"><a href="#cb1-16"></a>    st_point(<span class="op">-</span><span class="fl">80.1935973</span>, <span class="fl">25.7741566</span>, <span class="dv">4326</span>)</span>
-<span id="cb1-17"><a href="#cb1-17"></a>  ))) <span class="im">as</span> geometry,</span>
-<span id="cb1-18"><a href="#cb1-18"></a>  <span class="co">"Bermuda Triangle"</span> <span class="im">as</span> name<span class="op">;</span></span>
-<span id="cb1-19"><a href="#cb1-19"></a></span>
-<span id="cb1-20"><a href="#cb1-20"></a>describe tmp_geometries</span>
-<span id="cb1-21"><a href="#cb1-21"></a><span class="op">--</span> Returns:</span>
-<span id="cb1-22"><a href="#cb1-22"></a></span>
-<span id="cb1-23"><a href="#cb1-23"></a><span class="op">--</span> col_name data_type   comment</span>
-<span id="cb1-24"><a href="#cb1-24"></a><span class="op">--</span> geometry geometry(<span class="dv">4326</span>)  null</span>
-<span id="cb1-25"><a href="#cb1-25"></a><span class="op">--</span> name string  null</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-12"><a href="#cb1-12"></a>  st_makepolygon(</span>
+<span id="cb1-13"><a href="#cb1-13"></a>    st_makeline(</span>
+<span id="cb1-14"><a href="#cb1-14"></a>      array(</span>
+<span id="cb1-15"><a href="#cb1-15"></a>        st_point(<span class="op">-</span> <span class="fl">80.1935973</span>, <span class="fl">25.7741566</span>, <span class="dv">4326</span>),</span>
+<span id="cb1-16"><a href="#cb1-16"></a>        st_point(<span class="op">-</span> <span class="fl">64.7563086</span>, <span class="fl">32.3040273</span>, <span class="dv">4326</span>),</span>
+<span id="cb1-17"><a href="#cb1-17"></a>        st_point(<span class="op">-</span> <span class="fl">66.1166669</span>, <span class="fl">18.4653003</span>, <span class="dv">4326</span>),</span>
+<span id="cb1-18"><a href="#cb1-18"></a>        st_point(<span class="op">-</span> <span class="fl">80.1935973</span>, <span class="fl">25.7741566</span>, <span class="dv">4326</span>)</span>
+<span id="cb1-19"><a href="#cb1-19"></a>      )</span>
+<span id="cb1-20"><a href="#cb1-20"></a>    )</span>
+<span id="cb1-21"><a href="#cb1-21"></a>  ) <span class="im">as</span> geometry,</span>
+<span id="cb1-22"><a href="#cb1-22"></a>  <span class="co">"Bermuda Triangle"</span> <span class="im">as</span> name<span class="op">;</span></span>
+<span id="cb1-23"><a href="#cb1-23"></a></span>
+<span id="cb1-24"><a href="#cb1-24"></a>describe tmp_geometries</span>
+<span id="cb1-25"><a href="#cb1-25"></a><span class="op">--</span> Returns:</span>
+<span id="cb1-26"><a href="#cb1-26"></a><span class="op">--</span> col_name data_type   comment</span>
+<span id="cb1-27"><a href="#cb1-27"></a><span class="op">--</span> geometry geometry(<span class="dv">4326</span>)  null</span>
+<span id="cb1-28"><a href="#cb1-28"></a><span class="op">--</span> name string  null</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note the <code>geometry(4326)</code> type above.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -443,11 +446,10 @@ Note
 <span id="cb3-5"><a href="#cb3-5"></a><span class="im">from</span></span>
 <span id="cb3-6"><a href="#cb3-6"></a>  tmp_geometries</span>
 <span id="cb3-7"><a href="#cb3-7"></a><span class="op">--</span> Returns:</span>
-<span id="cb3-8"><a href="#cb3-8"></a></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="op">--</span> name ewkt_geometry</span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="op">--</span> Bermuda Triangle SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>,<span class="op">-</span><span class="fl">64.7563086</span> <span class="fl">32.3040273</span>,<span class="op">-</span><span class="fl">66.1166669</span> <span class="fl">18.4653003</span>,<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>))</span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="op">--</span> Onze Lieve Vrouwetoren   SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="fl">5.3872035084137675</span> <span class="fl">52.15517230119224</span>)</span>
-<span id="cb3-12"><a href="#cb3-12"></a><span class="op">--</span> Null Island  SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="dv">0</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="op">--</span> name ewkt_geometry</span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="op">--</span> Bermuda Triangle SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>,<span class="op">-</span><span class="fl">64.7563086</span> <span class="fl">32.3040273</span>,<span class="op">-</span><span class="fl">66.1166669</span> <span class="fl">18.4653003</span>,<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>))</span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="op">--</span> Onze Lieve Vrouwetoren   SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="fl">5.3872035084137675</span> <span class="fl">52.15517230119224</span>)</span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="op">--</span> Null Island  SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="dv">0</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>(Note that you <em>could</em> mix multiple SRID’s in one GEOMETRY column inside a Spark Dataframe, including inside a view, but must have a single SRID in a table.)</p>
 <p>Let’s calculate the distance in kilometers (on the surface of the spheroid Earth) between the two point examples above. <a href="https://docs.databricks.com/aws/en/sql/language-manual/functions/st_distancespheroid">st_distancespheroid</a> expects lat/lon, so we’ll first convert everything to SRID 4326 – Null Island already is though.</p>
@@ -508,7 +510,7 @@ Note
 <h2 data-number="4.1" class="anchored" data-anchor-id="cleanup"><span class="header-section-number">4.1</span> Cleanup</h2>
 <div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;64abe896-7c9a-4aee-ac48-e1bfd1ea48ad&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="op">%</span>sql</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="op">--</span> drop table tmp_geometries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2"></a> <span class="op">--</span> drop table tmp_geometries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

@@ -574,13 +574,17 @@ Caution
 <span id="cb6-2"><a href="#cb6-2"></a><span class="op">--</span> capture the city bbox <span class="kw">in</span> a table</span>
 <span id="cb6-3"><a href="#cb6-3"></a>create <span class="kw">or</span> replace table tmp_ams <span class="im">as</span></span>
 <span id="cb6-4"><a href="#cb6-4"></a>select</span>
-<span id="cb6-5"><a href="#cb6-5"></a>  st_geomfromwkb(geometry) geometry, `__carto_xmin`, `__carto_xmax`, `__carto_ymin`, `__carto_ymax`</span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="im">from</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a>  carto_overture_maps_divisions.carto.division_area</span>
-<span id="cb6-8"><a href="#cb6-8"></a>where</span>
-<span id="cb6-9"><a href="#cb6-9"></a>  country <span class="op">=</span> <span class="st">'NL'</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a>  <span class="kw">and</span> subtype <span class="op">=</span> <span class="st">'county'</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a>  <span class="kw">and</span> names:primary::string <span class="op">=</span> <span class="st">"Amsterdam"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-5"><a href="#cb6-5"></a>  st_geomfromwkb(geometry) geometry,</span>
+<span id="cb6-6"><a href="#cb6-6"></a>  `__carto_xmin`,</span>
+<span id="cb6-7"><a href="#cb6-7"></a>  `__carto_xmax`,</span>
+<span id="cb6-8"><a href="#cb6-8"></a>  `__carto_ymin`,</span>
+<span id="cb6-9"><a href="#cb6-9"></a>  `__carto_ymax`</span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="im">from</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a>  carto_overture_maps_divisions.carto.division_area</span>
+<span id="cb6-12"><a href="#cb6-12"></a>where</span>
+<span id="cb6-13"><a href="#cb6-13"></a>  country <span class="op">=</span> <span class="st">'NL'</span></span>
+<span id="cb6-14"><a href="#cb6-14"></a>  <span class="kw">and</span> subtype <span class="op">=</span> <span class="st">'county'</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a>  <span class="kw">and</span> names:primary::string <span class="op">=</span> <span class="st">"Amsterdam"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We’ll fetch the bbox values from above to inject into the SQL query below – yes, it would be way more elegant to avoid hardcoding and use a join, but as of current testing, this is way faster.</p>
 <div id="cell-15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;8db7cacc-8191-43aa-97d9-55bd4f5f1599&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
@@ -605,10 +609,10 @@ Caution
 <span id="cb8-3"><a href="#cb8-3"></a>select</span>
 <span id="cb8-4"><a href="#cb8-4"></a>  b.<span class="op">*</span></span>
 <span id="cb8-5"><a href="#cb8-5"></a><span class="im">from</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a>  tmp_ams join</span>
-<span id="cb8-7"><a href="#cb8-7"></a>  tmp_ams_buildings_bbox b on</span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="op">--</span> then more precise <span class="bu">filter</span> on `st_contains`</span>
-<span id="cb8-9"><a href="#cb8-9"></a>  st_contains(tmp_ams.geometry, building_geometry)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-6"><a href="#cb8-6"></a>  tmp_ams</span>
+<span id="cb8-7"><a href="#cb8-7"></a>    join tmp_ams_buildings_bbox b</span>
+<span id="cb8-8"><a href="#cb8-8"></a>      on <span class="op">--</span> then more precise <span class="bu">filter</span> on `st_contains`</span>
+<span id="cb8-9"><a href="#cb8-9"></a>      st_contains(tmp_ams.geometry, building_geometry)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;5c664d04-61cf-4654-b741-3eee540df977&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="op">%</span>pip install duckdb lonboard shapely <span class="op">--</span>quiet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -678,9 +682,9 @@ Caution
 <h2 data-number="14.5" class="anchored" data-anchor-id="cleanup"><span class="header-section-number">14.5</span> Cleanup</h2>
 <div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;73b5a8c2-1daf-4ad6-94a8-844682ba60cb&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="op">%</span>sql</span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="op">--</span> drop table tmp_ams</span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="op">--</span> drop table tmp_ams_buildings_bbox</span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="op">--</span> drop table tmp_ams_buildings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-2"><a href="#cb13-2"></a> <span class="op">--</span> drop table tmp_ams</span>
+<span id="cb13-3"><a href="#cb13-3"></a> <span class="op">--</span> drop table tmp_ams_buildings_bbox</span>
+<span id="cb13-4"><a href="#cb13-4"></a> <span class="op">--</span> drop table tmp_ams_buildings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 

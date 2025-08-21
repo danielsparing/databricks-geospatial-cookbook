@@ -417,10 +417,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-23"><a href="#cb1-23"></a></span>
 <span id="cb1-24"><a href="#cb1-24"></a>describe tmp_geographies</span>
 <span id="cb1-25"><a href="#cb1-25"></a><span class="op">--</span> Returns:</span>
-<span id="cb1-26"><a href="#cb1-26"></a></span>
-<span id="cb1-27"><a href="#cb1-27"></a><span class="op">--</span> col_name data_type   comment</span>
-<span id="cb1-28"><a href="#cb1-28"></a><span class="op">--</span> geography    geography(<span class="dv">4326</span>) null</span>
-<span id="cb1-29"><a href="#cb1-29"></a><span class="op">--</span> name string  null</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-26"><a href="#cb1-26"></a><span class="op">--</span> col_name data_type   comment</span>
+<span id="cb1-27"><a href="#cb1-27"></a><span class="op">--</span> geography    geography(<span class="dv">4326</span>) null</span>
+<span id="cb1-28"><a href="#cb1-28"></a><span class="op">--</span> name string  null</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Note the data type <code>geography(4326)</code> above.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -441,18 +440,16 @@ Note
 </div>
 <div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;6be1e1d6-94da-4267-9c62-644fa208bec2&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a>select</span>
-<span id="cb3-4"><a href="#cb3-4"></a>  <span class="op">*</span> <span class="cf">except</span> (geography),</span>
-<span id="cb3-5"><a href="#cb3-5"></a>  st_asewkt(geography) <span class="im">as</span> ewkt_geography</span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="im">from</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a>  tmp_geographies</span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="op">--</span> Returns:</span>
-<span id="cb3-9"><a href="#cb3-9"></a></span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="op">--</span> name ewkt_geography</span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="op">--</span> Bermuda Triangle SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>,<span class="op">-</span><span class="fl">64.7563086</span> <span class="fl">32.3040273</span>,<span class="op">-</span><span class="fl">66.1166669</span> <span class="fl">18.4653003</span>,<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>))</span>
-<span id="cb3-12"><a href="#cb3-12"></a><span class="op">--</span> Onze Lieve Vrouwetoren   SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="fl">5.3872035084137675</span> <span class="fl">52.15517230119224</span>)</span>
-<span id="cb3-13"><a href="#cb3-13"></a><span class="op">--</span> Null Island  SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="dv">0</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-2"><a href="#cb3-2"></a>select</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="op">*</span> <span class="cf">except</span> (geography),</span>
+<span id="cb3-4"><a href="#cb3-4"></a>  st_asewkt(geography) <span class="im">as</span> ewkt_geography</span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="im">from</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>  tmp_geographies</span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="op">--</span> Returns:</span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="op">--</span> name ewkt_geography</span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="op">--</span> Bermuda Triangle SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>,<span class="op">-</span><span class="fl">64.7563086</span> <span class="fl">32.3040273</span>,<span class="op">-</span><span class="fl">66.1166669</span> <span class="fl">18.4653003</span>,<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>))</span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="op">--</span> Onze Lieve Vrouwetoren   SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="fl">5.3872035084137675</span> <span class="fl">52.15517230119224</span>)</span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="op">--</span> Null Island  SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="dv">0</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s calculate the distance in kilometers (on the surface of the spheroid Earth) between the two point examples above. <a href="https://docs.databricks.com/aws/en/sql/language-manual/functions/st_distancespheroid">st_distancespheroid</a> expects GEOMETRIES of lat/lon, so we’ll need to cast.</p>
 <div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;7b0a5af2-e906-4fa0-8d68-48ad94903b28&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
@@ -494,10 +491,10 @@ Note
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">%</span>sql</span>
 <span id="cb5-2"><a href="#cb5-2"></a>select</span>
 <span id="cb5-3"><a href="#cb5-3"></a>  st_area(geography) <span class="op">/</span> <span class="fl">1e6</span> area_km2s</span>
-<span id="cb5-4"><a href="#cb5-4"></a>  <span class="im">from</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>    tmp_geographies</span>
-<span id="cb5-6"><a href="#cb5-6"></a>  where</span>
-<span id="cb5-7"><a href="#cb5-7"></a>    name <span class="op">=</span> <span class="st">'Bermuda Triangle'</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="im">from</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a>  tmp_geographies</span>
+<span id="cb5-6"><a href="#cb5-6"></a>where</span>
+<span id="cb5-7"><a href="#cb5-7"></a>  name <span class="op">=</span> <span class="st">'Bermuda Triangle'</span></span>
 <span id="cb5-8"><a href="#cb5-8"></a><span class="op">--</span> Returns:</span>
 <span id="cb5-9"><a href="#cb5-9"></a><span class="op">--</span> area_km2s</span>
 <span id="cb5-10"><a href="#cb5-10"></a><span class="op">--</span> <span class="fl">1144371.82556931</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -506,7 +503,7 @@ Note
 <h2 data-number="5.1" class="anchored" data-anchor-id="cleanup"><span class="header-section-number">5.1</span> Cleanup</h2>
 <div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;1946c985-5649-4126-8e34-3d2253413346&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="op">%</span>sql</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="op">--</span> drop table tmp_geographies</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-2"><a href="#cb6-2"></a> <span class="op">--</span> drop table tmp_geographies</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 
 
