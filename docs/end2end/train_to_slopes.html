@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>17&nbsp; End-to-end example: Taking the train to the slopes – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../mapmatching/databricks_graphhopper.html" rel="next">
+<link href="../stfunctions/GeoPandas.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../end2end/train_to_slopes.html">End-to-end examples</a></li><li class="breadcrumb-item"><a href="../end2end/train_to_slopes.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">End-to-end example: Taking the train to the slopes</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Databricks Free Edition Geospatial Cookbook with DuckDB</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/danielsparing/databricks-geospatial-cookbook" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=|url|" title="LinkedIn" class="quarto-navigation-tool px-1" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Setup</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../duckdb-on-databricks/DuckDB_on_Databricks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">DuckDB on Databricks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Geospatial Delta Lake</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../delta/GEOMETRY_vs_GEOGRAPHY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GEOMETRY vs GEOGRAPHY vs WKB</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../delta/GEOMETRY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Storing spatial data in Delta Lake as GEOMETRY type</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../delta/GEOGRAPHY.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Storing spatial data in Delta Lake as GEOGRAPHY type</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../delta/WKB.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Storing spatial data in Delta Lake as WKB</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Import/Export to other formats</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../other_formats/import.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Import geospatial formats into Delta Lake with DuckDB</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../other_formats/export.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Export Delta Lake table to other formats with DuckDB</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Visualization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../viz/native.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">native.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../viz/GeoPandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">GeoPandas.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../viz/lonboard.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Visualize a geospatial Delta Lake table with Lonboard</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../viz/PMTiles.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">PMTiles.html</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../viz/QGIS.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">QGIS.html</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Spatial functions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stfunctions/native.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Databricks Native ST geospatial functions</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stfunctions/duckdb_udf.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stfunctions/GeoPandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">GeoPandas.html</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">End-to-end examples</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../end2end/train_to_slopes.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">End-to-end example: Taking the train to the slopes</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Mapmatching</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../mapmatching/databricks_graphhopper.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Run GraphHopper on Databricks</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendix</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix/databricks_ogr2ogr_parquet.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">How to install <code>ogr2ogr</code> in a Databricks notebook (incl.&nbsp;Parquet support)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix/https_install_duckdbextension.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Install DuckDB Extensions via HTTPS</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#fetching-osm" id="toc-fetching-osm" class="nav-link active" data-scroll-target="#fetching-osm"><span class="header-section-number">17.1</span> Fetching OSM</a></li>
+  <li><a href="#transform-into-a-table-with-geometry-with-databricks-spatial-sql" id="toc-transform-into-a-table-with-geometry-with-databricks-spatial-sql" class="nav-link" data-scroll-target="#transform-into-a-table-with-geometry-with-databricks-spatial-sql"><span class="header-section-number">17.2</span> Transform into a table with GEOMETRY with Databricks Spatial SQL</a></li>
+  <li><a href="#visualize-with-lonboard" id="toc-visualize-with-lonboard" class="nav-link" data-scroll-target="#visualize-with-lonboard"><span class="header-section-number">17.3</span> Visualize with Lonboard</a></li>
+  <li><a href="#load-the-train-network" id="toc-load-the-train-network" class="nav-link" data-scroll-target="#load-the-train-network"><span class="header-section-number">17.4</span> Load the train network</a></li>
+  <li><a href="#visualize-with-pmtiles" id="toc-visualize-with-pmtiles" class="nav-link" data-scroll-target="#visualize-with-pmtiles"><span class="header-section-number">17.5</span> Visualize with PMTiles</a></li>
+  <li><a href="#spatial-join" id="toc-spatial-join" class="nav-link" data-scroll-target="#spatial-join"><span class="header-section-number">17.6</span> Spatial join</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/end2end/train_to_slopes.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../end2end/train_to_slopes.html">End-to-end examples</a></li><li class="breadcrumb-item"><a href="../end2end/train_to_slopes.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">End-to-end example: Taking the train to the slopes</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">End-to-end example: Taking the train to the slopes</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/bourg.png" class="img-fluid figure-img"></p>
+<figcaption>bourg</figcaption>
+</figure>
+</div>
+<p>(Photo: the author)</p>
+<p>Geospatial analysis often includes combining multiple data sources. In this example, we will only use OpenStreetMap (OSM), but as you’ll see one of the datasets is a LineString type and another is a Polygon type.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Why don’t we use Overture Maps, you might ask, as that’s already available in a cloud-native format? Very good question. Unfortunately, Overture Maps doesn’t (yet) contain all datasets that you can find in OSM, so while roads and buildings are included, for example transit isn’t (as of writing).</p>
+</div>
+</div>
+<p>Let’s say we’d like to go skiing but would like to avoid the hassle of driving or flying, Are there slopes accessible by train? It turns out, yes – let’s find them.</p>
+<section id="fetching-osm" class="level2" data-number="17.1">
+<h2 data-number="17.1" class="anchored" data-anchor-id="fetching-osm"><span class="header-section-number">17.1</span> Fetching OSM</h2>
+<p>See also <a href="../other_formats/import.html">Importing other formats</a> on how to use DuckDB Spatial to read OSM and other file types.</p>
+<div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;07f91527-619b-46fb-9546-9bfed98002f9&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install duckdb lonboard shapely <span class="op">--</span>quiet</span>
+<span id="cb1-2"><a href="#cb1-2"></a></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> duckdb</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a>duckdb.sql(<span class="st">"install spatial; load spatial;"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;af38627b-fdd9-4ba2-aa20-6ed0f0821589&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>CATALOG <span class="op">=</span> <span class="st">"workspace"</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>SCHEMA <span class="op">=</span> <span class="st">"default"</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>VOLUME <span class="op">=</span> <span class="st">"default"</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a>CONTINENT <span class="op">=</span> <span class="st">"europe"</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>COUNTRY <span class="op">=</span> <span class="st">"france"</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>GEOFABRIK_URL <span class="op">=</span> <span class="ss">f"https://download.geofabrik.de/</span><span class="sc">{</span>CONTINENT<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>COUNTRY<span class="sc">}</span><span class="ss">-latest.osm.pbf"</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a></span>
+<span id="cb2-9"><a href="#cb2-9"></a>spark.sql(<span class="ss">f"use </span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10"></a>spark.sql(<span class="ss">f"create volume if not exists </span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;5570f68c-8c50-4faa-a80b-5304953b41a1&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>file_name <span class="op">=</span> GEOFABRIK_URL.split(<span class="st">"/"</span>)[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb3-2"><a href="#cb3-2"></a>file_basename <span class="op">=</span> file_name.rsplit(<span class="st">"."</span>)[<span class="dv">0</span>]</span>
+<span id="cb3-3"><a href="#cb3-3"></a>volume_file_path <span class="op">=</span> <span class="ss">f"/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>file_name<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>volume_parquet_path <span class="op">=</span> <span class="ss">f"/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>file_basename<span class="sc">}</span><span class="ss">.parquet"</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>tablename <span class="op">=</span> <span class="ss">f"planet_osm_</span><span class="sc">{</span>COUNTRY<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;80e40ab8-d850-4232-a2cc-449a63715b59&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">!</span>curl <span class="op">-</span>o {volume_file_path} {GEOFABRIK_URL}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;9d845371-4db7-41c1-af47-4a44c75a5274&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>duckdb.sql(</span>
+<span id="cb5-2"><a href="#cb5-2"></a>    <span class="ss">f"""</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="ss">copy (</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="ss">    select</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="ss">        *</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="ss">    from</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="ss">        '</span><span class="sc">{</span>volume_file_path<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="ss">) to '</span><span class="sc">{</span>volume_parquet_path<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="ss">(format parquet)</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="ss">;</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="ss">"""</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;2f3ca494-9ebc-4d19-898e-02cd2526a525&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>spark.read.parquet(volume_parquet_path).write.option(<span class="st">"clusteredBy"</span>, <span class="st">"id"</span>).saveAsTable(</span>
+<span id="cb6-2"><a href="#cb6-2"></a>    <span class="ss">f"</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>tablename<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="transform-into-a-table-with-geometry-with-databricks-spatial-sql" class="level2" data-number="17.2">
+<h2 data-number="17.2" class="anchored" data-anchor-id="transform-into-a-table-with-geometry-with-databricks-spatial-sql"><span class="header-section-number">17.2</span> Transform into a table with GEOMETRY with Databricks Spatial SQL</h2>
+<p>See also <a href="../stfunctions/native.html">Databricks Spatial SQL ST functions</a>, and <a href="../delta/GEOMETRY.html">Delta Lake tables with GEOMETRY</a>.</p>
+<div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;4fbe8c7f-8533-4b7a-ab9b-4bbfd35e8959&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1755794124504}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="op">%</span>sql</span>
+<span id="cb7-2"><a href="#cb7-2"></a>create <span class="kw">or</span> replace table skiresorts <span class="im">as</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="cf">with</span> wintersports <span class="im">as</span> (</span>
+<span id="cb7-4"><a href="#cb7-4"></a>  select</span>
+<span id="cb7-5"><a href="#cb7-5"></a>    <span class="bu">id</span> <span class="im">as</span> wintersports_id,</span>
+<span id="cb7-6"><a href="#cb7-6"></a>    tags.name,</span>
+<span id="cb7-7"><a href="#cb7-7"></a>    posexplode(refs) <span class="im">as</span> (pos, <span class="bu">id</span>)</span>
+<span id="cb7-8"><a href="#cb7-8"></a>  <span class="im">from</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a>    planet_osm_france</span>
+<span id="cb7-10"><a href="#cb7-10"></a>  where</span>
+<span id="cb7-11"><a href="#cb7-11"></a>    kind <span class="op">=</span> <span class="st">"way"</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a>    <span class="kw">and</span> tags.landuse <span class="op">=</span> <span class="st">"winter_sports"</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a>)</span>
+<span id="cb7-14"><a href="#cb7-14"></a>select</span>
+<span id="cb7-15"><a href="#cb7-15"></a>  wintersports_id,</span>
+<span id="cb7-16"><a href="#cb7-16"></a>  name,</span>
+<span id="cb7-17"><a href="#cb7-17"></a>  st_makepolygon(</span>
+<span id="cb7-18"><a href="#cb7-18"></a>    st_makeline(</span>
+<span id="cb7-19"><a href="#cb7-19"></a>      transform(sort_array(array_agg(struct(pos, lon, lat))), x <span class="op">-&gt;</span> st_point(x.lon, x.lat, <span class="dv">4326</span>))</span>
+<span id="cb7-20"><a href="#cb7-20"></a>    )</span>
+<span id="cb7-21"><a href="#cb7-21"></a>  ) geometry</span>
+<span id="cb7-22"><a href="#cb7-22"></a><span class="im">from</span></span>
+<span id="cb7-23"><a href="#cb7-23"></a>  wintersports join planet_osm_france p using (<span class="bu">id</span>)</span>
+<span id="cb7-24"><a href="#cb7-24"></a>group by</span>
+<span id="cb7-25"><a href="#cb7-25"></a>  <span class="bu">all</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>As of 2025-08-20, GEOMETRY/GEOGRAPHY columns cannot be returned in a notebook yet, therefore instead of <code>select *</code>, we temporarily use the pattern, for a column <code>g</code> of type GEOMETRY/GEOGRAPHY:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">select</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a>  <span class="op">*</span> <span class="kw">except</span> (g),</span>
+<span id="cb8-3"><a href="#cb8-3"></a>  st_asewkt(g) <span class="kw">as</span> ewkt_g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+<div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;56fce252-9064-4e1e-9b87-9ea6dfe88e9f&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="op">%</span>sql</span>
+<span id="cb9-2"><a href="#cb9-2"></a>select</span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="op">*</span> <span class="cf">except</span> (geometry),</span>
+<span id="cb9-4"><a href="#cb9-4"></a>  st_asewkt(geometry) geometry</span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="im">from</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a>  skiresorts</span>
+<span id="cb9-7"><a href="#cb9-7"></a></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="op">--</span> Returns:</span>
+<span id="cb9-9"><a href="#cb9-9"></a></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="op">--</span> wintersports_id  name    geometry</span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="op">--</span> <span class="dv">23079840</span> Isola <span class="dv">2000</span>  SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="fl">7.1524774</span> <span class="fl">44.204359200000006</span>,...))</span>
+<span id="cb9-12"><a href="#cb9-12"></a><span class="op">--</span> <span class="dv">27163365</span> Estación de Esquí Aramón Formigal   SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="op">-</span><span class="fl">0.41821430000000004</span> <span class="fl">42.8009106</span>,...))</span>
+<span id="cb9-13"><a href="#cb9-13"></a><span class="op">--</span> ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualize-with-lonboard" class="level2" data-number="17.3">
+<h2 data-number="17.3" class="anchored" data-anchor-id="visualize-with-lonboard"><span class="header-section-number">17.3</span> Visualize with Lonboard</h2>
+<p>See also <a href="../viz/lonboard.html">Visualize with Lonboard</a>.</p>
+<div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;fd4981e5-9135-4f11-a236-2f646c0937e2&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> lonboard <span class="im">import</span> viz</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> functions <span class="im">as</span> F</span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a>dfa <span class="op">=</span> spark.table(<span class="st">"skiresorts"</span>).withColumn(<span class="st">"geometry"</span>, F.expr(<span class="st">"st_asbinary(geometry)"</span>)).toArrow()</span>
+<span id="cb10-5"><a href="#cb10-5"></a>viz(duckdb.sql(<span class="st">"select name, st_geomfromwkb(geometry) geometry from dfa"</span>)).as_html()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/wintersport.png" class="img-fluid figure-img"></p>
+<figcaption>wintersport</figcaption>
+</figure>
+</div>
+</section>
+<section id="load-the-train-network" class="level2" data-number="17.4">
+<h2 data-number="17.4" class="anchored" data-anchor-id="load-the-train-network"><span class="header-section-number">17.4</span> Load the train network</h2>
+<p>We will use similar techniques as above to load the railway network as well.</p>
+<div id="cell-16" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;d1bb202d-19ed-4e06-8158-421382f3eacd&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="op">%</span>sql</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="cf">with</span> t1 <span class="im">as</span> (</span>
+<span id="cb11-3"><a href="#cb11-3"></a>  select</span>
+<span id="cb11-4"><a href="#cb11-4"></a>    tags.name,</span>
+<span id="cb11-5"><a href="#cb11-5"></a>    <span class="bu">id</span> <span class="im">as</span> trainroute_id,</span>
+<span id="cb11-6"><a href="#cb11-6"></a>    posexplode(refs) <span class="im">as</span> (pos, <span class="bu">id</span>)</span>
+<span id="cb11-7"><a href="#cb11-7"></a>  <span class="im">from</span></span>
+<span id="cb11-8"><a href="#cb11-8"></a>    planet_osm_france</span>
+<span id="cb11-9"><a href="#cb11-9"></a>  where</span>
+<span id="cb11-10"><a href="#cb11-10"></a>    tags.<span class="bu">type</span> <span class="op">=</span> <span class="st">'route'</span></span>
+<span id="cb11-11"><a href="#cb11-11"></a>    <span class="kw">and</span> tags.route <span class="op">=</span> <span class="st">'train'</span></span>
+<span id="cb11-12"><a href="#cb11-12"></a>    <span class="kw">and</span> <span class="bu">id</span> <span class="op">=</span> <span class="dv">2274158</span></span>
+<span id="cb11-13"><a href="#cb11-13"></a>),</span>
+<span id="cb11-14"><a href="#cb11-14"></a>t2 <span class="im">as</span> (</span>
+<span id="cb11-15"><a href="#cb11-15"></a>  select</span>
+<span id="cb11-16"><a href="#cb11-16"></a>    t1.name,</span>
+<span id="cb11-17"><a href="#cb11-17"></a>    p.<span class="bu">id</span> route_id,</span>
+<span id="cb11-18"><a href="#cb11-18"></a>    p.<span class="op">*</span> <span class="op">--</span>,</span>
+<span id="cb11-19"><a href="#cb11-19"></a>  <span class="op">--</span> posexplode(arrays_zip(p.refs, p.ref_roles, p.ref_types)) <span class="im">as</span> (pos, ref),</span>
+<span id="cb11-20"><a href="#cb11-20"></a>  <span class="op">--</span> ref[<span class="st">"refs"</span>] <span class="bu">id</span>,</span>
+<span id="cb11-21"><a href="#cb11-21"></a>  <span class="op">--</span> ref[<span class="st">"ref_roles"</span>] role,</span>
+<span id="cb11-22"><a href="#cb11-22"></a>  <span class="op">--</span> ref[<span class="st">"ref_types"</span>] <span class="bu">type</span></span>
+<span id="cb11-23"><a href="#cb11-23"></a>  <span class="im">from</span></span>
+<span id="cb11-24"><a href="#cb11-24"></a>    t1 join planet_osm_france p using (<span class="bu">id</span>)</span>
+<span id="cb11-25"><a href="#cb11-25"></a>  where</span>
+<span id="cb11-26"><a href="#cb11-26"></a>    p.tags.railway <span class="op">=</span> <span class="st">'rail'</span></span>
+<span id="cb11-27"><a href="#cb11-27"></a>)</span>
+<span id="cb11-28"><a href="#cb11-28"></a>select</span>
+<span id="cb11-29"><a href="#cb11-29"></a>  <span class="op">*</span></span>
+<span id="cb11-30"><a href="#cb11-30"></a><span class="im">from</span></span>
+<span id="cb11-31"><a href="#cb11-31"></a>  t2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;d9a877ff-fa28-401e-aa6a-9aa4e7abbe40&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1755796120775}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="op">%</span>sql</span>
+<span id="cb12-2"><a href="#cb12-2"></a>create <span class="kw">or</span> replace table train_routes <span class="im">as</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="cf">with</span> t1 <span class="im">as</span> (</span>
+<span id="cb12-4"><a href="#cb12-4"></a>  select</span>
+<span id="cb12-5"><a href="#cb12-5"></a>    tags.name,</span>
+<span id="cb12-6"><a href="#cb12-6"></a>    <span class="bu">id</span> <span class="im">as</span> trainroute_id,</span>
+<span id="cb12-7"><a href="#cb12-7"></a>    posexplode(refs) <span class="im">as</span> (pos, <span class="bu">id</span>)</span>
+<span id="cb12-8"><a href="#cb12-8"></a>  <span class="im">from</span></span>
+<span id="cb12-9"><a href="#cb12-9"></a>    planet_osm_france</span>
+<span id="cb12-10"><a href="#cb12-10"></a>  where</span>
+<span id="cb12-11"><a href="#cb12-11"></a>    tags.<span class="bu">type</span> <span class="op">=</span> <span class="st">'route'</span></span>
+<span id="cb12-12"><a href="#cb12-12"></a>    <span class="kw">and</span> tags.route <span class="op">=</span> <span class="st">'train'</span></span>
+<span id="cb12-13"><a href="#cb12-13"></a>),</span>
+<span id="cb12-14"><a href="#cb12-14"></a>t2 <span class="im">as</span> (</span>
+<span id="cb12-15"><a href="#cb12-15"></a>  select</span>
+<span id="cb12-16"><a href="#cb12-16"></a>    t1.name,</span>
+<span id="cb12-17"><a href="#cb12-17"></a>    p.<span class="bu">id</span> route_id,</span>
+<span id="cb12-18"><a href="#cb12-18"></a>    posexplode(refs) <span class="im">as</span> (pos, <span class="bu">id</span>)</span>
+<span id="cb12-19"><a href="#cb12-19"></a>  <span class="im">from</span></span>
+<span id="cb12-20"><a href="#cb12-20"></a>    t1 join planet_osm_france p using (<span class="bu">id</span>)</span>
+<span id="cb12-21"><a href="#cb12-21"></a>    where p.tags.railway <span class="op">=</span> <span class="st">'rail'</span></span>
+<span id="cb12-22"><a href="#cb12-22"></a>)</span>
+<span id="cb12-23"><a href="#cb12-23"></a>select</span>
+<span id="cb12-24"><a href="#cb12-24"></a>  t2.name,</span>
+<span id="cb12-25"><a href="#cb12-25"></a>  <span class="op">--</span>subname,</span>
+<span id="cb12-26"><a href="#cb12-26"></a>  route_id,</span>
+<span id="cb12-27"><a href="#cb12-27"></a>  <span class="op">--</span>subroute_id,</span>
+<span id="cb12-28"><a href="#cb12-28"></a>  st_makeline(</span>
+<span id="cb12-29"><a href="#cb12-29"></a>    transform(sort_array(array_agg(struct(pos, lon, lat))), x <span class="op">-&gt;</span> st_point(x.lon, x.lat, <span class="dv">4326</span>))</span>
+<span id="cb12-30"><a href="#cb12-30"></a>  ) geometry</span>
+<span id="cb12-31"><a href="#cb12-31"></a><span class="im">from</span></span>
+<span id="cb12-32"><a href="#cb12-32"></a>  t2 join planet_osm_france p using (<span class="bu">id</span>)</span>
+<span id="cb12-33"><a href="#cb12-33"></a>group by</span>
+<span id="cb12-34"><a href="#cb12-34"></a>  <span class="bu">all</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;6e4eeacd-0948-40f7-89ba-72b0c405a184&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>spark.table(<span class="st">"train_routes"</span>).withColumn(<span class="st">"geometry"</span>, F.expr(<span class="st">"st_asewkt(geometry)"</span>)).display()</span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="co"># Returns:</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="co"># [lots of LINESTRING's]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s try to visualize the same way as we did for the ski <em>domaines</em> (spoiler alert: it might not work):</p>
+<div id="cell-20" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;9ed23d2c-e789-4852-859d-6a0a88f68965&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>dfa <span class="op">=</span> spark.table(<span class="st">"train_routes"</span>).withColumn(<span class="st">"geometry"</span>, F.expr(<span class="st">"st_asbinary(geometry)"</span>)).toArrow()</span>
+<span id="cb14-2"><a href="#cb14-2"></a>viz(duckdb.sql(<span class="st">"select name, st_geomfromwkb(geometry) geometry from dfa"</span>)).as_html()</span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="co"># Returns:</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="co"># Command result size exceeds limit: Exceeded 20971520 bytes (current = 20971797)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualize-with-pmtiles" class="level2" data-number="17.5">
+<h2 data-number="17.5" class="anchored" data-anchor-id="visualize-with-pmtiles"><span class="header-section-number">17.5</span> Visualize with PMTiles</h2>
+<p>The above visualization probably failed, due to the dataset being too large for the widget in Databricks. While for medium sized datasets there’s another workaround by saving the Lonboard output to a seperate HTML file via <code>to_html()</code> (detailed <a href="../viz/lonboard.html">here</a>), let’s instead use PMTiles instead that can work also for very large datasets.</p>
+<p>See also the <code>tippecanoe</code> example <a href="../other_formats/export.html">here</a>, which we will follow now via an intermediate Parquet and FlatGeobuf file.</p>
+<div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;3a46ce49-7ed4-4d18-98f5-9c88226e5a20&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># Write to parquet</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a>spark.table(<span class="st">"train_routes"</span>).write.mode(<span class="st">"overwrite"</span>).parquet(</span>
+<span id="cb15-3"><a href="#cb15-3"></a>    <span class="ss">f"/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries.parquet"</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;a9df1fc5-15e6-4ad7-87f0-ba4f4f62593e&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># Write FlatGeobuf</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="ss">copy (</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="ss">select </span></span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="ss">    * replace (st_geomfromwkb(geometry) as geometry)</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="ss">from</span></span>
+<span id="cb16-7"><a href="#cb16-7"></a><span class="ss">    read_parquet('/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries.parquet/part-*.parquet')</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a><span class="ss">) to '/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries.fgb'</span></span>
+<span id="cb16-9"><a href="#cb16-9"></a><span class="ss">(FORMAT GDAL, DRIVER flatgeobuf, LAYER_CREATION_OPTIONS 'TEMPORARY_DIR=/tmp/')"""</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a>duckdb.sql(query)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;31e8e449-0b9e-432f-a873-ba18c3337f72&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="op">%</span>sh</span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="co"># Install tippecanoe</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="co"># ~3.5 min on high memory serverless https://docs.databricks.com/aws/en/compute/serverless/dependencies#high-memory</span></span>
+<span id="cb17-5"><a href="#cb17-5"></a>git clone https:<span class="op">//</span>github.com<span class="op">/</span>felt<span class="op">/</span>tippecanoe.git</span>
+<span id="cb17-6"><a href="#cb17-6"></a>cd tippecanoe</span>
+<span id="cb17-7"><a href="#cb17-7"></a>make <span class="op">-</span>j</span>
+<span id="cb17-8"><a href="#cb17-8"></a>make install PREFIX<span class="op">=</span>$HOME<span class="op">/</span>.local</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;950aa4ba-03c5-41a9-9f18-9033a60c6bbc&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="im">import</span> os</span>
+<span id="cb18-2"><a href="#cb18-2"></a></span>
+<span id="cb18-3"><a href="#cb18-3"></a>HOME <span class="op">=</span> os.environ[<span class="st">"HOME"</span>]</span>
+<span id="cb18-4"><a href="#cb18-4"></a></span>
+<span id="cb18-5"><a href="#cb18-5"></a><span class="co"># see https://github.com/felt/tippecanoe/blob/main/README.md#try-this-first and e.g.</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a><span class="co"># https://github.com/OvertureMaps/overture-tiles/blob/main/scripts/2024-07-22/places.sh</span></span>
+<span id="cb18-7"><a href="#cb18-7"></a><span class="co"># for possible options</span></span>
+<span id="cb18-8"><a href="#cb18-8"></a><span class="op">!</span>{HOME}<span class="op">/</span>.local<span class="op">/</span><span class="bu">bin</span><span class="op">/</span>tippecanoe <span class="op">-</span>zg <span class="op">-</span>rg <span class="op">-</span>o <span class="op">/</span>tmp<span class="op">/</span>geometries.pmtiles  <span class="op">--</span>simplification<span class="op">=</span><span class="dv">10</span> <span class="op">--</span>drop<span class="op">-</span>smallest<span class="op">-</span><span class="im">as</span><span class="op">-</span>needed <span class="op">--</span>drop<span class="op">-</span>densest<span class="op">-</span><span class="im">as</span><span class="op">-</span>needed <span class="op">--</span>extend<span class="op">-</span>zooms<span class="op">-</span><span class="cf">if</span><span class="op">-</span>still<span class="op">-</span>dropping <span class="op">--</span>maximum<span class="op">-</span>tile<span class="op">-</span><span class="bu">bytes</span><span class="op">=</span><span class="dv">2500000</span> <span class="op">--</span>progress<span class="op">-</span>interval<span class="op">=</span><span class="dv">10</span> <span class="op">-</span>l geometries <span class="op">--</span>force <span class="op">/</span>Volumes<span class="op">/</span>{CATALOG}<span class="op">/</span>{SCHEMA}<span class="op">/</span>{VOLUME}<span class="op">/</span>geometries.fgb</span>
+<span id="cb18-9"><a href="#cb18-9"></a><span class="co"># </span><span class="al">NOTE</span><span class="co">: this mv will emit an error related to updating metadata ("mv: preserving</span></span>
+<span id="cb18-10"><a href="#cb18-10"></a><span class="co"># permissions for ‘[...]’: Operation not permitted"), this can be ignored.</span></span>
+<span id="cb18-11"><a href="#cb18-11"></a><span class="op">!</span>mv <span class="op">/</span>tmp<span class="op">/</span>geometries.pmtiles <span class="op">/</span>Volumes<span class="op">/</span>{CATALOG}<span class="op">/</span>{SCHEMA}<span class="op">/</span>{VOLUME}<span class="op">/</span>geometries.pmtiles</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>And, that’s it! You can visualize the pmtiles file by downloading and uploading to https://pmtiles.io , or much better, by using a PMTiles viewer via Databricks Apps, an example implementation is <a href="../apps/pmtiles-viewer/">here</a> and your result would look like this:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/railnetwork.png" class="img-fluid figure-img"></p>
+<figcaption>railnetwork</figcaption>
+</figure>
+</div>
+</section>
+<section id="spatial-join" class="level2" data-number="17.6">
+<h2 data-number="17.6" class="anchored" data-anchor-id="spatial-join"><span class="header-section-number">17.6</span> Spatial join</h2>
+<p>To actually answer our question of which ski resorts are closest to a train line – for now, I leave that as an exercise to the reader as spatial joins are well covered in other tutorials – one hint is that most probably you’d need to <a href="https://docs.databricks.com/aws/en/sql/language-manual/functions/st_transform"><code>st_transform</code></a> to a local coordinate system, because while there’s an <a href="https://docs.databricks.com/aws/en/sql/language-manual/functions/st_distancespheroid"><code>st_distancespheroid</code></a> function, as of writing it only works with points.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../stfunctions/GeoPandas.html" class="pagination-link" aria-label="GeoPandas.html">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">GeoPandas.html</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../mapmatching/databricks_graphhopper.html" class="pagination-link" aria-label="Run GraphHopper on Databricks">
+        <span class="nav-page-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Run GraphHopper on Databricks</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/end2end/train_to_slopes.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

@@ -42,6 +42,10 @@ book:
         - stfunctions/duckdb_udf.ipynb
         - stfunctions/GeoPandas.ipynb
     
+    - part: "End-to-end examples"
+      chapters:
+        - end2end/train_to_slopes.ipynb
+    
     - part: "Mapmatching"
       chapters:
         - mapmatching/databricks_graphhopper.ipynb

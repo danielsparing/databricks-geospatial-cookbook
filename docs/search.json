@@ -179,7 +179,7 @@
     "href": "other_formats/export.html",
     "title": "8  Export Delta Lake table to other formats with DuckDB",
     "section": "",
-    "text": "8.1 Setup\n%pip install duckdb --quiet\n\nimport duckdb\n\nduckdb.sql(\"install spatial; load spatial\")\nCATALOG = \"workspace\"\nSCHEMA = \"default\"\nVOLUME = \"default\"\n\nGEOMETRY_COLUMN = \"geometry\"\n\nspark.sql(f\"create volume if not exists {CATALOG}.{SCHEMA}.{VOLUME}\")\nLet’s first create an example table with GEOMETRY columns:\n%sql\ncreate or replace table tmp_geometries as\nselect\n  st_point(0, 0, 4326) as geometry,\n  \"Null Island\" as name\nunion all\nselect\n  st_transform(st_point(155000, 463000, 28992), 4326) as geometry,\n  \"Onze Lieve Vrouwetoren\" as name\nunion all\nselect\n  st_makepolygon(\n    st_makeline(\n      array(\n        st_point(- 80.1935973, 25.7741566, 4326),\n        st_point(- 64.7563086, 32.3040273, 4326),\n        st_point(- 66.1166669, 18.4653003, 4326),\n        st_point(- 80.1935973, 25.7741566, 4326)\n      )\n    )\n  ) as geometry,\n  \"Bermuda Triangle\" as name;\n\nselect\n  *\nfrom\n  tmp_geometries\n-- Returns:\n\n-- _sqldf:pyspark.sql.connect.dataframe.DataFrame\n-- geometry:geometry(OGC:CRS84)\n-- name:string\n\n-- geometry name\n-- SRID=4326;POINT(0 0) Null Island\n-- SRID=4326;POINT(5.3872035084137675 52.15517230119224)    Onze Lieve Vrouwetoren\n-- SRID=4326;POLYGON((-80.1935973 25.7741566,-64.7563086 32.3040273,-66.1166669 18.4653003,-80.1935973 25.7741566)) Bermuda Triangle",
+    "text": "8.1 Setup\n%pip install duckdb --quiet\n\nimport duckdb\n\nduckdb.sql(\"install spatial; load spatial\")\nCATALOG = \"workspace\"\nSCHEMA = \"default\"\nVOLUME = \"default\"\n\nGEOMETRY_COLUMN = \"geometry\"\n\nspark.sql(f\"create volume if not exists {CATALOG}.{SCHEMA}.{VOLUME}\")\nLet’s first create an example table with GEOMETRY columns:\n%sql\ncreate or replace table tmp_geometries as\nselect\n  st_point(0, 0, 4326) as geometry,\n  \"Null Island\" as name\nunion all\nselect\n  st_transform(st_point(155000, 463000, 28992), 4326) as geometry,\n  \"Onze Lieve Vrouwetoren\" as name\nunion all\nselect\n  st_makepolygon(\n    st_makeline(\n      array(\n        st_point(- 80.1935973, 25.7741566, 4326),\n        st_point(- 64.7563086, 32.3040273, 4326),\n        st_point(- 66.1166669, 18.4653003, 4326),\n        st_point(- 80.1935973, 25.7741566, 4326)\n      )\n    )\n  ) as geometry,\n  \"Bermuda Triangle\" as name;\n\nselect\n  * except (geometry),\n  st_asewkt(geometry) as ewkt_geometry\nfrom\n  tmp_geometries\n-- Returns:\n\n-- ewkt_geometry    name\n-- SRID=4326;POINT(0 0) Null Island\n-- SRID=4326;POINT(5.3872035084137675 52.15517230119224)    Onze Lieve Vrouwetoren\n-- SRID=4326;POLYGON((-80.1935973 25.7741566,-64.7563086 32.3040273,-66.1166669 18.4653003,-80.1935973 25.7741566)) Bermuda Triangle",
     "crumbs": [
       "Import/Export to other formats",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to other formats with DuckDB</span>"
@@ -190,7 +190,7 @@
     "href": "other_formats/export.html#setup",
     "title": "8  Export Delta Lake table to other formats with DuckDB",
     "section": "",
-    "text": "Note\n\n\n\nIf install spatial fails (especially if you are not using the Free Edition or Serverless Compute, but classic compute), check whether HTTP is blocked on your (corporate) network. If so, then you need to work around it as described here.",
+    "text": "Note\n\n\n\nIf install spatial fails (especially if you are not using the Free Edition or Serverless Compute, but classic compute), check whether HTTP is blocked on your (corporate) network. If so, then you need to work around it as described here.\n\n\n\n\n\n\n\n\n\n\nNote\n\n\n\nAs of 2025-08-20, GEOMETRY/GEOGRAPHY columns cannot be returned in a notebook yet, therefore instead of select *, we temporarily use the pattern, for a column g of type GEOMETRY/GEOGRAPHY:\nselect\n  * except (g),\n  st_asewkt(g) as ewkt_g",
     "crumbs": [
       "Import/Export to other formats",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to other formats with DuckDB</span>"
@@ -219,11 +219,55 @@
     ]
   },
   {
+    "objectID": "other_formats/export.html#thumbnail-sampled",
+    "href": "other_formats/export.html#thumbnail-sampled",
+    "title": "8  Export Delta Lake table to other formats with DuckDB",
+    "section": "8.4 Thumbnail (sampled)",
+    "text": "8.4 Thumbnail (sampled)\nWe can create a thumbnail (useful e.g. for STAC) as follows. This approach will only work for small datasets (as it’s loaded into memory), so for larger datasets, you’d need to write out a sampled Geoparquet first – or use another technique that is not sampled (see PMTiles below for an un-sampled visualization format).\n\n%pip install geopandas pandas==$(pip show pandas | awk '/^Version:/ {print $2}') --quiet\n\nimport geopandas as gpd\nimport matplotlib.pyplot as plt\n\ngdf = gpd.read_parquet(f'/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries_geo.parquet')\n\nfig, ax = plt.subplots(figsize=(4, 4))\ngdf.plot(ax=ax, markersize=2)\nplt.axis(\"off\")",
+    "crumbs": [
+      "Import/Export to other formats",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to other formats with DuckDB</span>"
+    ]
+  },
+  {
     "objectID": "other_formats/export.html#flatgeobuf",
     "href": "other_formats/export.html#flatgeobuf",
     "title": "8  Export Delta Lake table to other formats with DuckDB",
-    "section": "8.4 Flatgeobuf",
-    "text": "8.4 Flatgeobuf\nExporting to Flatgeobuf is very similar to the above. Flatgeobuf as a format has two key advantages here: - It is faster to render (e.g. in QGIS) than Geoparquet, and - It can act as input to tippecanoe (see below), which we’ll use to produce PMTiles, which is even better suited for web mapping.\n\nquery = f\"\"\"\nload spatial;\ncopy (\nselect \n    * replace (st_geomfromwkb({GEOMETRY_COLUMN}) as geometry)\nfrom\n    read_parquet('/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet/part-*.parquet')\n) to '/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.fgb'\n(FORMAT GDAL, DRIVER flatgeobuf, LAYER_CREATION_OPTIONS 'TEMPORARY_DIR=/tmp/')\"\"\"\nduckdb.sql(query)\n\n\n8.4.1 Streaming the Flatgeobuf file to QGIS\nYou can stream this to QGIS (i.e. without downloading the file first – this is very useful for much larger datasets) via a token and the Files API. For example, after setting up a personal access token, you can stream the above file with a link like below:\n\nf\"/vsicurl?header.Authorization=Bearer%20&lt;YOUR_PERSONAL_ACCESS_TOKEN&gt;&url=https://{spark.conf.get('spark.databricks.workspaceUrl')}/api/2.0/fs/files/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.fgb\"\n\nReplace &lt;YOUR_PERSONAL_ACCESS_TOPEN&gt; in the output of the above with your token, and you can copy the resulting string (together with “/vsicurl” at the beginning, but without the quotes) to QGIS, inserting a vector layer.\n\n\n\n\n\n\nNote\n\n\n\nThis way of streaming might work with other formats too, such as Parquet; however, for larger datasets, Flatgeobuf is a great choice. And for smaller datasets, simply downloading the file might be faster than setting up the above authentication.",
+    "section": "8.5 Flatgeobuf",
+    "text": "8.5 Flatgeobuf\nExporting to Flatgeobuf is very similar to the above. Flatgeobuf as a format has two key advantages here: - It is faster to render (e.g. in QGIS) than Geoparquet, and - It can act as input to tippecanoe (see below), which we’ll use to produce PMTiles, which is even better suited for web mapping.\n\nquery = f\"\"\"\nload spatial;\ncopy (\nselect \n    * replace (st_geomfromwkb({GEOMETRY_COLUMN}) as geometry)\nfrom\n    read_parquet('/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet/part-*.parquet')\n) to '/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.fgb'\n(FORMAT GDAL, DRIVER flatgeobuf, LAYER_CREATION_OPTIONS 'TEMPORARY_DIR=/tmp/')\"\"\"\nduckdb.sql(query)\n\n\n\n\n\n\n\nCaution\n\n\n\nIf your table contains STRUCTs, the GDAL driver won’t like them. You’d need to drop them or move the the sub-fields up with the “.” operator, such as select * except (struct_col), struct_col.*.\nFurthermore, the FlatGeobuf writer is overeager with BINARY/BLOB columns: if you have any BINARY/BLOB columns besides your chosen geometry column, they will be also parsed as WKB, possibly with unexpected geometry data types, which will cause issues downstream when trying to convert to PMTiles with tippecanoe. Long story short, additionaly BINARY/BLOB columns beyond your geometry column need to be filtered out as well.\n\n\n\n8.5.1 Streaming the Flatgeobuf file to QGIS\nYou can stream this to QGIS (i.e. without downloading the file first – this is very useful for much larger datasets) via a token and the Files API. For example, after setting up a personal access token, you can stream the above file with a link like below:\n\nf\"/vsicurl?header.Authorization=Bearer%20&lt;YOUR_PERSONAL_ACCESS_TOKEN&gt;&url=https://{spark.conf.get('spark.databricks.workspaceUrl')}/api/2.0/fs/files/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.fgb\"\n\nReplace &lt;YOUR_PERSONAL_ACCESS_TOPEN&gt; in the output of the above with your token, and you can copy the resulting string (together with “/vsicurl” at the beginning, but without the quotes) to QGIS, inserting a vector layer.\n\n\n\n\n\n\nNote\n\n\n\nThis way of streaming might work with other formats too, such as Parquet; however, for larger datasets, Flatgeobuf is a great choice. And for smaller datasets, simply downloading the file might be faster than setting up the above authentication.",
+    "crumbs": [
+      "Import/Export to other formats",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to other formats with DuckDB</span>"
+    ]
+  },
+  {
+    "objectID": "other_formats/export.html#pmtiles",
+    "href": "other_formats/export.html#pmtiles",
+    "title": "8  Export Delta Lake table to other formats with DuckDB",
+    "section": "8.6 PMTiles",
+    "text": "8.6 PMTiles\nFor PMTiles, while theoretically we could keep using DuckDB Spatial with GDAL, it did not succeed in our testing, so we’ll instead use tippecanoe.\nThe below make install runs in 3-4 min on high memory serverless.\n\n%sh\n# ~3.5 min on high memory serverless https://docs.databricks.com/aws/en/compute/serverless/dependencies#high-memory\ngit clone https://github.com/felt/tippecanoe.git\ncd tippecanoe\nmake -j\nmake install PREFIX=$HOME/.local\n\n\nimport os\n\nHOME = os.environ[\"HOME\"]\n\n# see https://github.com/felt/tippecanoe/blob/main/README.md#try-this-first and e.g.\n# https://github.com/OvertureMaps/overture-tiles/blob/main/scripts/2024-07-22/places.sh\n# for possible options\n!{HOME}/.local/bin/tippecanoe -zg -rg -o /tmp/geometries.pmtiles  --simplification=10 --drop-smallest-as-needed --drop-densest-as-needed --extend-zooms-if-still-dropping --maximum-tile-bytes=2500000 --progress-interval=10 -l geometries --force /Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.fgb\n# NOTE: this mv will emit an error related to updating metadata (\"mv: preserving\n# permissions for ‘[...]’: Operation not permitted\"), this can be ignored.\n!mv /tmp/geometries.pmtiles /Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.pmtiles\n\n\n\n\n\n\n\nNote\n\n\n\nAlternatively, you can feed a directory of JSONL to tippecanoe (make sure you use the --read-parallel flag), such as:\n(\n    spark.table('&lt;TABLENAME&gt;')\n    .selectExpr(\n        \"'Feature' as type\",\n        \"parse_json('{}') as properties\",\n        \"parse_json(st_asgeojson(geometry)) as geometry\",\n    )\n    .write.mode(\"overwrite\")\n    .option(\"ignoreNullFields\", \"false\")\n    .json(\"/Volumes/.../output.jsonl\")\n)\nand then read as:\ntippecanoe [...] --read-parallel /Volumes/.../output.jsonl/part-*\nCan come in handy if for some reason the Flatgeobuf export is not working.\n(Yet another approach is to stream JSON with DuckDB Spatial to tippecanoe, as in here, but then tippecanoe cannot parallel read.)\n\n\nTo visualize, download the PMTiles from Volumes, and upload it to https://pmtiles.io/ (see below screenshot).\n\n\n\npmtiles_io\n\n\nOr more elegantly, to directly visualize it via Databricks Apps instead of downloading, you can port pmtiles.io to open the .pmtiles files in Volumes via the Files API – see this app for a rudimentary example with App Authorization.\nTO be clear: the advantage the PMTiles format is to be able to visualize very large datasets such as all of OpenStreetMap – this notebook only uses a very small example.",
+    "crumbs": [
+      "Import/Export to other formats",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to other formats with DuckDB</span>"
+    ]
+  },
+  {
+    "objectID": "other_formats/export.html#geopackage",
+    "href": "other_formats/export.html#geopackage",
+    "title": "8  Export Delta Lake table to other formats with DuckDB",
+    "section": "8.7 GeoPackage",
+    "text": "8.7 GeoPackage\nAh oldie but goodie! Similar to the FlatGeobuf DuckDB writes abov, but as the writer both needs random access and it doesn’t take an option similar to FlatGeobuf’s TEMPORARY_DIR, you need to first write to /tmp and then move to Volumes:\n\nquery = f\"\"\"\nload spatial;\ncopy (\nselect \n    * replace (st_geomfromwkb({GEOMETRY_COLUMN}) as geometry)\nfrom\n    read_parquet('/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet/part-*.parquet')\n) to '/tmp/geometries.gpkg'\n(FORMAT GDAL, DRIVER GPKG)\"\"\"\nduckdb.sql(query)\n!mv \"/tmp/geometries.gpkg\" \"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.gpkg\"\n\n\nThe GPKG writer might not like all non-geo data types either, for example a varchar[] array would not be supported.",
+    "crumbs": [
+      "Import/Export to other formats",
+      "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to other formats with DuckDB</span>"
+    ]
+  },
+  {
+    "objectID": "other_formats/export.html#shapefiles",
+    "href": "other_formats/export.html#shapefiles",
+    "title": "8  Export Delta Lake table to other formats with DuckDB",
+    "section": "8.8 Shapefiles",
+    "text": "8.8 Shapefiles\nDon’t use shapefiles.",
     "crumbs": [
       "Import/Export to other formats",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to other formats with DuckDB</span>"
@@ -233,8 +277,8 @@
     "objectID": "other_formats/export.html#cleanup",
     "href": "other_formats/export.html#cleanup",
     "title": "8  Export Delta Lake table to other formats with DuckDB",
-    "section": "9.1 Cleanup",
-    "text": "9.1 Cleanup\n\n%sql\n-- drop table tmp_geometries",
+    "section": "8.9 Cleanup",
+    "text": "8.9 Cleanup\n\n%sql\n-- drop table tmp_geometries",
     "crumbs": [
       "Import/Export to other formats",
       "<span class='chapter-number'>8</span>  <span class='chapter-title'>Export Delta Lake table to other formats with DuckDB</span>"
@@ -311,7 +355,7 @@
     "href": "viz/PMTiles.html",
     "title": "Databricks Free Edition Geospatial Cookbook with DuckDB",
     "section": "",
-    "text": "todo",
+    "text": "See the end-to-end example for a PMTiles visualization example.",
     "crumbs": [
       "Visualization",
       "<span class='chapter-number'>12</span>  <span class='chapter-title'>PMTiles.html</span>"
@@ -439,47 +483,113 @@
     ]
   },
   {
+    "objectID": "end2end/train_to_slopes.html",
+    "href": "end2end/train_to_slopes.html",
+    "title": "17  End-to-end example: Taking the train to the slopes",
+    "section": "",
+    "text": "17.1 Fetching OSM\n(Photo: the author)\nGeospatial analysis often includes combining multiple data sources. In this example, we will only use OpenStreetMap (OSM), but as you’ll see one of the datasets is a LineString type and another is a Polygon type.\nLet’s say we’d like to go skiing but would like to avoid the hassle of driving or flying, Are there slopes accessible by train? It turns out, yes – let’s find them.\nSee also Importing other formats on how to use DuckDB Spatial to read OSM and other file types.\n%pip install duckdb lonboard shapely --quiet\n\nimport duckdb\n\nduckdb.sql(\"install spatial; load spatial;\")\nCATALOG = \"workspace\"\nSCHEMA = \"default\"\nVOLUME = \"default\"\n\nCONTINENT = \"europe\"\nCOUNTRY = \"france\"\nGEOFABRIK_URL = f\"https://download.geofabrik.de/{CONTINENT}/{COUNTRY}-latest.osm.pbf\"\n\nspark.sql(f\"use {CATALOG}.{SCHEMA}\")\nspark.sql(f\"create volume if not exists {CATALOG}.{SCHEMA}.{VOLUME}\")\nfile_name = GEOFABRIK_URL.split(\"/\")[-1]\nfile_basename = file_name.rsplit(\".\")[0]\nvolume_file_path = f\"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{file_name}\"\nvolume_parquet_path = f\"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{file_basename}.parquet\"\ntablename = f\"planet_osm_{COUNTRY}\"\n!curl -o {volume_file_path} {GEOFABRIK_URL}\nduckdb.sql(\n    f\"\"\"\ncopy (\n    select\n        *\n    from\n        '{volume_file_path}'\n) to '{volume_parquet_path}'\n(format parquet)\n;\n\"\"\"\n)\nspark.read.parquet(volume_parquet_path).write.option(\"clusteredBy\", \"id\").saveAsTable(\n    f\"{CATALOG}.{SCHEMA}.{tablename}\"\n)",
+    "crumbs": [
+      "End-to-end examples",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>End-to-end example: Taking the train to the slopes</span>"
+    ]
+  },
+  {
+    "objectID": "end2end/train_to_slopes.html#transform-into-a-table-with-geometry-with-databricks-spatial-sql",
+    "href": "end2end/train_to_slopes.html#transform-into-a-table-with-geometry-with-databricks-spatial-sql",
+    "title": "17  End-to-end example: Taking the train to the slopes",
+    "section": "17.2 Transform into a table with GEOMETRY with Databricks Spatial SQL",
+    "text": "17.2 Transform into a table with GEOMETRY with Databricks Spatial SQL\nSee also Databricks Spatial SQL ST functions, and Delta Lake tables with GEOMETRY.\n\n%sql\ncreate or replace table skiresorts as\nwith wintersports as (\n  select\n    id as wintersports_id,\n    tags.name,\n    posexplode(refs) as (pos, id)\n  from\n    planet_osm_france\n  where\n    kind = \"way\"\n    and tags.landuse = \"winter_sports\"\n)\nselect\n  wintersports_id,\n  name,\n  st_makepolygon(\n    st_makeline(\n      transform(sort_array(array_agg(struct(pos, lon, lat))), x -&gt; st_point(x.lon, x.lat, 4326))\n    )\n  ) geometry\nfrom\n  wintersports join planet_osm_france p using (id)\ngroup by\n  all\n\n\n\n\n\n\n\nNote\n\n\n\nAs of 2025-08-20, GEOMETRY/GEOGRAPHY columns cannot be returned in a notebook yet, therefore instead of select *, we temporarily use the pattern, for a column g of type GEOMETRY/GEOGRAPHY:\nselect\n  * except (g),\n  st_asewkt(g) as ewkt_g\n\n\n\n%sql\nselect\n  * except (geometry),\n  st_asewkt(geometry) geometry\nfrom\n  skiresorts\n\n-- Returns:\n\n-- wintersports_id  name    geometry\n-- 23079840 Isola 2000  SRID=4326;POLYGON((7.1524774 44.204359200000006,...))\n-- 27163365 Estación de Esquí Aramón Formigal   SRID=4326;POLYGON((-0.41821430000000004 42.8009106,...))\n-- ...",
+    "crumbs": [
+      "End-to-end examples",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>End-to-end example: Taking the train to the slopes</span>"
+    ]
+  },
+  {
+    "objectID": "end2end/train_to_slopes.html#visualize-with-lonboard",
+    "href": "end2end/train_to_slopes.html#visualize-with-lonboard",
+    "title": "17  End-to-end example: Taking the train to the slopes",
+    "section": "17.3 Visualize with Lonboard",
+    "text": "17.3 Visualize with Lonboard\nSee also Visualize with Lonboard.\n\nfrom lonboard import viz\nfrom pyspark.sql import functions as F\n\ndfa = spark.table(\"skiresorts\").withColumn(\"geometry\", F.expr(\"st_asbinary(geometry)\")).toArrow()\nviz(duckdb.sql(\"select name, st_geomfromwkb(geometry) geometry from dfa\")).as_html()\n\n\n\n\nwintersport",
+    "crumbs": [
+      "End-to-end examples",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>End-to-end example: Taking the train to the slopes</span>"
+    ]
+  },
+  {
+    "objectID": "end2end/train_to_slopes.html#load-the-train-network",
+    "href": "end2end/train_to_slopes.html#load-the-train-network",
+    "title": "17  End-to-end example: Taking the train to the slopes",
+    "section": "17.4 Load the train network",
+    "text": "17.4 Load the train network\nWe will use similar techniques as above to load the railway network as well.\n\n%sql\nwith t1 as (\n  select\n    tags.name,\n    id as trainroute_id,\n    posexplode(refs) as (pos, id)\n  from\n    planet_osm_france\n  where\n    tags.type = 'route'\n    and tags.route = 'train'\n    and id = 2274158\n),\nt2 as (\n  select\n    t1.name,\n    p.id route_id,\n    p.* --,\n  -- posexplode(arrays_zip(p.refs, p.ref_roles, p.ref_types)) as (pos, ref),\n  -- ref[\"refs\"] id,\n  -- ref[\"ref_roles\"] role,\n  -- ref[\"ref_types\"] type\n  from\n    t1 join planet_osm_france p using (id)\n  where\n    p.tags.railway = 'rail'\n)\nselect\n  *\nfrom\n  t2\n\n\n%sql\ncreate or replace table train_routes as\nwith t1 as (\n  select\n    tags.name,\n    id as trainroute_id,\n    posexplode(refs) as (pos, id)\n  from\n    planet_osm_france\n  where\n    tags.type = 'route'\n    and tags.route = 'train'\n),\nt2 as (\n  select\n    t1.name,\n    p.id route_id,\n    posexplode(refs) as (pos, id)\n  from\n    t1 join planet_osm_france p using (id)\n    where p.tags.railway = 'rail'\n)\nselect\n  t2.name,\n  --subname,\n  route_id,\n  --subroute_id,\n  st_makeline(\n    transform(sort_array(array_agg(struct(pos, lon, lat))), x -&gt; st_point(x.lon, x.lat, 4326))\n  ) geometry\nfrom\n  t2 join planet_osm_france p using (id)\ngroup by\n  all\n\n\nspark.table(\"train_routes\").withColumn(\"geometry\", F.expr(\"st_asewkt(geometry)\")).display()\n# Returns:\n\n# [lots of LINESTRING's]\n\nLet’s try to visualize the same way as we did for the ski domaines (spoiler alert: it might not work):\n\ndfa = spark.table(\"train_routes\").withColumn(\"geometry\", F.expr(\"st_asbinary(geometry)\")).toArrow()\nviz(duckdb.sql(\"select name, st_geomfromwkb(geometry) geometry from dfa\")).as_html()\n# Returns:\n# Command result size exceeds limit: Exceeded 20971520 bytes (current = 20971797)",
+    "crumbs": [
+      "End-to-end examples",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>End-to-end example: Taking the train to the slopes</span>"
+    ]
+  },
+  {
+    "objectID": "end2end/train_to_slopes.html#visualize-with-pmtiles",
+    "href": "end2end/train_to_slopes.html#visualize-with-pmtiles",
+    "title": "17  End-to-end example: Taking the train to the slopes",
+    "section": "17.5 Visualize with PMTiles",
+    "text": "17.5 Visualize with PMTiles\nThe above visualization probably failed, due to the dataset being too large for the widget in Databricks. While for medium sized datasets there’s another workaround by saving the Lonboard output to a seperate HTML file via to_html() (detailed here), let’s instead use PMTiles instead that can work also for very large datasets.\nSee also the tippecanoe example here, which we will follow now via an intermediate Parquet and FlatGeobuf file.\n\n# Write to parquet\nspark.table(\"train_routes\").write.mode(\"overwrite\").parquet(\n    f\"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet\"\n)\n\n\n# Write FlatGeobuf\nquery = f\"\"\"\ncopy (\nselect \n    * replace (st_geomfromwkb(geometry) as geometry)\nfrom\n    read_parquet('/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.parquet/part-*.parquet')\n) to '/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.fgb'\n(FORMAT GDAL, DRIVER flatgeobuf, LAYER_CREATION_OPTIONS 'TEMPORARY_DIR=/tmp/')\"\"\"\nduckdb.sql(query)\n\n\n%sh\n# Install tippecanoe\n\n# ~3.5 min on high memory serverless https://docs.databricks.com/aws/en/compute/serverless/dependencies#high-memory\ngit clone https://github.com/felt/tippecanoe.git\ncd tippecanoe\nmake -j\nmake install PREFIX=$HOME/.local\n\n\nimport os\n\nHOME = os.environ[\"HOME\"]\n\n# see https://github.com/felt/tippecanoe/blob/main/README.md#try-this-first and e.g.\n# https://github.com/OvertureMaps/overture-tiles/blob/main/scripts/2024-07-22/places.sh\n# for possible options\n!{HOME}/.local/bin/tippecanoe -zg -rg -o /tmp/geometries.pmtiles  --simplification=10 --drop-smallest-as-needed --drop-densest-as-needed --extend-zooms-if-still-dropping --maximum-tile-bytes=2500000 --progress-interval=10 -l geometries --force /Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.fgb\n# NOTE: this mv will emit an error related to updating metadata (\"mv: preserving\n# permissions for ‘[...]’: Operation not permitted\"), this can be ignored.\n!mv /tmp/geometries.pmtiles /Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.pmtiles\n\nAnd, that’s it! You can visualize the pmtiles file by downloading and uploading to https://pmtiles.io , or much better, by using a PMTiles viewer via Databricks Apps, an example implementation is here and your result would look like this:\n\n\n\nrailnetwork",
+    "crumbs": [
+      "End-to-end examples",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>End-to-end example: Taking the train to the slopes</span>"
+    ]
+  },
+  {
+    "objectID": "end2end/train_to_slopes.html#spatial-join",
+    "href": "end2end/train_to_slopes.html#spatial-join",
+    "title": "17  End-to-end example: Taking the train to the slopes",
+    "section": "17.6 Spatial join",
+    "text": "17.6 Spatial join\nTo actually answer our question of which ski resorts are closest to a train line – for now, I leave that as an exercise to the reader as spatial joins are well covered in other tutorials – one hint is that most probably you’d need to st_transform to a local coordinate system, because while there’s an st_distancespheroid function, as of writing it only works with points.",
+    "crumbs": [
+      "End-to-end examples",
+      "<span class='chapter-number'>17</span>  <span class='chapter-title'>End-to-end example: Taking the train to the slopes</span>"
+    ]
+  },
+  {
     "objectID": "mapmatching/databricks_graphhopper.html",
     "href": "mapmatching/databricks_graphhopper.html",
-    "title": "17  Run GraphHopper on Databricks",
+    "title": "18  Run GraphHopper on Databricks",
     "section": "",
     "text": "Note that there is no particular advantage of running GraphHopper on Databricks, but if it is part of your larger workflow, then it is practical to keep this step in the same environment.\n\n# Replace the below parameters with the volume path you use.\n\nCATALOG = \"workspace\"\nSCHEMA = \"default\"\nVOLUME = \"default\"\nVOLDIR = \"graphhopper\"\n\nvolpath = f\"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{VOLDIR}\"\n\nspark.sql(f\"create volume if not exists {CATALOG}.{SCHEMA}.{VOLUME}\")\n!mkdir -p /Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{VOLDIR}\n\n\nimport os\n\nos.environ[\"VOLPATH\"] = volpath\n\n\n%sh\nrm -rf ${VOLPATH}\nmkdir ${VOLPATH}\ncd ${VOLPATH}\n\nwget -nv https://github.com/graphhopper/graphhopper/releases/download/8.0/graphhopper-web-8.0.jar\n\n# example config, trace, and matching pbf\nwget -nv https://github.com/graphhopper/graphhopper/raw/refs/tags/8.0/config-example.yml\nwget -nv https://raw.githubusercontent.com/graphhopper/graphhopper/refs/tags/8.0/web/src/test/resources/issue-13.gpx\nwget -nv https://download.geofabrik.de/europe/turkey-latest.osm.pbf\n\n#edit config to match the pbf\nsed -i \"s|datareader\\.file: \\\"\\\"|datareader.file: \\\"turkey-latest.osm.pbf\\\"|\" config-example.yml\n\n# note that this fails on many of the other gpx examples within the same folder, but that's a different problem.\njava -jar graphhopper-web-8.0.jar match --file config-example.yml --profile car issue-13.gpx\n\nVisualizing the generated GPX file with GPX Studio:\n\n\n\nissue-13 matched",
     "crumbs": [
       "Mapmatching",
-      "<span class='chapter-number'>17</span>  <span class='chapter-title'>Run GraphHopper on Databricks</span>"
+      "<span class='chapter-number'>18</span>  <span class='chapter-title'>Run GraphHopper on Databricks</span>"
     ]
   },
   {
     "objectID": "appendix/databricks_ogr2ogr_parquet.html",
     "href": "appendix/databricks_ogr2ogr_parquet.html",
-    "title": "18  How to install ogr2ogr in a Databricks notebook (incl. Parquet support)",
+    "title": "19  How to install ogr2ogr in a Databricks notebook (incl. Parquet support)",
     "section": "",
     "text": "ogr2ogr is a geospatial file conversion tool, part of GDAL. For example, you can use it to read in a directory of GML (geo XML) files, and write them out to GeoPackage (.gpkg), or even GeoParquet. You could first try the duckdb way (also using GDAL under the hood), but in some more complex cases you might need to use gdal CLI yourself.\nIn theory, on a classic (non-serverless) Compute, we could just run apt-get install -y gdal-bin, but as of Aug 2025 this would not include Parquet support yet. Instead, the libgdal-arrow-parquet extension package that we need can be installed via conda-forge. So let’s first install conda-forge 1:\nNow we can add arrow/parquet support:\nAnd that’s it:",
     "crumbs": [
       "Appendix",
-      "<span class='chapter-number'>18</span>  <span class='chapter-title'>How to install `ogr2ogr` in a Databricks notebook (incl. Parquet support)</span>"
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>How to install `ogr2ogr` in a Databricks notebook (incl. Parquet support)</span>"
     ]
   },
   {
     "objectID": "appendix/databricks_ogr2ogr_parquet.html#footnotes",
     "href": "appendix/databricks_ogr2ogr_parquet.html#footnotes",
-    "title": "18  How to install ogr2ogr in a Databricks notebook (incl. Parquet support)",
+    "title": "19  How to install ogr2ogr in a Databricks notebook (incl. Parquet support)",
     "section": "",
     "text": "The curl download link comes from conda-forge and their installation instructions on GitHub.↩︎",
     "crumbs": [
       "Appendix",
-      "<span class='chapter-number'>18</span>  <span class='chapter-title'>How to install `ogr2ogr` in a Databricks notebook (incl. Parquet support)</span>"
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>How to install `ogr2ogr` in a Databricks notebook (incl. Parquet support)</span>"
     ]
   },
   {
     "objectID": "appendix/https_install_duckdbextension.html",
     "href": "appendix/https_install_duckdbextension.html",
-    "title": "19  Install DuckDB Extensions via HTTPS",
+    "title": "20  Install DuckDB Extensions via HTTPS",
     "section": "",
     "text": "Note\n\n\n\nThis issue should not come up on Databricks Free Edition, as there you’re using Serverless and the network is set up by Databricks.\n\n\nIf your network blocks HTTP requests, you cannot simply install DuckDB extensions by e.g. INSTALL spatial; (it will fail after ~10 minutes), because of the dependency on httpfs, an extension itself – see details here.\nThe workaround is to separately download the httpfs extension (see here for the list of architectures, even though within Databricks, the below preset is correct):\n\n%pip install duckdb --quiet\n\nimport os\nimport platform\nfrom urllib.parse import urlparse\n\nimport duckdb\nimport requests\n\narch = platform.machine()\nif arch == \"x86_64\":\n    architecture = \"linux_amd64\"\nelif arch == \"aarch64\":\n    architecture = \"linux_arm64\"\nelse:\n    raise Exception(f\"unknown_arch: {arch}\")\n\nduckdb_version = duckdb.__version__\nurl = f\"https://extensions.duckdb.org/v{duckdb_version}/{architecture}/httpfs.duckdb_extension.gz\"\n\noutput_file = os.path.basename(urlparse(url).path)\nresponse = requests.get(url, timeout=30)\nresponse.raise_for_status()\nwith open(output_file, \"wb\") as f:\n    f.write(response.content)\n\nduckdb.install_extension(output_file)\n\nos.remove(output_file)\n\nduckdb.sql(\"SET custom_extension_repository='https://extensions.duckdb.org'\")\n\nAnd now you can install other extensions, such as:\n\nduckdb.sql(\"install spatial; load spatial\")",
     "crumbs": [
       "Appendix",
-      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Install DuckDB Extensions via HTTPS</span>"
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Install DuckDB Extensions via HTTPS</span>"
     ]
   }
 ]
