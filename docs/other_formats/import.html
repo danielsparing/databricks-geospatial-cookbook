@@ -257,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../viz/PMTiles.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">PMTiles.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Visualize with PMTiles</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -485,12 +485,11 @@ Note
 </div>
 <p>You can store the above spark data frame as a Delta Lake table as needed:</p>
 <div id="cell-12" class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="co"># TABLENAME = None  # FILL ME IN</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="co"># spark.read.parquet(</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#     f"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{layer_name}.parquet"</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="co"># ).write.saveAsTable(f"{CATALOG}.{SCHEMA}.{TABLENAME}")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="co"># TABLENAME = None  # FILL ME IN</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="co"># spark.read.parquet(</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#     f"/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/{layer_name}.parquet"</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="co"># ).write.saveAsTable(f"{CATALOG}.{SCHEMA}.{TABLENAME}")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="import-openstreetmap-data" class="level2" data-number="7.3">

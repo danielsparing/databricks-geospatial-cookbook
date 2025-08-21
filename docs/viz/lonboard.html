@@ -257,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../viz/PMTiles.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">PMTiles.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Visualize with PMTiles</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -413,32 +413,33 @@ Note
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> duckdb</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="im">from</span> lonboard <span class="im">import</span> viz</span>
 <span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">def</span> spark_viz(df, wkb_col<span class="op">=</span><span class="st">"geometry"</span>, other_cols<span class="op">=</span><span class="va">None</span>, limit<span class="op">=</span><span class="dv">10_000</span>, output_html<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb2-5"><a href="#cb2-5"></a>    <span class="co"># needs `%pip install duckdb lonboard shapely`</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a></span>
-<span id="cb2-7"><a href="#cb2-7"></a>    <span class="cf">if</span> other_cols <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb2-8"><a href="#cb2-8"></a>        other_cols <span class="op">=</span> []</span>
-<span id="cb2-9"><a href="#cb2-9"></a></span>
-<span id="cb2-10"><a href="#cb2-10"></a>    <span class="cf">try</span>:</span>
-<span id="cb2-11"><a href="#cb2-11"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
-<span id="cb2-12"><a href="#cb2-12"></a>    <span class="cf">except</span> duckdb.duckdb.IOException:</span>
-<span id="cb2-13"><a href="#cb2-13"></a>        duckdb.install_extension(<span class="st">"spatial"</span>)</span>
-<span id="cb2-14"><a href="#cb2-14"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
-<span id="cb2-15"><a href="#cb2-15"></a></span>
-<span id="cb2-16"><a href="#cb2-16"></a>    dfa <span class="op">=</span> df.select([wkb_col] <span class="op">+</span> other_cols).limit(limit).toArrow()</span>
-<span id="cb2-17"><a href="#cb2-17"></a>    <span class="cf">if</span> dfa.num_rows <span class="op">==</span> limit:</span>
-<span id="cb2-18"><a href="#cb2-18"></a>        <span class="bu">print</span>(<span class="ss">f"Data truncated to limit </span><span class="sc">{</span>limit<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-19"><a href="#cb2-19"></a></span>
-<span id="cb2-20"><a href="#cb2-20"></a>    query <span class="op">=</span> duckdb.sql(</span>
-<span id="cb2-21"><a href="#cb2-21"></a>        <span class="ss">f"""select * replace (st_geomfromwkb(</span><span class="sc">{</span>wkb_col<span class="sc">}</span><span class="ss">) as </span><span class="sc">{</span>wkb_col<span class="sc">}</span><span class="ss">)</span></span>
-<span id="cb2-22"><a href="#cb2-22"></a><span class="ss">        from dfa</span></span>
-<span id="cb2-23"><a href="#cb2-23"></a><span class="ss">        where </span><span class="sc">{</span>wkb_col<span class="sc">}</span><span class="ss"> is not null"""</span></span>
-<span id="cb2-24"><a href="#cb2-24"></a>    )</span>
-<span id="cb2-25"><a href="#cb2-25"></a>    <span class="cf">if</span> output_html <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb2-26"><a href="#cb2-26"></a>        <span class="cf">return</span> viz(query).as_html()</span>
-<span id="cb2-27"><a href="#cb2-27"></a>    <span class="cf">else</span>:</span>
-<span id="cb2-28"><a href="#cb2-28"></a>        viz(query).to_html(output_html)</span>
-<span id="cb2-29"><a href="#cb2-29"></a>        <span class="cf">return</span> output_html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4"></a></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">def</span> spark_viz(df, wkb_col<span class="op">=</span><span class="st">"geometry"</span>, other_cols<span class="op">=</span><span class="va">None</span>, limit<span class="op">=</span><span class="dv">10_000</span>, output_html<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb2-6"><a href="#cb2-6"></a>    <span class="co"># needs `%pip install duckdb lonboard shapely`</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a></span>
+<span id="cb2-8"><a href="#cb2-8"></a>    <span class="cf">if</span> other_cols <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb2-9"><a href="#cb2-9"></a>        other_cols <span class="op">=</span> []</span>
+<span id="cb2-10"><a href="#cb2-10"></a></span>
+<span id="cb2-11"><a href="#cb2-11"></a>    <span class="cf">try</span>:</span>
+<span id="cb2-12"><a href="#cb2-12"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
+<span id="cb2-13"><a href="#cb2-13"></a>    <span class="cf">except</span> duckdb.duckdb.IOException:</span>
+<span id="cb2-14"><a href="#cb2-14"></a>        duckdb.install_extension(<span class="st">"spatial"</span>)</span>
+<span id="cb2-15"><a href="#cb2-15"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
+<span id="cb2-16"><a href="#cb2-16"></a></span>
+<span id="cb2-17"><a href="#cb2-17"></a>    dfa <span class="op">=</span> df.select([wkb_col] <span class="op">+</span> other_cols).limit(limit).toArrow()</span>
+<span id="cb2-18"><a href="#cb2-18"></a>    <span class="cf">if</span> dfa.num_rows <span class="op">==</span> limit:</span>
+<span id="cb2-19"><a href="#cb2-19"></a>        <span class="bu">print</span>(<span class="ss">f"Data truncated to limit </span><span class="sc">{</span>limit<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb2-20"><a href="#cb2-20"></a></span>
+<span id="cb2-21"><a href="#cb2-21"></a>    query <span class="op">=</span> duckdb.sql(</span>
+<span id="cb2-22"><a href="#cb2-22"></a>        <span class="ss">f"""select * replace (st_geomfromwkb(</span><span class="sc">{</span>wkb_col<span class="sc">}</span><span class="ss">) as </span><span class="sc">{</span>wkb_col<span class="sc">}</span><span class="ss">)</span></span>
+<span id="cb2-23"><a href="#cb2-23"></a><span class="ss">        from dfa</span></span>
+<span id="cb2-24"><a href="#cb2-24"></a><span class="ss">        where </span><span class="sc">{</span>wkb_col<span class="sc">}</span><span class="ss"> is not null"""</span></span>
+<span id="cb2-25"><a href="#cb2-25"></a>    )</span>
+<span id="cb2-26"><a href="#cb2-26"></a>    <span class="cf">if</span> output_html <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb2-27"><a href="#cb2-27"></a>        <span class="cf">return</span> viz(query).as_html()</span>
+<span id="cb2-28"><a href="#cb2-28"></a>    <span class="cf">else</span>:</span>
+<span id="cb2-29"><a href="#cb2-29"></a>        viz(query).to_html(output_html)</span>
+<span id="cb2-30"><a href="#cb2-30"></a>        <span class="cf">return</span> output_html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="in-notebook-widget-example" class="level2" data-number="11.1">
 <h2 data-number="11.1" class="anchored" data-anchor-id="in-notebook-widget-example"><span class="header-section-number">11.1</span> In-notebook widget example</h2>
@@ -964,8 +965,8 @@ Note
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../viz/PMTiles.html" class="pagination-link" aria-label="PMTiles.html">
-        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">PMTiles.html</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../viz/PMTiles.html" class="pagination-link" aria-label="Visualize with PMTiles">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Visualize with PMTiles</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

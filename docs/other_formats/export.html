@@ -257,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../viz/PMTiles.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">PMTiles.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Visualize with PMTiles</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -403,7 +403,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <section id="setup" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">8.1</span> Setup</h2>
-<div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;plaintext&quot;}}" data-execution_count="0">
+<div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;plaintext&quot;}}">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install duckdb <span class="op">--</span>quiet</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> duckdb</span>
@@ -423,7 +423,7 @@ Note
 <p>If <code>install spatial</code> fails (especially if you are <em>not</em> using the Free Edition or Serverless Compute, but classic compute), check whether HTTP is blocked on your (corporate) network. If so, then you need to work around it as described <a href="../appendix/https_install_duckdbextension.html">here</a>.</p>
 </div>
 </div>
-<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;plaintext&quot;}}" data-execution_count="0">
+<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;plaintext&quot;}}">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>CATALOG <span class="op">=</span> <span class="st">"workspace"</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>SCHEMA <span class="op">=</span> <span class="st">"default"</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a>VOLUME <span class="op">=</span> <span class="st">"default"</span></span>
@@ -449,7 +449,7 @@ Note
 <span id="cb3-3"><a href="#cb3-3"></a>  st_asewkt(g) <span class="kw">as</span> ewkt_g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;plaintext&quot;}}" data-execution_count="0">
+<div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;plaintext&quot;}}">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">%</span>sql</span>
 <span id="cb4-2"><a href="#cb4-2"></a>create <span class="kw">or</span> replace table tmp_geometries <span class="im">as</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a>select</span>
@@ -490,7 +490,7 @@ Note
 <h2 data-number="8.2" class="anchored" data-anchor-id="parquet-files"><span class="header-section-number">8.2</span> Parquet files</h2>
 <p>We’ll use DuckDB Spatial to write he Geoparquet file, so first, we output the above Delta Lake table as a directory of Parquet files, using lon/lat coordinates.</p>
 <p>(You could also use Databricks <a href="https://docs.databricks.com/api/workspace/temporarytablecredentials">Temporary Table Credentials API</a> to directly read the Delta Lake table with the DuckDB <a href="https://duckdb.org/docs/stable/core_extensions/delta.html">Delta Extension</a> instead.)</p>
-<div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;03af0497-8c91-4a43-bd97-31975068d2b4&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;03af0497-8c91-4a43-bd97-31975068d2b4&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> functions <span class="im">as</span> F</span>
 <span id="cb5-2"><a href="#cb5-2"></a></span>
 <span id="cb5-3"><a href="#cb5-3"></a>spark.table(<span class="st">"tmp_geometries"</span>).withColumn(</span>
@@ -517,7 +517,7 @@ Note
 <p>(Note that if you didn’t load the DuckDB Spatial extension, the below would still succeed but Geoparquet metadata would <em>not</em> be written.)</p>
 </div>
 </div>
-<div id="cell-12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;2147adf0-ae8f-423c-9546-2acbde40ada7&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div id="cell-12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;2147adf0-ae8f-423c-9546-2acbde40ada7&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="ss">load spatial;</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="ss">copy (</span></span>
@@ -540,13 +540,13 @@ Note
 <section id="thumbnail-sampled" class="level2" data-number="8.4">
 <h2 data-number="8.4" class="anchored" data-anchor-id="thumbnail-sampled"><span class="header-section-number">8.4</span> Thumbnail (sampled)</h2>
 <p>We can create a thumbnail (useful e.g.&nbsp;for <a href="https://stacspec.org/en/about/stac-spec/">STAC</a>) as follows. This approach will only work for small datasets (as it’s loaded into memory), so for larger datasets, you’d need to write out a sampled Geoparquet first – or use another technique that is not sampled (see PMTiles below for an un-sampled visualization format).</p>
-<div id="cell-15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;0533e8d0-f4e2-46aa-85cb-dfec83e23b22&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div id="cell-15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;0533e8d0-f4e2-46aa-85cb-dfec83e23b22&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="op">%</span>pip install geopandas pandas<span class="op">==</span>$(pip show pandas <span class="op">|</span> awk <span class="st">'/^Version:/ {print $2}'</span>) <span class="op">--</span>quiet</span>
 <span id="cb7-2"><a href="#cb7-2"></a></span>
 <span id="cb7-3"><a href="#cb7-3"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
 <span id="cb7-4"><a href="#cb7-4"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
 <span id="cb7-5"><a href="#cb7-5"></a></span>
-<span id="cb7-6"><a href="#cb7-6"></a>gdf <span class="op">=</span> gpd.read_parquet(<span class="ss">f'/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries_geo.parquet'</span>)</span>
+<span id="cb7-6"><a href="#cb7-6"></a>gdf <span class="op">=</span> gpd.read_parquet(<span class="ss">f"/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries_geo.parquet"</span>)</span>
 <span id="cb7-7"><a href="#cb7-7"></a></span>
 <span id="cb7-8"><a href="#cb7-8"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">4</span>, <span class="dv">4</span>))</span>
 <span id="cb7-9"><a href="#cb7-9"></a>gdf.plot(ax<span class="op">=</span>ax, markersize<span class="op">=</span><span class="dv">2</span>)</span>
@@ -556,7 +556,7 @@ Note
 <section id="flatgeobuf" class="level2" data-number="8.5">
 <h2 data-number="8.5" class="anchored" data-anchor-id="flatgeobuf"><span class="header-section-number">8.5</span> Flatgeobuf</h2>
 <p>Exporting to Flatgeobuf is very similar to the above. Flatgeobuf as a format has two key advantages here: - It is faster to render (e.g.&nbsp;in QGIS) than Geoparquet, and - It can act as input to <code>tippecanoe</code> (see below), which we’ll use to produce PMTiles, which is even better suited for web mapping.</p>
-<div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;77fc227e-145a-4889-8612-1e10a053829b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;77fc227e-145a-4889-8612-1e10a053829b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="ss">load spatial;</span></span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="ss">copy (</span></span>
@@ -585,7 +585,7 @@ Caution
 <section id="streaming-the-flatgeobuf-file-to-qgis" class="level3" data-number="8.5.1">
 <h3 data-number="8.5.1" class="anchored" data-anchor-id="streaming-the-flatgeobuf-file-to-qgis"><span class="header-section-number">8.5.1</span> Streaming the Flatgeobuf file to QGIS</h3>
 <p>You can stream this to QGIS (i.e.&nbsp;without downloading the file first – this is very useful for much larger datasets) via a token and the <a href="https://docs.databricks.com/api/workspace/files/download">Files API</a>. For example, after setting up a personal access token, you can stream the above file with a link like below:</p>
-<div id="cell-21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;19916277-513c-408a-a357-6abbd06d099b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div id="cell-21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;19916277-513c-408a-a357-6abbd06d099b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="ss">f"/vsicurl?header.Authorization=Bearer%20&lt;YOUR_PERSONAL_ACCESS_TOKEN&gt;&amp;url=https://</span><span class="sc">{</span>spark<span class="sc">.</span>conf<span class="sc">.</span>get(<span class="st">'spark.databricks.workspaceUrl'</span>)<span class="sc">}</span><span class="ss">/api/2.0/fs/files/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries.fgb"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Replace <code>&lt;YOUR_PERSONAL_ACCESS_TOPEN&gt;</code> in the output of the above with your token, and you can copy the resulting string (together with “/vsicurl” at the beginning, but without the quotes) to QGIS, inserting a vector layer.</p>
@@ -608,7 +608,7 @@ Note
 <h2 data-number="8.6" class="anchored" data-anchor-id="pmtiles"><span class="header-section-number">8.6</span> PMTiles</h2>
 <p>For PMTiles, while theoretically we could keep using DuckDB Spatial with GDAL, it did not succeed in our testing, so we’ll instead use <a href="https://github.com/felt/tippecanoe">tippecanoe</a>.</p>
 <p>The below <code>make install</code> runs in 3-4 min on <a href="https://docs.databricks.com/aws/en/compute/serverless/dependencies#high-memory">high memory</a> serverless.</p>
-<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;b824448a-3f70-4500-9cbf-b646c2766f5b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;b824448a-3f70-4500-9cbf-b646c2766f5b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="op">%</span>sh</span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="co"># ~3.5 min on high memory serverless https://docs.databricks.com/aws/en/compute/serverless/dependencies#high-memory</span></span>
 <span id="cb10-3"><a href="#cb10-3"></a>git clone https:<span class="op">//</span>github.com<span class="op">/</span>felt<span class="op">/</span>tippecanoe.git</span>
@@ -616,7 +616,7 @@ Note
 <span id="cb10-5"><a href="#cb10-5"></a>make <span class="op">-</span>j</span>
 <span id="cb10-6"><a href="#cb10-6"></a>make install PREFIX<span class="op">=</span>$HOME<span class="op">/</span>.local</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;e79a0a98-d41c-463c-a6ca-7c928fadad6f&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;e79a0a98-d41c-463c-a6ca-7c928fadad6f&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="im">import</span> os</span>
 <span id="cb11-2"><a href="#cb11-2"></a></span>
 <span id="cb11-3"><a href="#cb11-3"></a>HOME <span class="op">=</span> os.environ[<span class="st">"HOME"</span>]</span>
@@ -670,7 +670,7 @@ Note
 <section id="geopackage" class="level2" data-number="8.7">
 <h2 data-number="8.7" class="anchored" data-anchor-id="geopackage"><span class="header-section-number">8.7</span> GeoPackage</h2>
 <p>Ah oldie but goodie! Similar to the FlatGeobuf DuckDB writes abov, but as the writer both needs random access and it doesn’t take an option similar to FlatGeobuf’s <code>TEMPORARY_DIR</code>, you need to first write to <code>/tmp</code> and then move to Volumes:</p>
-<div id="cell-29" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;bfb6fbd5-7442-4b2f-ad1d-138d819e0127&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div id="cell-29" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;bfb6fbd5-7442-4b2f-ad1d-138d819e0127&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
 <span id="cb14-2"><a href="#cb14-2"></a><span class="ss">load spatial;</span></span>
 <span id="cb14-3"><a href="#cb14-3"></a><span class="ss">copy (</span></span>
@@ -693,7 +693,7 @@ Note
 </section>
 <section id="cleanup" class="level2" data-number="8.9">
 <h2 data-number="8.9" class="anchored" data-anchor-id="cleanup"><span class="header-section-number">8.9</span> Cleanup</h2>
-<div id="cell-33" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;f430c3e5-1384-4150-920c-5969c26ecb0d&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div id="cell-33" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;f430c3e5-1384-4150-920c-5969c26ecb0d&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="op">%</span>sql</span>
 <span id="cb15-2"><a href="#cb15-2"></a><span class="op">--</span> drop table tmp_geometries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

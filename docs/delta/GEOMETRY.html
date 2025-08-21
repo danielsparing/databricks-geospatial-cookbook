@@ -257,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../viz/PMTiles.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">PMTiles.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Visualize with PMTiles</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -391,7 +391,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>You can store geometry or geography data in a Delta Lake table in a <a href="https://docs.databricks.com/aws/en/sql/language-manual/data-types/geometry-type">GEOMETRY</a> column. See also <a href="../delta/GEOMETRY_vs_GEOGRAPHY.html">GEOMETRY_vs_GEOGRAPHY</a>.</p>
-<div id="cell-1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;fb8b2454-2e55-4aa3-ae0f-0c2329db108e&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div id="cell-1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;fb8b2454-2e55-4aa3-ae0f-0c2329db108e&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>sql</span>
 <span id="cb1-2"><a href="#cb1-2"></a>create <span class="kw">or</span> replace table tmp_geometries <span class="im">as</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a>select</span>
@@ -435,7 +435,7 @@ Note
 <span id="cb2-3"><a href="#cb2-3"></a>  st_asewkt(g) <span class="kw">as</span> ewkt_g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
-<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;41603648-30d6-4775-983b-96831d3fd9fd&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;41603648-30d6-4775-983b-96831d3fd9fd&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
 <span id="cb3-2"><a href="#cb3-2"></a>select</span>
 <span id="cb3-3"><a href="#cb3-3"></a>  <span class="op">*</span> <span class="cf">except</span> (geometry),</span>
@@ -451,7 +451,7 @@ Note
 </div>
 <p>(Note that you <em>could</em> mix multiple SRID’s in one GEOMETRY column inside a Spark Dataframe, including inside a view, but must have a single SRID in a table.)</p>
 <p>Let’s calculate the distance in kilometers (on the surface of the spheroid Earth) between the two point examples above. <a href="https://docs.databricks.com/aws/en/sql/language-manual/functions/st_distancespheroid">st_distancespheroid</a> expects lat/lon, so we’ll first convert everything to SRID 4326 – Null Island already is though.</p>
-<div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;7b0a5af2-e906-4fa0-8d68-48ad94903b28&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;7b0a5af2-e906-4fa0-8d68-48ad94903b28&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">%</span>sql</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="cf">with</span> geoms_lonlat <span class="im">as</span> (</span>
 <span id="cb4-3"><a href="#cb4-3"></a>  select</span>
@@ -486,7 +486,7 @@ Note
 <span id="cb4-32"><a href="#cb4-32"></a><span class="op">--</span> <span class="fl">5821.233209229107</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>The GEOGRAPHY type also offers further functions that take lon/lat as input and produce meters as output, such as <a href="https://docs.databricks.com/aws/en/sql/language-manual/functions/st_area">st_area</a>. So let’s calculate the size of the Bermuda Triangle in square kms:</p>
-<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;3924a1ed-1956-4956-a2aa-e23c89010aae&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;3924a1ed-1956-4956-a2aa-e23c89010aae&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">%</span>sql</span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="cf">with</span> bermuda_geog <span class="im">as</span> (</span>
 <span id="cb5-3"><a href="#cb5-3"></a>  select</span>
@@ -506,7 +506,7 @@ Note
 </div>
 <section id="cleanup" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="cleanup"><span class="header-section-number">4.1</span> Cleanup</h2>
-<div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;64abe896-7c9a-4aee-ac48-e1bfd1ea48ad&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;64abe896-7c9a-4aee-ac48-e1bfd1ea48ad&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="op">%</span>sql</span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="op">--</span> drop table tmp_geometries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

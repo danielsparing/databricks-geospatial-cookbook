@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>pmtiles – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
+<title>12&nbsp; Visualize with PMTiles – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -73,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar floating fullcontent quarto-light">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/PMTiles.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">PMTiles.html</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/PMTiles.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Visualize with PMTiles</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -222,7 +222,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../viz/PMTiles.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">PMTiles.html</span></span></a>
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Visualize with PMTiles</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -324,14 +324,39 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/PMTiles.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">PMTiles.html</span></a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/PMTiles.html"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Visualize with PMTiles</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Visualize with PMTiles</span></h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<p>See the <a href="../end2end/train_to_slopes.html">end-to-end example</a> for a PMTiles visualization example.</p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>PMTiles (a tileserver in the form of a single file, read with Range Requests) is a powerful way to visualize very large datasets, see https://pmtiles.io . The key tool to generate one is <a href="https://github.com/felt/tippecanoe">tippecanoe</a>.</p>
+<p>See the <a href="../end2end/train_to_slopes.html">end-to-end example</a> for a PMTiles generation and visualization example.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="../end2end/img/railnetwork.png" class="img-fluid figure-img"></p>
+<figcaption>railnetwork</figcaption>
+</figure>
+</div>
 
 
 
