@@ -223,3 +223,6 @@ Temporary Items
 
 # Dependency directories
 **/node_modules/
+
+# Databricks apps sync dir
+**/.databricks/
