@@ -55,6 +55,8 @@ book:
         - appendix/databricks_ogr2ogr_parquet.ipynb
         - appendix/https_install_duckdbextension.ipynb
 
+number-sections: false
+
 format:
   html:
     theme: cosmo

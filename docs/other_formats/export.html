@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>8&nbsp; Export Delta Lake table to other formats with DuckDB – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
+<title>Export Delta Lake table to other formats with DuckDB – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../other_formats/import.html">Import/Export to other formats</a></li><li class="breadcrumb-item"><a href="../other_formats/export.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Export Delta Lake table to other formats with DuckDB</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../other_formats/import.html">Import/Export to other formats</a></li><li class="breadcrumb-item"><a href="../other_formats/export.html"><span class="chapter-title">Export Delta Lake table to other formats with DuckDB</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -148,8 +148,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introduction</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -163,8 +162,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../duckdb-on-databricks/DuckDB_on_Databricks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">DuckDB on Databricks</span></span></a>
+  <a href="../duckdb-on-databricks/DuckDB_on_Databricks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">DuckDB on Databricks</span></a>
   </div>
 </li>
       </ul>
@@ -180,26 +178,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../delta/GEOMETRY_vs_GEOGRAPHY.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GEOMETRY vs GEOGRAPHY vs WKB</span></span></a>
+  <a href="../delta/GEOMETRY_vs_GEOGRAPHY.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GEOMETRY vs GEOGRAPHY vs WKB</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../delta/GEOMETRY.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Storing spatial data in Delta Lake as GEOMETRY type</span></span></a>
+  <a href="../delta/GEOMETRY.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Storing spatial data in Delta Lake as GEOMETRY type</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../delta/GEOGRAPHY.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Storing spatial data in Delta Lake as GEOGRAPHY type</span></span></a>
+  <a href="../delta/GEOGRAPHY.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Storing spatial data in Delta Lake as GEOGRAPHY type</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../delta/WKB.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Storing spatial data in Delta Lake as WKB</span></span></a>
+  <a href="../delta/WKB.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Storing spatial data in Delta Lake as WKB</span></a>
   </div>
 </li>
       </ul>
@@ -215,14 +209,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../other_formats/import.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Import geospatial formats into Delta Lake with DuckDB</span></span></a>
+  <a href="../other_formats/import.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Import geospatial formats into Delta Lake with DuckDB</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../other_formats/export.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Export Delta Lake table to other formats with DuckDB</span></span></a>
+  <a href="../other_formats/export.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Export Delta Lake table to other formats with DuckDB</span></a>
   </div>
 </li>
       </ul>
@@ -238,32 +230,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../viz/native.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">native.html</span></span></a>
+  <a href="../viz/native.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">native.html</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../viz/GeoPandas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">GeoPandas.html</span></span></a>
+  <a href="../viz/GeoPandas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GeoPandas.html</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../viz/lonboard.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Visualize a geospatial Delta Lake table with Lonboard</span></span></a>
+  <a href="../viz/lonboard.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visualize a geospatial Delta Lake table with Lonboard</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../viz/PMTiles.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Visualize with PMTiles</span></span></a>
+  <a href="../viz/PMTiles.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visualize with PMTiles</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../viz/QGIS.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">QGIS.html</span></span></a>
+  <a href="../viz/QGIS.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">QGIS.html</span></a>
   </div>
 </li>
       </ul>
@@ -279,20 +266,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../stfunctions/native.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Databricks Native ST geospatial functions</span></span></a>
+  <a href="../stfunctions/native.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Databricks Native ST geospatial functions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../stfunctions/duckdb_udf.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></span></a>
+  <a href="../stfunctions/duckdb_udf.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../stfunctions/GeoPandas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">GeoPandas.html</span></span></a>
+  <a href="../stfunctions/GeoPandas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GeoPandas.html</span></a>
   </div>
 </li>
       </ul>
@@ -308,8 +292,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../end2end/train_to_slopes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">End-to-end example: Taking the train to the slopes</span></span></a>
+  <a href="../end2end/train_to_slopes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">End-to-end example: Taking the train to the slopes</span></a>
   </div>
 </li>
       </ul>
@@ -325,8 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../mapmatching/databricks_graphhopper.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Run GraphHopper on Databricks</span></span></a>
+  <a href="../mapmatching/databricks_graphhopper.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Run GraphHopper on Databricks</span></a>
   </div>
 </li>
       </ul>
@@ -342,14 +324,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../appendix/databricks_ogr2ogr_parquet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">How to install <code>ogr2ogr</code> in a Databricks notebook (incl.&nbsp;Parquet support)</span></span></a>
+  <a href="../appendix/databricks_ogr2ogr_parquet.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">How to install <code>ogr2ogr</code> in a Databricks notebook (incl.&nbsp;Parquet support)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../appendix/https_install_duckdbextension.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Install DuckDB Extensions via HTTPS</span></span></a>
+  <a href="../appendix/https_install_duckdbextension.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Install DuckDB Extensions via HTTPS</span></a>
   </div>
 </li>
       </ul>
@@ -364,27 +344,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup"><span class="header-section-number">8.1</span> Setup</a></li>
-  <li><a href="#parquet-files" id="toc-parquet-files" class="nav-link" data-scroll-target="#parquet-files"><span class="header-section-number">8.2</span> Parquet files</a></li>
-  <li><a href="#geoparquet" id="toc-geoparquet" class="nav-link" data-scroll-target="#geoparquet"><span class="header-section-number">8.3</span> Geoparquet</a></li>
-  <li><a href="#thumbnail-sampled" id="toc-thumbnail-sampled" class="nav-link" data-scroll-target="#thumbnail-sampled"><span class="header-section-number">8.4</span> Thumbnail (sampled)</a></li>
-  <li><a href="#flatgeobuf" id="toc-flatgeobuf" class="nav-link" data-scroll-target="#flatgeobuf"><span class="header-section-number">8.5</span> Flatgeobuf</a>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#parquet-files" id="toc-parquet-files" class="nav-link" data-scroll-target="#parquet-files">Parquet files</a></li>
+  <li><a href="#geoparquet" id="toc-geoparquet" class="nav-link" data-scroll-target="#geoparquet">Geoparquet</a></li>
+  <li><a href="#thumbnail-sampled" id="toc-thumbnail-sampled" class="nav-link" data-scroll-target="#thumbnail-sampled">Thumbnail (sampled)</a></li>
+  <li><a href="#flatgeobuf" id="toc-flatgeobuf" class="nav-link" data-scroll-target="#flatgeobuf">Flatgeobuf</a>
   <ul class="collapse">
-  <li><a href="#streaming-the-flatgeobuf-file-to-qgis" id="toc-streaming-the-flatgeobuf-file-to-qgis" class="nav-link" data-scroll-target="#streaming-the-flatgeobuf-file-to-qgis"><span class="header-section-number">8.5.1</span> Streaming the Flatgeobuf file to QGIS</a></li>
+  <li><a href="#streaming-the-flatgeobuf-file-to-qgis" id="toc-streaming-the-flatgeobuf-file-to-qgis" class="nav-link" data-scroll-target="#streaming-the-flatgeobuf-file-to-qgis">Streaming the Flatgeobuf file to QGIS</a></li>
   </ul></li>
-  <li><a href="#pmtiles" id="toc-pmtiles" class="nav-link" data-scroll-target="#pmtiles"><span class="header-section-number">8.6</span> PMTiles</a></li>
-  <li><a href="#geopackage" id="toc-geopackage" class="nav-link" data-scroll-target="#geopackage"><span class="header-section-number">8.7</span> GeoPackage</a></li>
-  <li><a href="#shapefiles" id="toc-shapefiles" class="nav-link" data-scroll-target="#shapefiles"><span class="header-section-number">8.8</span> Shapefiles</a></li>
-  <li><a href="#cleanup" id="toc-cleanup" class="nav-link" data-scroll-target="#cleanup"><span class="header-section-number">8.9</span> Cleanup</a></li>
+  <li><a href="#pmtiles" id="toc-pmtiles" class="nav-link" data-scroll-target="#pmtiles">PMTiles</a></li>
+  <li><a href="#geopackage" id="toc-geopackage" class="nav-link" data-scroll-target="#geopackage">GeoPackage</a></li>
+  <li><a href="#shapefiles" id="toc-shapefiles" class="nav-link" data-scroll-target="#shapefiles">Shapefiles</a></li>
+  <li><a href="#cleanup" id="toc-cleanup" class="nav-link" data-scroll-target="#cleanup">Cleanup</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/other_formats/export.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../other_formats/import.html">Import/Export to other formats</a></li><li class="breadcrumb-item"><a href="../other_formats/export.html"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Export Delta Lake table to other formats with DuckDB</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../other_formats/import.html">Import/Export to other formats</a></li><li class="breadcrumb-item"><a href="../other_formats/export.html"><span class="chapter-title">Export Delta Lake table to other formats with DuckDB</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Export Delta Lake table to other formats with DuckDB</span></h1>
+<h1 class="title"><span class="chapter-title">Export Delta Lake table to other formats with DuckDB</span></h1>
 </div>
 
 
@@ -401,8 +381,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="setup" class="level2" data-number="8.1">
-<h2 data-number="8.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">8.1</span> Setup</h2>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;plaintext&quot;}}">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install duckdb <span class="op">--</span>quiet</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
@@ -485,8 +465,8 @@ Note
 <span id="cb4-33"><a href="#cb4-33"></a><span class="op">--</span> SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>,<span class="op">-</span><span class="fl">64.7563086</span> <span class="fl">32.3040273</span>,<span class="op">-</span><span class="fl">66.1166669</span> <span class="fl">18.4653003</span>,<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>)) Bermuda Triangle</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="parquet-files" class="level2" data-number="8.2">
-<h2 data-number="8.2" class="anchored" data-anchor-id="parquet-files"><span class="header-section-number">8.2</span> Parquet files</h2>
+<section id="parquet-files" class="level2">
+<h2 class="anchored" data-anchor-id="parquet-files">Parquet files</h2>
 <p>We’ll use DuckDB Spatial to write he Geoparquet file, so first, we output the above Delta Lake table as a directory of Parquet files, using lon/lat coordinates.</p>
 <p>(You could also use Databricks <a href="https://docs.databricks.com/api/workspace/temporarytablecredentials">Temporary Table Credentials API</a> to directly read the Delta Lake table with the DuckDB <a href="https://duckdb.org/docs/stable/core_extensions/delta.html">Delta Extension</a> instead.)</p>
 <div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;03af0497-8c91-4a43-bd97-31975068d2b4&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
@@ -500,8 +480,8 @@ Note
 </div>
 <p>We will use the above parquet export as a stepping stone to produce other formats below.</p>
 </section>
-<section id="geoparquet" class="level2" data-number="8.3">
-<h2 data-number="8.3" class="anchored" data-anchor-id="geoparquet"><span class="header-section-number">8.3</span> Geoparquet</h2>
+<section id="geoparquet" class="level2">
+<h2 class="anchored" data-anchor-id="geoparquet">Geoparquet</h2>
 <p>We can use duckdb to transform the Parquet files into a valid <a href="https://geoparquet.org/">Geoparquet</a> files:</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -536,8 +516,8 @@ Note
 </div>
 <p>(in fact, the <a href="https://gdal.org/en/stable/drivers/vector/parquet.html">GDAL Parquet reader</a> used by QGIS can even open parquet files that are not valid geoparquet, as long as they have a WKB or WKT column and the column name and CRS matches the expected defaults or correctly defined)</p>
 </section>
-<section id="thumbnail-sampled" class="level2" data-number="8.4">
-<h2 data-number="8.4" class="anchored" data-anchor-id="thumbnail-sampled"><span class="header-section-number">8.4</span> Thumbnail (sampled)</h2>
+<section id="thumbnail-sampled" class="level2">
+<h2 class="anchored" data-anchor-id="thumbnail-sampled">Thumbnail (sampled)</h2>
 <p>We can create a thumbnail (useful e.g.&nbsp;for <a href="https://stacspec.org/en/about/stac-spec/">STAC</a>) as follows. This approach will only work for small datasets (as it’s loaded into memory), so for larger datasets, you’d need to write out a sampled Geoparquet first – or use another technique that is not sampled (see PMTiles below for an un-sampled visualization format).</p>
 <div id="cell-15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;0533e8d0-f4e2-46aa-85cb-dfec83e23b22&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="op">%</span>pip install geopandas pandas<span class="op">==</span>$(pip show pandas <span class="op">|</span> awk <span class="st">'/^Version:/ {print $2}'</span>) <span class="op">--</span>quiet</span>
@@ -552,8 +532,8 @@ Note
 <span id="cb7-10"><a href="#cb7-10"></a>plt.axis(<span class="st">"off"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="flatgeobuf" class="level2" data-number="8.5">
-<h2 data-number="8.5" class="anchored" data-anchor-id="flatgeobuf"><span class="header-section-number">8.5</span> Flatgeobuf</h2>
+<section id="flatgeobuf" class="level2">
+<h2 class="anchored" data-anchor-id="flatgeobuf">Flatgeobuf</h2>
 <p>Exporting to Flatgeobuf is very similar to the above. Flatgeobuf as a format has two key advantages here: - It is faster to render (e.g.&nbsp;in QGIS) than Geoparquet, and - It can act as input to <code>tippecanoe</code> (see below), which we’ll use to produce PMTiles, which is even better suited for web mapping.</p>
 <div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;77fc227e-145a-4889-8612-1e10a053829b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
@@ -581,8 +561,8 @@ Caution
 <p>Furthermore, the FlatGeobuf writer is overeager with BINARY/BLOB columns: if you have any BINARY/BLOB columns besides your chosen geometry column, they will be also parsed as WKB, possibly with unexpected geometry data types, which will cause issues downstream when trying to convert to PMTiles with tippecanoe. Long story short, additionaly BINARY/BLOB columns beyond your geometry column need to be filtered out as well.</p>
 </div>
 </div>
-<section id="streaming-the-flatgeobuf-file-to-qgis" class="level3" data-number="8.5.1">
-<h3 data-number="8.5.1" class="anchored" data-anchor-id="streaming-the-flatgeobuf-file-to-qgis"><span class="header-section-number">8.5.1</span> Streaming the Flatgeobuf file to QGIS</h3>
+<section id="streaming-the-flatgeobuf-file-to-qgis" class="level3">
+<h3 class="anchored" data-anchor-id="streaming-the-flatgeobuf-file-to-qgis">Streaming the Flatgeobuf file to QGIS</h3>
 <p>You can stream this to QGIS (i.e.&nbsp;without downloading the file first – this is very useful for much larger datasets) via a token and the <a href="https://docs.databricks.com/api/workspace/files/download">Files API</a>. For example, after setting up a personal access token, you can stream the above file with a link like below:</p>
 <div id="cell-21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;19916277-513c-408a-a357-6abbd06d099b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="ss">f"/vsicurl?header.Authorization=Bearer%20&lt;YOUR_PERSONAL_ACCESS_TOKEN&gt;&amp;url=https://</span><span class="sc">{</span>spark<span class="sc">.</span>conf<span class="sc">.</span>get(<span class="st">'spark.databricks.workspaceUrl'</span>)<span class="sc">}</span><span class="ss">/api/2.0/fs/files/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries.fgb"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -603,8 +583,8 @@ Note
 </div>
 </section>
 </section>
-<section id="pmtiles" class="level2" data-number="8.6">
-<h2 data-number="8.6" class="anchored" data-anchor-id="pmtiles"><span class="header-section-number">8.6</span> PMTiles</h2>
+<section id="pmtiles" class="level2">
+<h2 class="anchored" data-anchor-id="pmtiles">PMTiles</h2>
 <p>For PMTiles, while theoretically we could keep using DuckDB Spatial with GDAL, it did not succeed in our testing, so we’ll instead use <a href="https://github.com/felt/tippecanoe">tippecanoe</a>.</p>
 <p>The below <code>make install</code> runs in 3-4 min on <a href="https://docs.databricks.com/aws/en/compute/serverless/dependencies#high-memory">high memory</a> serverless.</p>
 <div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;b824448a-3f70-4500-9cbf-b646c2766f5b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
@@ -667,8 +647,8 @@ Note
 <p>Or more elegantly, to directly visualize it via Databricks Apps instead of downloading, you can port pmtiles.io to open the .pmtiles files in Volumes via the Files API – see <a href="../apps/pmtiles-viewer/">this app</a> for a rudimentary example with <a href="https://docs.databricks.com/aws/en/dev-tools/databricks-apps/auth#app-authorization">App Authorization</a>.</p>
 <p>TO be clear: the advantage the PMTiles format is to be able to visualize very large datasets such as all of OpenStreetMap – this notebook only uses a very small example.</p>
 </section>
-<section id="geopackage" class="level2" data-number="8.7">
-<h2 data-number="8.7" class="anchored" data-anchor-id="geopackage"><span class="header-section-number">8.7</span> GeoPackage</h2>
+<section id="geopackage" class="level2">
+<h2 class="anchored" data-anchor-id="geopackage">GeoPackage</h2>
 <p>Ah oldie but goodie! Similar to the FlatGeobuf DuckDB writes abov, but as the writer both needs random access and it doesn’t take an option similar to FlatGeobuf’s <code>TEMPORARY_DIR</code>, you need to first write to <code>/tmp</code> and then move to Volumes:</p>
 <div id="cell-29" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;bfb6fbd5-7442-4b2f-ad1d-138d819e0127&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
@@ -687,12 +667,12 @@ Note
 <p>The GPKG writer might not like all non-geo data types either, for example a <code>varchar[]</code> array would not be supported.</p>
 </div>
 </section>
-<section id="shapefiles" class="level2" data-number="8.8">
-<h2 data-number="8.8" class="anchored" data-anchor-id="shapefiles"><span class="header-section-number">8.8</span> Shapefiles</h2>
+<section id="shapefiles" class="level2">
+<h2 class="anchored" data-anchor-id="shapefiles">Shapefiles</h2>
 <p><a href="http://switchfromshapefile.org/">Don’t use shapefiles</a>.</p>
 </section>
-<section id="cleanup" class="level2" data-number="8.9">
-<h2 data-number="8.9" class="anchored" data-anchor-id="cleanup"><span class="header-section-number">8.9</span> Cleanup</h2>
+<section id="cleanup" class="level2">
+<h2 class="anchored" data-anchor-id="cleanup">Cleanup</h2>
 <div id="cell-33" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;f430c3e5-1384-4150-920c-5969c26ecb0d&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="op">%</span>sql</span>
 <span id="cb15-2"><a href="#cb15-2"></a> <span class="op">--</span> drop table tmp_geometries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1104,12 +1084,12 @@ Note
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../other_formats/import.html" class="pagination-link" aria-label="Import geospatial formats into Delta Lake with DuckDB">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Import geospatial formats into Delta Lake with DuckDB</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Import geospatial formats into Delta Lake with DuckDB</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../viz/native.html" class="pagination-link" aria-label="native.html">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">native.html</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-title">native.html</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>15&nbsp; Define a Spark UDF using a DuckDB Spatial function – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
+<title>Define a Spark UDF using a DuckDB Spatial function – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stfunctions/native.html">Spatial functions</a></li><li class="breadcrumb-item"><a href="../stfunctions/duckdb_udf.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stfunctions/native.html">Spatial functions</a></li><li class="breadcrumb-item"><a href="../stfunctions/duckdb_udf.html"><span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -148,8 +148,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introduction</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -163,8 +162,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../duckdb-on-databricks/DuckDB_on_Databricks.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">DuckDB on Databricks</span></span></a>
+  <a href="../duckdb-on-databricks/DuckDB_on_Databricks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">DuckDB on Databricks</span></a>
   </div>
 </li>
       </ul>
@@ -180,26 +178,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../delta/GEOMETRY_vs_GEOGRAPHY.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">GEOMETRY vs GEOGRAPHY vs WKB</span></span></a>
+  <a href="../delta/GEOMETRY_vs_GEOGRAPHY.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GEOMETRY vs GEOGRAPHY vs WKB</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../delta/GEOMETRY.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Storing spatial data in Delta Lake as GEOMETRY type</span></span></a>
+  <a href="../delta/GEOMETRY.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Storing spatial data in Delta Lake as GEOMETRY type</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../delta/GEOGRAPHY.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Storing spatial data in Delta Lake as GEOGRAPHY type</span></span></a>
+  <a href="../delta/GEOGRAPHY.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Storing spatial data in Delta Lake as GEOGRAPHY type</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../delta/WKB.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Storing spatial data in Delta Lake as WKB</span></span></a>
+  <a href="../delta/WKB.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Storing spatial data in Delta Lake as WKB</span></a>
   </div>
 </li>
       </ul>
@@ -215,14 +209,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../other_formats/import.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Import geospatial formats into Delta Lake with DuckDB</span></span></a>
+  <a href="../other_formats/import.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Import geospatial formats into Delta Lake with DuckDB</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../other_formats/export.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Export Delta Lake table to other formats with DuckDB</span></span></a>
+  <a href="../other_formats/export.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Export Delta Lake table to other formats with DuckDB</span></a>
   </div>
 </li>
       </ul>
@@ -238,32 +230,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../viz/native.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">native.html</span></span></a>
+  <a href="../viz/native.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">native.html</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../viz/GeoPandas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">GeoPandas.html</span></span></a>
+  <a href="../viz/GeoPandas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GeoPandas.html</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../viz/lonboard.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Visualize a geospatial Delta Lake table with Lonboard</span></span></a>
+  <a href="../viz/lonboard.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visualize a geospatial Delta Lake table with Lonboard</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../viz/PMTiles.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Visualize with PMTiles</span></span></a>
+  <a href="../viz/PMTiles.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visualize with PMTiles</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../viz/QGIS.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">QGIS.html</span></span></a>
+  <a href="../viz/QGIS.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">QGIS.html</span></a>
   </div>
 </li>
       </ul>
@@ -279,20 +266,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../stfunctions/native.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Databricks Native ST geospatial functions</span></span></a>
+  <a href="../stfunctions/native.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Databricks Native ST geospatial functions</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../stfunctions/duckdb_udf.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></span></a>
+  <a href="../stfunctions/duckdb_udf.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../stfunctions/GeoPandas.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">GeoPandas.html</span></span></a>
+  <a href="../stfunctions/GeoPandas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GeoPandas.html</span></a>
   </div>
 </li>
       </ul>
@@ -308,8 +292,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../end2end/train_to_slopes.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">End-to-end example: Taking the train to the slopes</span></span></a>
+  <a href="../end2end/train_to_slopes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">End-to-end example: Taking the train to the slopes</span></a>
   </div>
 </li>
       </ul>
@@ -325,8 +308,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../mapmatching/databricks_graphhopper.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Run GraphHopper on Databricks</span></span></a>
+  <a href="../mapmatching/databricks_graphhopper.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Run GraphHopper on Databricks</span></a>
   </div>
 </li>
       </ul>
@@ -342,14 +324,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../appendix/databricks_ogr2ogr_parquet.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">How to install <code>ogr2ogr</code> in a Databricks notebook (incl.&nbsp;Parquet support)</span></span></a>
+  <a href="../appendix/databricks_ogr2ogr_parquet.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">How to install <code>ogr2ogr</code> in a Databricks notebook (incl.&nbsp;Parquet support)</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../appendix/https_install_duckdbextension.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Install DuckDB Extensions via HTTPS</span></span></a>
+  <a href="../appendix/https_install_duckdbextension.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Install DuckDB Extensions via HTTPS</span></a>
   </div>
 </li>
       </ul>
@@ -364,19 +344,19 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup"><span class="header-section-number">15.1</span> Setup</a></li>
-  <li><a href="#define-the-spark-udf-based-on-a-duckdb-spatial-function" id="toc-define-the-spark-udf-based-on-a-duckdb-spatial-function" class="nav-link" data-scroll-target="#define-the-spark-udf-based-on-a-duckdb-spatial-function"><span class="header-section-number">15.2</span> Define the Spark UDF based on a DuckDB Spatial function</a></li>
-  <li><a href="#usage-example" id="toc-usage-example" class="nav-link" data-scroll-target="#usage-example"><span class="header-section-number">15.3</span> Usage example</a></li>
-  <li><a href="#visualizing-the-result" id="toc-visualizing-the-result" class="nav-link" data-scroll-target="#visualizing-the-result"><span class="header-section-number">15.4</span> Visualizing the result</a></li>
+  <li><a href="#setup" id="toc-setup" class="nav-link active" data-scroll-target="#setup">Setup</a></li>
+  <li><a href="#define-the-spark-udf-based-on-a-duckdb-spatial-function" id="toc-define-the-spark-udf-based-on-a-duckdb-spatial-function" class="nav-link" data-scroll-target="#define-the-spark-udf-based-on-a-duckdb-spatial-function">Define the Spark UDF based on a DuckDB Spatial function</a></li>
+  <li><a href="#usage-example" id="toc-usage-example" class="nav-link" data-scroll-target="#usage-example">Usage example</a></li>
+  <li><a href="#visualizing-the-result" id="toc-visualizing-the-result" class="nav-link" data-scroll-target="#visualizing-the-result">Visualizing the result</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/stfunctions/duckdb_udf.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stfunctions/native.html">Spatial functions</a></li><li class="breadcrumb-item"><a href="../stfunctions/duckdb_udf.html"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../stfunctions/native.html">Spatial functions</a></li><li class="breadcrumb-item"><a href="../stfunctions/duckdb_udf.html"><span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></h1>
+<h1 class="title"><span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></h1>
 </div>
 
 
@@ -395,8 +375,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>Databricks SQL now contains lots of <a href="https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-st-geospatial-functions">ST Functions</a>. However, at some point you might just need a geospatial function not (yet) available natively in Databricks, but maybe available in DuckDB Spatial. For example, as of Aug 2025, the <code>st_shortestline</code> function.</p>
 <p>Then we can register the DuckDB function as a Spark UDF as follows:</p>
-<section id="setup" class="level2" data-number="15.1">
-<h2 data-number="15.1" class="anchored" data-anchor-id="setup"><span class="header-section-number">15.1</span> Setup</h2>
+<section id="setup" class="level2">
+<h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;99e439ed-8b0a-466b-86fb-0783afaf9267&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install duckdb lonboard shapely <span class="op">--</span>quiet</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
@@ -406,8 +386,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-6"><a href="#cb1-6"></a><span class="im">from</span> pyspark.sql.types <span class="im">import</span> BinaryType</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="define-the-spark-udf-based-on-a-duckdb-spatial-function" class="level2" data-number="15.2">
-<h2 data-number="15.2" class="anchored" data-anchor-id="define-the-spark-udf-based-on-a-duckdb-spatial-function"><span class="header-section-number">15.2</span> Define the Spark UDF based on a DuckDB Spatial function</h2>
+<section id="define-the-spark-udf-based-on-a-duckdb-spatial-function" class="level2">
+<h2 class="anchored" data-anchor-id="define-the-spark-udf-based-on-a-duckdb-spatial-function">Define the Spark UDF based on a DuckDB Spatial function</h2>
 <div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;8f2100a9-9307-4b18-9c97-5ba34859ae4f&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">def</span> shortestline_func(a: pd.Series, b: pd.Series) <span class="op">-&gt;</span> pd.Series:</span>
 <span id="cb2-2"><a href="#cb2-2"></a>    <span class="cf">try</span>:</span>
@@ -451,8 +431,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>spark.udf.register(<span class="st">"st_duckdb_shortestline"</span>, st_duckdb_shortestline)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="usage-example" class="level2" data-number="15.3">
-<h2 data-number="15.3" class="anchored" data-anchor-id="usage-example"><span class="header-section-number">15.3</span> Usage example</h2>
+<section id="usage-example" class="level2">
+<h2 class="anchored" data-anchor-id="usage-example">Usage example</h2>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -523,8 +503,8 @@ Note
 </div>
 </div>
 </section>
-<section id="visualizing-the-result" class="level2" data-number="15.4">
-<h2 data-number="15.4" class="anchored" data-anchor-id="visualizing-the-result"><span class="header-section-number">15.4</span> Visualizing the result</h2>
+<section id="visualizing-the-result" class="level2">
+<h2 class="anchored" data-anchor-id="visualizing-the-result">Visualizing the result</h2>
 <p>Let’s visualize the result with <a href="../viz/lonboard.html">Lonboard</a>:</p>
 <div id="cell-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;0a604465-bafc-4b69-9db1-06cbf83885f8&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">def</span> spark_viz(df, wkb_col<span class="op">=</span><span class="st">"geometry"</span>, other_cols<span class="op">=</span><span class="va">None</span>, limit<span class="op">=</span><span class="dv">10_000</span>, output_html<span class="op">=</span><span class="va">None</span>):</span>
@@ -972,12 +952,12 @@ Note
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="../stfunctions/native.html" class="pagination-link" aria-label="Databricks Native ST geospatial functions">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Databricks Native ST geospatial functions</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Databricks Native ST geospatial functions</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
       <a href="../stfunctions/GeoPandas.html" class="pagination-link" aria-label="GeoPandas.html">
-        <span class="nav-page-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">GeoPandas.html</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-title">GeoPandas.html</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
