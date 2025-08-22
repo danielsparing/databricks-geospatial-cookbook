@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>geopandas – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
+<title>Helper apps on Databricks Apps – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +30,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<link href="../viz/lonboard.html" rel="next">
-<link href="../viz/native.html" rel="prev">
+<link href="../appendix/databricks_ogr2ogr_parquet.html" rel="next">
+<link href="../mapmatching/databricks_graphhopper.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
@@ -73,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar floating fullcontent quarto-light">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/GeoPandas.html"><span class="chapter-title">GeoPandas.html</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../apps/databricks_apps.html">Helper apps on Databricks Apps</a></li><li class="breadcrumb-item"><a href="../apps/databricks_apps.html"><span class="chapter-title">Helper apps on Databricks Apps</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -200,7 +200,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../viz/GeoPandas.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">GeoPandas.html</span></a>
+  <a href="../viz/GeoPandas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GeoPandas.html</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -289,7 +289,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../apps/databricks_apps.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Helper apps on Databricks Apps</span></a>
+  <a href="../apps/databricks_apps.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Helper apps on Databricks Apps</span></a>
   </div>
 </li>
       </ul>
@@ -320,16 +320,51 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#html-viewer" id="toc-html-viewer" class="nav-link active" data-scroll-target="#html-viewer">html-viewer</a></li>
+  <li><a href="#pmtiles-viewer" id="toc-pmtiles-viewer" class="nav-link" data-scroll-target="#pmtiles-viewer">pmtiles-viewer</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/apps/databricks_apps.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/GeoPandas.html"><span class="chapter-title">GeoPandas.html</span></a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../apps/databricks_apps.html">Helper apps on Databricks Apps</a></li><li class="breadcrumb-item"><a href="../apps/databricks_apps.html"><span class="chapter-title">Helper apps on Databricks Apps</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Helper apps on Databricks Apps</span></h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<p>todo</p>
+    
+  
+    
+  </div>
+  
 
 
+</header>
+
+
+<section id="html-viewer" class="level2">
+<h2 class="anchored" data-anchor-id="html-viewer">html-viewer</h2>
+<p>This app uses user authorization (in Preview as of Aug 2025, and not yet available on Free Edition) to open a HTML file stored in Volumes.</p>
+<p>An example use case is Lonboard generating a geospatial visualization into a HTML file, and then this app can be used to view this file without download – not that this is not <em>that</em> useful after all, as the data still has to travel to the user’s browser.</p>
+<p>The app could also use <a href="https://docs.databricks.com/aws/en/dev-tools/databricks-apps/auth#app-authorization">App authorization</a> (not implemented), in which case the service principal of the app would need to be granted access to the Volume.</p>
+</section>
+<section id="pmtiles-viewer" class="level2">
+<h2 class="anchored" data-anchor-id="pmtiles-viewer">pmtiles-viewer</h2>
+<p>This app is a viewer of PMTiles files stored in Volumes.</p>
+<p>Uses App authorization.</p>
+
+
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -733,13 +768,13 @@ ul.task-list li input[type="checkbox"] {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../viz/native.html" class="pagination-link" aria-label="native.html">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">native.html</span></span>
+      <a href="../mapmatching/databricks_graphhopper.html" class="pagination-link" aria-label="Run GraphHopper on Databricks">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Run GraphHopper on Databricks</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../viz/lonboard.html" class="pagination-link" aria-label="Visualize a geospatial Delta Lake table with Lonboard">
-        <span class="nav-page-text"><span class="chapter-title">Visualize a geospatial Delta Lake table with Lonboard</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../appendix/databricks_ogr2ogr_parquet.html" class="pagination-link" aria-label="How to install `ogr2ogr` in a Databricks notebook (incl. Parquet support)">
+        <span class="nav-page-text"><span class="chapter-title">How to install <code>ogr2ogr</code> in a Databricks notebook (incl.&nbsp;Parquet support)</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
@@ -748,4 +783,4 @@ ul.task-list li input[type="checkbox"] {
 
 
 
-<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/viz/GeoPandas.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/apps/databricks_apps.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>

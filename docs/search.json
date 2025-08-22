@@ -560,6 +560,28 @@
     ]
   },
   {
+    "objectID": "apps/databricks_apps.html",
+    "href": "apps/databricks_apps.html",
+    "title": "Helper apps on Databricks Apps",
+    "section": "",
+    "text": "html-viewer\nThis app uses user authorization (in Preview as of Aug 2025, and not yet available on Free Edition) to open a HTML file stored in Volumes.\nAn example use case is Lonboard generating a geospatial visualization into a HTML file, and then this app can be used to view this file without download – not that this is not that useful after all, as the data still has to travel to the user’s browser.\nThe app could also use App authorization (not implemented), in which case the service principal of the app would need to be granted access to the Volume.",
+    "crumbs": [
+      "Helper apps on Databricks Apps",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Helper apps on Databricks Apps</span>"
+    ]
+  },
+  {
+    "objectID": "apps/databricks_apps.html#pmtiles-viewer",
+    "href": "apps/databricks_apps.html#pmtiles-viewer",
+    "title": "Helper apps on Databricks Apps",
+    "section": "pmtiles-viewer",
+    "text": "pmtiles-viewer\nThis app is a viewer of PMTiles files stored in Volumes.\nUses App authorization.",
+    "crumbs": [
+      "Helper apps on Databricks Apps",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Helper apps on Databricks Apps</span>"
+    ]
+  },
+  {
     "objectID": "appendix/databricks_ogr2ogr_parquet.html",
     "href": "appendix/databricks_ogr2ogr_parquet.html",
     "title": "How to install ogr2ogr in a Databricks notebook (incl. Parquet support)",
@@ -567,7 +589,7 @@
     "text": "ogr2ogr is a geospatial file conversion tool, part of GDAL. For example, you can use it to read in a directory of GML (geo XML) files, and write them out to GeoPackage (.gpkg), or even GeoParquet. You could first try the duckdb way (also using GDAL under the hood), but in some more complex cases you might need to use gdal CLI yourself.\nIn theory, on a classic (non-serverless) Compute, we could just run apt-get install -y gdal-bin, but as of Aug 2025 this would not include Parquet support yet. Instead, the libgdal-arrow-parquet extension package that we need can be installed via conda-forge. So let’s first install conda-forge 1:\nNow we can add arrow/parquet support:\nAnd that’s it:",
     "crumbs": [
       "Appendix",
-      "<span class='chapter-number'>19</span>  <span class='chapter-title'>How to install `ogr2ogr` in a Databricks notebook (incl. Parquet support)</span>"
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>How to install `ogr2ogr` in a Databricks notebook (incl. Parquet support)</span>"
     ]
   },
   {
@@ -578,7 +600,7 @@
     "text": "The curl download link comes from conda-forge and their installation instructions on GitHub.↩︎",
     "crumbs": [
       "Appendix",
-      "<span class='chapter-number'>19</span>  <span class='chapter-title'>How to install `ogr2ogr` in a Databricks notebook (incl. Parquet support)</span>"
+      "<span class='chapter-number'>20</span>  <span class='chapter-title'>How to install `ogr2ogr` in a Databricks notebook (incl. Parquet support)</span>"
     ]
   },
   {
@@ -589,7 +611,7 @@
     "text": "Note\n\n\n\nThis issue should not come up on Databricks Free Edition, as there you’re using Serverless and the network is set up by Databricks.\n\n\nIf your network blocks HTTP requests, you cannot simply install DuckDB extensions by e.g. INSTALL spatial; (it will fail after ~10 minutes), because of the dependency on httpfs, an extension itself – see details here.\nThe workaround is to separately download the httpfs extension:\n\n%pip install duckdb --quiet\n\nimport os\nimport platform\nfrom urllib.parse import urlparse\n\nimport duckdb\nimport requests\n\narch = platform.machine()\nif arch == \"x86_64\":\n    architecture = \"linux_amd64\"\nelif arch == \"aarch64\":\n    architecture = \"linux_arm64\"\nelse:\n    raise Exception(f\"unknown_arch: {arch}\")\n\nduckdb_version = duckdb.__version__\nurl = f\"https://extensions.duckdb.org/v{duckdb_version}/{architecture}/httpfs.duckdb_extension.gz\"\n\noutput_file = os.path.basename(urlparse(url).path)\nresponse = requests.get(url, timeout=30)\nresponse.raise_for_status()\nwith open(output_file, \"wb\") as f:\n    f.write(response.content)\n\nduckdb.install_extension(output_file)\n\nos.remove(output_file)\n\nduckdb.sql(\"SET custom_extension_repository='https://extensions.duckdb.org'\")\n\nAnd now you can install other extensions, such as:\n\nduckdb.sql(\"install spatial; load spatial\")",
     "crumbs": [
       "Appendix",
-      "<span class='chapter-number'>20</span>  <span class='chapter-title'>Install DuckDB Extensions via HTTPS</span>"
+      "<span class='chapter-number'>21</span>  <span class='chapter-title'>Install DuckDB Extensions via HTTPS</span>"
     ]
   }
 ]

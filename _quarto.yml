@@ -50,6 +50,10 @@ book:
       chapters:
         - mapmatching/databricks_graphhopper.ipynb
     
+    - part: "Helper apps on Databricks Apps"
+      chapters:
+        - apps/databricks_apps.ipynb
+    
     - part: "Appendix"
       chapters: 
         - appendix/databricks_ogr2ogr_parquet.ipynb
