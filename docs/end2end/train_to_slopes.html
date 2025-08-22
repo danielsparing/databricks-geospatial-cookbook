@@ -394,10 +394,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><img src="img/bourg.png" class="img-fluid figure-img"></p>
-<figcaption>bourg</figcaption>
+<figcaption>Bourg St-Maurice TGV (photo: the author)</figcaption>
 </figure>
 </div>
-<p>(Photo: the author)</p>
 <p>Geospatial analysis often includes combining multiple data sources. In this example, we will only use OpenStreetMap (OSM), but as you’ll see one of the datasets is a LineString type and another is a Polygon type.</p>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -416,7 +415,7 @@ Note
 <section id="fetching-osm" class="level2">
 <h2 class="anchored" data-anchor-id="fetching-osm">Fetching OSM</h2>
 <p>See also <a href="../other_formats/import.html">Importing other formats</a> on how to use DuckDB Spatial to read OSM and other file types.</p>
-<div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;07f91527-619b-46fb-9546-9bfed98002f9&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;07f91527-619b-46fb-9546-9bfed98002f9&quot;,&quot;showTitle&quot;:true,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;Install libraries&quot;}}">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install duckdb lonboard shapely <span class="op">--</span>quiet</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> duckdb</span>
