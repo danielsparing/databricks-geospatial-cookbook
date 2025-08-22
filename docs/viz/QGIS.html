@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>qgis – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
+<title>Visualizing Delta Lake geospatial data in QGIS – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -73,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
 
 </head>
 
-<body class="nav-sidebar floating fullcontent quarto-light">
+<body class="nav-sidebar floating quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -82,7 +82,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/QGIS.html"><span class="chapter-title">QGIS.html</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/QGIS.html"><span class="chapter-title">Visualizing Delta Lake geospatial data in QGIS</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -195,12 +195,12 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../viz/native.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">native.html</span></a>
+  <a href="../viz/native.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Native Point Map Visualization</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../viz/GeoPandas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GeoPandas.html</span></a>
+  <a href="../viz/GeoPandas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visualize with GeoPandas</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -215,7 +215,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../viz/QGIS.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">QGIS.html</span></a>
+  <a href="../viz/QGIS.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Visualizing Delta Lake geospatial data in QGIS</span></a>
   </div>
 </li>
       </ul>
@@ -241,7 +241,7 @@ ul.task-list li input[type="checkbox"] {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../stfunctions/GeoPandas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GeoPandas.html</span></a>
+  <a href="../stfunctions/GeoPandas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GeoPandas</span></a>
   </div>
 </li>
       </ul>
@@ -320,14 +320,32 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
+    </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/QGIS.html"><span class="chapter-title">QGIS.html</span></a></li></ol></nav></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/QGIS.html"><span class="chapter-title">Visualizing Delta Lake geospatial data in QGIS</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Visualizing Delta Lake geospatial data in QGIS</span></h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<p>todo</p>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>Few pointers: - For moderate data sizes, the simplest way is to download your data in a <a href="../other_formats/export.html">format</a> of your liking such as GeoParquet, GeoPackage, FlatGeobuf or similar. - For large datasets, see in the <a href="../other_formats/export.html">FlatGeobuf section</a> how you can stream a FlatGeobuf file from Databricks volumes into QGIS.</p>
 
 
 
