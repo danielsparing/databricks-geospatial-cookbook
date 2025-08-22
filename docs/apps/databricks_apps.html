@@ -325,8 +325,8 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#html-viewer" id="toc-html-viewer" class="nav-link active" data-scroll-target="#html-viewer">html-viewer</a></li>
-  <li><a href="#pmtiles-viewer" id="toc-pmtiles-viewer" class="nav-link" data-scroll-target="#pmtiles-viewer">pmtiles-viewer</a></li>
+  <li><a href="#pmtiles-viewer" id="toc-pmtiles-viewer" class="nav-link active" data-scroll-target="#pmtiles-viewer">pmtiles-viewer</a></li>
+  <li><a href="#html-viewer" id="toc-html-viewer" class="nav-link" data-scroll-target="#html-viewer">html-viewer</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/apps/databricks_apps.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -352,16 +352,31 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="html-viewer" class="level2">
-<h2 class="anchored" data-anchor-id="html-viewer">html-viewer</h2>
-<p>This app uses user authorization (in Preview as of Aug 2025, and not yet available on Free Edition) to open a HTML file stored in Volumes.</p>
-<p>An example use case is Lonboard generating a geospatial visualization into a HTML file, and then this app can be used to view this file without download – not that this is not <em>that</em> useful after all, as the data still has to travel to the user’s browser.</p>
-<p>The app could also use <a href="https://docs.databricks.com/aws/en/dev-tools/databricks-apps/auth#app-authorization">App authorization</a> (not implemented), in which case the service principal of the app would need to be granted access to the Volume.</p>
-</section>
+<p>To install one of these apps: follow the steps in the <a href="https://docs.databricks.com/aws/en/dev-tools/databricks-apps/create-custom-app">docs</a> and sync one of the below directories to your app diredtory.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>In Databricks Free Edition, you can only set up one app at a time. In a paid workspace, you can have multiple.</p>
+</div>
+</div>
 <section id="pmtiles-viewer" class="level2">
 <h2 class="anchored" data-anchor-id="pmtiles-viewer">pmtiles-viewer</h2>
+<p><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/tree/main/apps/pmtiles-viewer">https://github.com/danielsparing/databricks-geospatial-cookbook/tree/main/apps/pmtiles-viewer</a></p>
 <p>This app is a viewer of PMTiles files stored in Volumes.</p>
-<p>Uses App authorization.</p>
+<p>Uses <a href="https://docs.databricks.com/aws/en/dev-tools/databricks-apps/auth#app-authorization">App authorization</a>.</p>
+</section>
+<section id="html-viewer" class="level2">
+<h2 class="anchored" data-anchor-id="html-viewer">html-viewer</h2>
+<p><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/tree/main/apps/html-viewer">https://github.com/danielsparing/databricks-geospatial-cookbook/tree/main/apps/html-viewer</a></p>
+<p>This app uses user authorization (in Preview as of Aug 2025, and not yet available on Free Edition) to open a HTML file stored in Volumes.</p>
+<p>An example use case is Lonboard generating a geospatial visualization into a HTML file, and then this app can be used to view this file without download – not that this is not <em>that</em> useful after all, as the data still has to travel to the user’s browser.</p>
 
 
 </section>

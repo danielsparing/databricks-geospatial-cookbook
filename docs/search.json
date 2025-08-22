@@ -564,18 +564,18 @@
     "href": "apps/databricks_apps.html",
     "title": "Helper apps on Databricks Apps",
     "section": "",
-    "text": "html-viewer\nThis app uses user authorization (in Preview as of Aug 2025, and not yet available on Free Edition) to open a HTML file stored in Volumes.\nAn example use case is Lonboard generating a geospatial visualization into a HTML file, and then this app can be used to view this file without download – not that this is not that useful after all, as the data still has to travel to the user’s browser.\nThe app could also use App authorization (not implemented), in which case the service principal of the app would need to be granted access to the Volume.",
+    "text": "pmtiles-viewer\nTo install one of these apps: follow the steps in the docs and sync one of the below directories to your app diredtory.\nhttps://github.com/danielsparing/databricks-geospatial-cookbook/tree/main/apps/pmtiles-viewer\nThis app is a viewer of PMTiles files stored in Volumes.\nUses App authorization.",
     "crumbs": [
       "Helper apps on Databricks Apps",
       "<span class='chapter-number'>19</span>  <span class='chapter-title'>Helper apps on Databricks Apps</span>"
     ]
   },
   {
-    "objectID": "apps/databricks_apps.html#pmtiles-viewer",
-    "href": "apps/databricks_apps.html#pmtiles-viewer",
+    "objectID": "apps/databricks_apps.html#html-viewer",
+    "href": "apps/databricks_apps.html#html-viewer",
     "title": "Helper apps on Databricks Apps",
-    "section": "pmtiles-viewer",
-    "text": "pmtiles-viewer\nThis app is a viewer of PMTiles files stored in Volumes.\nUses App authorization.",
+    "section": "html-viewer",
+    "text": "html-viewer\nhttps://github.com/danielsparing/databricks-geospatial-cookbook/tree/main/apps/html-viewer\nThis app uses user authorization (in Preview as of Aug 2025, and not yet available on Free Edition) to open a HTML file stored in Volumes.\nAn example use case is Lonboard generating a geospatial visualization into a HTML file, and then this app can be used to view this file without download – not that this is not that useful after all, as the data still has to travel to the user’s browser.",
     "crumbs": [
       "Helper apps on Databricks Apps",
       "<span class='chapter-number'>19</span>  <span class='chapter-title'>Helper apps on Databricks Apps</span>"
