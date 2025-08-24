@@ -371,6 +371,8 @@ Note
 <p><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/tree/main/apps/pmtiles-viewer">https://github.com/danielsparing/databricks-geospatial-cookbook/tree/main/apps/pmtiles-viewer</a></p>
 <p>This app is a viewer of PMTiles files stored in Volumes.</p>
 <p>Uses <a href="https://docs.databricks.com/aws/en/dev-tools/databricks-apps/auth#app-authorization">App authorization</a>.</p>
+<p>For example, if you set up your app at <code>https://pmtiles-viewer-{workspace_id}.aws.databricksapps.com/</code> and your PMTiles file is stored at the root of a Volume at <code>/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.pmtiles</code>, then your PMTiles viewer URL would be:</p>
+<pre><code>https://pmtiles-viewer-{workspace_id}.aws.databricksapps.com/?filePath=/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.pmtiles</code></pre>
 </section>
 <section id="html-viewer" class="level2">
 <h2 class="anchored" data-anchor-id="html-viewer">html-viewer</h2>

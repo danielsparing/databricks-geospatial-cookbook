@@ -564,7 +564,18 @@
     "href": "apps/databricks_apps.html",
     "title": "Helper apps on Databricks Apps",
     "section": "",
-    "text": "pmtiles-viewer\nTo install one of these apps: follow the steps in the docs and sync one of the below directories to your app diredtory.\nhttps://github.com/danielsparing/databricks-geospatial-cookbook/tree/main/apps/pmtiles-viewer\nThis app is a viewer of PMTiles files stored in Volumes.\nUses App authorization.",
+    "text": "pmtiles-viewer\nTo install one of these apps: follow the steps in the docs and sync one of the below directories to your app diredtory.\nhttps://github.com/danielsparing/databricks-geospatial-cookbook/tree/main/apps/pmtiles-viewer\nThis app is a viewer of PMTiles files stored in Volumes.\nUses App authorization.\nFor example, if you set up your app at https://pmtiles-viewer-{workspace_id}.aws.databricksapps.com/ and your PMTiles file is stored at the root of a Volume at /Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.pmtiles, then your PMTiles viewer URL would be:",
+    "crumbs": [
+      "Helper apps on Databricks Apps",
+      "<span class='chapter-number'>19</span>  <span class='chapter-title'>Helper apps on Databricks Apps</span>"
+    ]
+  },
+  {
+    "objectID": "apps/databricks_apps.html#pmtiles-viewer",
+    "href": "apps/databricks_apps.html#pmtiles-viewer",
+    "title": "Helper apps on Databricks Apps",
+    "section": "",
+    "text": "https://pmtiles-viewer-{workspace_id}.aws.databricksapps.com/?filePath=/Volumes/{CATALOG}/{SCHEMA}/{VOLUME}/geometries.pmtiles",
     "crumbs": [
       "Helper apps on Databricks Apps",
       "<span class='chapter-number'>19</span>  <span class='chapter-title'>Helper apps on Databricks Apps</span>"
