@@ -657,7 +657,7 @@ Caution
 <figcaption>ams_buildings_10k</figcaption>
 </figure>
 </div>
-<p>If you want to see a much larger sample (or possibly the whole dataset), you’ll need to output to a HTML into Volumes, download the file and open it locally:</p>
+<p>If you want to see a much larger sample (or possibly the whole dataset), you’ll need to output to a HTML into Volumes, and either download the file and open it locally, or use a Databricks App such as <a href="../apps/databricks_apps.html#html-viewer">this <code>html-viewwer</code> example</a>:</p>
 <div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;38c46dd0-5fa6-4144-8b48-4eed274fe6ea&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>spark_viz(</span>
 <span id="cb12-2"><a href="#cb12-2"></a>    spark.table(<span class="st">"tmp_ams_buildings"</span>).selectExpr(</span>
