@@ -4,4 +4,4 @@
 
 Geospatial (vector) data cookbook using Databricks [Spatial SQL](https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-st-geospatial-functions) with a helping hand from DuckDB [Spatial Extension](https://duckdb.org/docs/stable/core_extensions/spatial/overview.html) where needed.
 
-All pages are available as IPython notebooks as well in the source GitHub repository and they were successfully tested on [Databricks Free Edition](https://www.databricks.com/learn/free-edition), [Serverless environment version 3](https://docs.databricks.com/aws/en/release-notes/serverless/environment-version/three) unless otherwise noted.
+All pages are available as IPython notebooks as well in the source GitHub repository and they were successfully tested on [Databricks Free Edition](https://www.databricks.com/learn/free-edition), [Serverless environment version 4](https://docs.databricks.com/aws/en/release-notes/serverless/environment-version/four) unless otherwise noted.
