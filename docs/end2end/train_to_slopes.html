@@ -416,86 +416,88 @@ Note
 <h2 class="anchored" data-anchor-id="fetching-osm">Fetching OSM</h2>
 <p>See also <a href="../other_formats/import.html">Importing other formats</a> on how to use DuckDB Spatial to read OSM and other file types.</p>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;07f91527-619b-46fb-9546-9bfed98002f9&quot;,&quot;showTitle&quot;:true,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;Install libraries&quot;}}">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install duckdb lonboard shapely <span class="op">--</span>quiet</span>
-<span id="cb1-2"><a href="#cb1-2"></a></span>
-<span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> duckdb</span>
-<span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>duckdb.sql(<span class="st">"install spatial; load spatial;"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install <span class="st">"databricks-connect&gt;=17.1.0"</span> duckdb lonboard shapely <span class="op">--</span>quiet</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="op">%</span>restart_python</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;af38627b-fdd9-4ba2-aa20-6ed0f0821589&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>CATALOG <span class="op">=</span> <span class="st">"workspace"</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>SCHEMA <span class="op">=</span> <span class="st">"default"</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>VOLUME <span class="op">=</span> <span class="st">"default"</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a>CONTINENT <span class="op">=</span> <span class="st">"europe"</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>COUNTRY <span class="op">=</span> <span class="st">"france"</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a>GEOFABRIK_URL <span class="op">=</span> <span class="ss">f"https://download.geofabrik.de/</span><span class="sc">{</span>CONTINENT<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>COUNTRY<span class="sc">}</span><span class="ss">-latest.osm.pbf"</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a></span>
-<span id="cb2-9"><a href="#cb2-9"></a>spark.sql(<span class="ss">f"use </span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">"</span>)</span>
-<span id="cb2-10"><a href="#cb2-10"></a>spark.sql(<span class="ss">f"create volume if not exists </span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;32b9a048-b13f-453e-ae70-a441ab91e328&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> duckdb</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a>duckdb.sql(<span class="st">"install spatial; load spatial;"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;5570f68c-8c50-4faa-a80b-5304953b41a1&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>file_name <span class="op">=</span> GEOFABRIK_URL.split(<span class="st">"/"</span>)[<span class="op">-</span><span class="dv">1</span>]</span>
-<span id="cb3-2"><a href="#cb3-2"></a>file_basename <span class="op">=</span> file_name.rsplit(<span class="st">"."</span>)[<span class="dv">0</span>]</span>
-<span id="cb3-3"><a href="#cb3-3"></a>volume_file_path <span class="op">=</span> <span class="ss">f"/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>file_name<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a>volume_parquet_path <span class="op">=</span> <span class="ss">f"/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>file_basename<span class="sc">}</span><span class="ss">.parquet"</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a>tablename <span class="op">=</span> <span class="ss">f"planet_osm_</span><span class="sc">{</span>COUNTRY<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;af38627b-fdd9-4ba2-aa20-6ed0f0821589&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>CATALOG <span class="op">=</span> <span class="st">"workspace"</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a>SCHEMA <span class="op">=</span> <span class="st">"default"</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a>VOLUME <span class="op">=</span> <span class="st">"default"</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a></span>
+<span id="cb3-5"><a href="#cb3-5"></a>CONTINENT <span class="op">=</span> <span class="st">"europe"</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>COUNTRY <span class="op">=</span> <span class="st">"france"</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a>GEOFABRIK_URL <span class="op">=</span> <span class="ss">f"https://download.geofabrik.de/</span><span class="sc">{</span>CONTINENT<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>COUNTRY<span class="sc">}</span><span class="ss">-latest.osm.pbf"</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a></span>
+<span id="cb3-9"><a href="#cb3-9"></a>spark.sql(<span class="ss">f"use </span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-10"><a href="#cb3-10"></a>spark.sql(<span class="ss">f"create volume if not exists </span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;80e40ab8-d850-4232-a2cc-449a63715b59&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># If this is too slow, you can "cheat" and download only</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="co"># https://download.geofabrik.de/europe/france/rhone-alpes.html instead -- after all,</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co"># most French ski resorts are in that region.</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="op">!</span>curl <span class="op">-</span>o {volume_file_path} {GEOFABRIK_URL}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;5570f68c-8c50-4faa-a80b-5304953b41a1&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>file_name <span class="op">=</span> GEOFABRIK_URL.split(<span class="st">"/"</span>)[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb4-2"><a href="#cb4-2"></a>file_basename <span class="op">=</span> file_name.rsplit(<span class="st">"."</span>)[<span class="dv">0</span>]</span>
+<span id="cb4-3"><a href="#cb4-3"></a>volume_file_path <span class="op">=</span> <span class="ss">f"/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>file_name<span class="sc">}</span><span class="ss">"</span></span>
+<span id="cb4-4"><a href="#cb4-4"></a>volume_parquet_path <span class="op">=</span> <span class="ss">f"/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>file_basename<span class="sc">}</span><span class="ss">.parquet"</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a>tablename <span class="op">=</span> <span class="ss">f"planet_osm_</span><span class="sc">{</span>COUNTRY<span class="sc">}</span><span class="ss">"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;9d845371-4db7-41c1-af47-4a44c75a5274&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>duckdb.sql(</span>
-<span id="cb5-2"><a href="#cb5-2"></a>    <span class="ss">f"""</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="ss">copy (</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="ss">    select</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="ss">        *</span></span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="ss">    from</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="ss">        '</span><span class="sc">{</span>volume_file_path<span class="sc">}</span><span class="ss">'</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="ss">) to '</span><span class="sc">{</span>volume_parquet_path<span class="sc">}</span><span class="ss">'</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="ss">(format parquet)</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="ss">;</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="ss">"""</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;80e40ab8-d850-4232-a2cc-449a63715b59&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="co"># If this is too slow, you can "cheat" and download only</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co"># https://download.geofabrik.de/europe/france/rhone-alpes.html instead -- after all,</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="co"># most French ski resorts are in that region.</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="op">!</span>curl <span class="op">-</span>o {volume_file_path} {GEOFABRIK_URL}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;2f3ca494-9ebc-4d19-898e-02cd2526a525&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>spark.read.parquet(volume_parquet_path).write.option(<span class="st">"clusteredBy"</span>, <span class="st">"id"</span>).saveAsTable(</span>
-<span id="cb6-2"><a href="#cb6-2"></a>    <span class="ss">f"</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>tablename<span class="sc">}</span><span class="ss">"</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;9d845371-4db7-41c1-af47-4a44c75a5274&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>duckdb.sql(</span>
+<span id="cb6-2"><a href="#cb6-2"></a>    <span class="ss">f"""</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="ss">copy (</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="ss">    select</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="ss">        *</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="ss">    from</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="ss">        '</span><span class="sc">{</span>volume_file_path<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="ss">) to '</span><span class="sc">{</span>volume_parquet_path<span class="sc">}</span><span class="ss">'</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="ss">(format parquet)</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="ss">;</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="ss">"""</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;2f3ca494-9ebc-4d19-898e-02cd2526a525&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>spark.read.parquet(volume_parquet_path).write.option(<span class="st">"clusteredBy"</span>, <span class="st">"id"</span>).mode(</span>
+<span id="cb7-2"><a href="#cb7-2"></a>    <span class="st">"overwrite"</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a>).saveAsTable(<span class="ss">f"</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>tablename<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="transform-into-a-table-with-geometry-with-databricks-spatial-sql" class="level2">
 <h2 class="anchored" data-anchor-id="transform-into-a-table-with-geometry-with-databricks-spatial-sql">Transform into a table with GEOMETRY with Databricks Spatial SQL</h2>
 <p>See also <a href="../stfunctions/native.html">Databricks Spatial SQL ST functions</a>, and <a href="../delta/GEOMETRY.html">Delta Lake tables with GEOMETRY</a>.</p>
-<div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;4fbe8c7f-8533-4b7a-ab9b-4bbfd35e8959&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1755794124504}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a><span class="op">%</span>sql</span>
-<span id="cb7-2"><a href="#cb7-2"></a>create <span class="kw">or</span> replace table skiresorts <span class="im">as</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="cf">with</span> wintersports <span class="im">as</span> (</span>
-<span id="cb7-4"><a href="#cb7-4"></a>  select</span>
-<span id="cb7-5"><a href="#cb7-5"></a>    <span class="bu">id</span> <span class="im">as</span> wintersports_id,</span>
-<span id="cb7-6"><a href="#cb7-6"></a>    tags.name,</span>
-<span id="cb7-7"><a href="#cb7-7"></a>    posexplode(refs) <span class="im">as</span> (pos, <span class="bu">id</span>)</span>
-<span id="cb7-8"><a href="#cb7-8"></a>  <span class="im">from</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a>    planet_osm_france</span>
-<span id="cb7-10"><a href="#cb7-10"></a>  where</span>
-<span id="cb7-11"><a href="#cb7-11"></a>    kind <span class="op">=</span> <span class="st">"way"</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a>    <span class="kw">and</span> tags.landuse <span class="op">=</span> <span class="st">"winter_sports"</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a>)</span>
-<span id="cb7-14"><a href="#cb7-14"></a>select</span>
-<span id="cb7-15"><a href="#cb7-15"></a>  wintersports_id,</span>
-<span id="cb7-16"><a href="#cb7-16"></a>  name,</span>
-<span id="cb7-17"><a href="#cb7-17"></a>  st_makepolygon(</span>
-<span id="cb7-18"><a href="#cb7-18"></a>    st_makeline(</span>
-<span id="cb7-19"><a href="#cb7-19"></a>      transform(sort_array(array_agg(struct(pos, lon, lat))), x <span class="op">-&gt;</span> st_point(x.lon, x.lat, <span class="dv">4326</span>))</span>
-<span id="cb7-20"><a href="#cb7-20"></a>    )</span>
-<span id="cb7-21"><a href="#cb7-21"></a>  ) geometry</span>
-<span id="cb7-22"><a href="#cb7-22"></a><span class="im">from</span></span>
-<span id="cb7-23"><a href="#cb7-23"></a>  wintersports join planet_osm_france p using (<span class="bu">id</span>)</span>
-<span id="cb7-24"><a href="#cb7-24"></a>group by</span>
-<span id="cb7-25"><a href="#cb7-25"></a>  <span class="bu">all</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="cell-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;4fbe8c7f-8533-4b7a-ab9b-4bbfd35e8959&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1755794124504}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">%</span>sql</span>
+<span id="cb8-2"><a href="#cb8-2"></a>create <span class="kw">or</span> replace table skiresorts <span class="im">as</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="cf">with</span> wintersports <span class="im">as</span> (</span>
+<span id="cb8-4"><a href="#cb8-4"></a>  select</span>
+<span id="cb8-5"><a href="#cb8-5"></a>    <span class="bu">id</span> <span class="im">as</span> wintersports_id,</span>
+<span id="cb8-6"><a href="#cb8-6"></a>    tags.name,</span>
+<span id="cb8-7"><a href="#cb8-7"></a>    posexplode(refs) <span class="im">as</span> (pos, <span class="bu">id</span>)</span>
+<span id="cb8-8"><a href="#cb8-8"></a>  <span class="im">from</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a>    planet_osm_france</span>
+<span id="cb8-10"><a href="#cb8-10"></a>  where</span>
+<span id="cb8-11"><a href="#cb8-11"></a>    kind <span class="op">=</span> <span class="st">"way"</span></span>
+<span id="cb8-12"><a href="#cb8-12"></a>    <span class="kw">and</span> tags.landuse <span class="op">=</span> <span class="st">"winter_sports"</span></span>
+<span id="cb8-13"><a href="#cb8-13"></a>)</span>
+<span id="cb8-14"><a href="#cb8-14"></a>select</span>
+<span id="cb8-15"><a href="#cb8-15"></a>  wintersports_id,</span>
+<span id="cb8-16"><a href="#cb8-16"></a>  name,</span>
+<span id="cb8-17"><a href="#cb8-17"></a>  st_makepolygon(</span>
+<span id="cb8-18"><a href="#cb8-18"></a>    st_makeline(</span>
+<span id="cb8-19"><a href="#cb8-19"></a>      transform(sort_array(array_agg(struct(pos, lon, lat))), x <span class="op">-&gt;</span> st_point(x.lon, x.lat, <span class="dv">4326</span>))</span>
+<span id="cb8-20"><a href="#cb8-20"></a>    )</span>
+<span id="cb8-21"><a href="#cb8-21"></a>  ) geometry</span>
+<span id="cb8-22"><a href="#cb8-22"></a><span class="im">from</span></span>
+<span id="cb8-23"><a href="#cb8-23"></a>  wintersports join planet_osm_france p using (<span class="bu">id</span>)</span>
+<span id="cb8-24"><a href="#cb8-24"></a>group by</span>
+<span id="cb8-25"><a href="#cb8-25"></a>  <span class="bu">all</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -507,30 +509,24 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>As of 2025-08-20, GEOMETRY/GEOGRAPHY columns cannot be returned in a notebook yet, therefore instead of <code>select *</code>, we temporarily use the pattern, for a column <code>g</code> of type GEOMETRY/GEOGRAPHY:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">select</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a>  <span class="op">*</span> <span class="kw">except</span> (g),</span>
-<span id="cb8-3"><a href="#cb8-3"></a>  st_asewkt(g) <span class="kw">as</span> ewkt_g</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Make sure you are using <a href="https://docs.databricks.com/aws/en/release-notes/serverless/environment-version/four">Serverless environment version 4+</a>, or else outputting GEOMETRY/GEOGRAPHY types directly (without e.g.&nbsp;<code>st_asewkt()</code>) will not work.</p>
 </div>
 </div>
-<div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;56fce252-9064-4e1e-9b87-9ea6dfe88e9f&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;56fce252-9064-4e1e-9b87-9ea6dfe88e9f&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="op">%</span>sql</span>
-<span id="cb9-2"><a href="#cb9-2"></a>select</span>
-<span id="cb9-3"><a href="#cb9-3"></a>  <span class="op">*</span> <span class="cf">except</span> (geometry),</span>
-<span id="cb9-4"><a href="#cb9-4"></a>  st_asewkt(geometry) geometry</span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="im">from</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a>  skiresorts</span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="op">--</span> Returns:</span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="op">--</span> wintersports_id  name    geometry</span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="op">--</span> <span class="dv">23079840</span> Isola <span class="dv">2000</span>  SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="fl">7.1524774</span> <span class="fl">44.204359200000006</span>,...))</span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="op">--</span> <span class="dv">27163365</span> Estación de Esquí Aramón Formigal   SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="op">-</span><span class="fl">0.41821430000000004</span> <span class="fl">42.8009106</span>,...))</span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="op">--</span> ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="im">from</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>  skiresorts</span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="op">--</span> Returns:</span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="op">--</span> wintersports_id  name    geometry</span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="op">--</span> <span class="dv">23079840</span> Isola <span class="dv">2000</span>  SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="fl">7.1524774</span> <span class="fl">44.204359200000006</span>,...))</span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="op">--</span> <span class="dv">27163365</span> Estación de Esquí Aramón Formigal   SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="op">-</span><span class="fl">0.41821430000000004</span> <span class="fl">42.8009106</span>,...))</span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="op">--</span> ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="visualize-with-lonboard" class="level2">
 <h2 class="anchored" data-anchor-id="visualize-with-lonboard">Visualize with Lonboard</h2>
 <p>See also <a href="../viz/lonboard.html">Visualize with Lonboard</a>.</p>
-<div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;fd4981e5-9135-4f11-a236-2f646c0937e2&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;fd4981e5-9135-4f11-a236-2f646c0937e2&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="im">from</span> lonboard <span class="im">import</span> viz</span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> functions <span class="im">as</span> F</span>
 <span id="cb10-3"><a href="#cb10-3"></a></span>
@@ -551,7 +547,7 @@ Note
 <section id="load-the-train-network" class="level2">
 <h2 class="anchored" data-anchor-id="load-the-train-network">Load the train network</h2>
 <p>We will use similar techniques as above to load the railway network as well.</p>
-<div id="cell-16" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;d1bb202d-19ed-4e06-8158-421382f3eacd&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;d1bb202d-19ed-4e06-8158-421382f3eacd&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="op">%</span>sql</span>
 <span id="cb11-2"><a href="#cb11-2"></a><span class="cf">with</span> t1 <span class="im">as</span> (</span>
 <span id="cb11-3"><a href="#cb11-3"></a>  select</span>
@@ -584,7 +580,7 @@ Note
 <span id="cb11-30"><a href="#cb11-30"></a><span class="im">from</span></span>
 <span id="cb11-31"><a href="#cb11-31"></a>  t2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;d9a877ff-fa28-401e-aa6a-9aa4e7abbe40&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1755796120775}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;d9a877ff-fa28-401e-aa6a-9aa4e7abbe40&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1755796120775}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="op">%</span>sql</span>
 <span id="cb12-2"><a href="#cb12-2"></a>create <span class="kw">or</span> replace table train_routes <span class="im">as</span></span>
 <span id="cb12-3"><a href="#cb12-3"></a><span class="cf">with</span> t1 <span class="im">as</span> (</span>
@@ -619,7 +615,7 @@ Note
 <span id="cb12-32"><a href="#cb12-32"></a>group by</span>
 <span id="cb12-33"><a href="#cb12-33"></a>  <span class="bu">all</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;6e4eeacd-0948-40f7-89ba-72b0c405a184&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;6e4eeacd-0948-40f7-89ba-72b0c405a184&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a>spark.table(<span class="st">"train_routes"</span>).withColumn(</span>
 <span id="cb13-2"><a href="#cb13-2"></a>    <span class="st">"geometry"</span>, F.expr(<span class="st">"st_asewkt(geometry)"</span>)</span>
 <span id="cb13-3"><a href="#cb13-3"></a>).display()</span>
@@ -628,7 +624,7 @@ Note
 <span id="cb13-6"><a href="#cb13-6"></a><span class="co"># [lots of LINESTRING's]</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Let’s try to visualize the same way as we did for the ski <em>domaines</em> (spoiler alert: it might not work):</p>
-<div id="cell-20" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;9ed23d2c-e789-4852-859d-6a0a88f68965&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;9ed23d2c-e789-4852-859d-6a0a88f68965&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>dfa <span class="op">=</span> (</span>
 <span id="cb14-2"><a href="#cb14-2"></a>    spark.table(<span class="st">"train_routes"</span>)</span>
 <span id="cb14-3"><a href="#cb14-3"></a>    .withColumn(<span class="st">"geometry"</span>, F.expr(<span class="st">"st_asbinary(geometry)"</span>))</span>
@@ -644,7 +640,7 @@ Note
 <p>The above visualization probably failed, due to the dataset being too large for the widget in Databricks. While for medium sized datasets there’s another workaround by saving the Lonboard output to a seperate HTML file via <code>to_html()</code> (detailed <a href="../viz/lonboard.html">here</a>), let’s instead use PMTiles instead that can work also for very large datasets.</p>
 <p>See also the <code>tippecanoe</code> example <a href="../other_formats/export.html">here</a>, which we will follow now via an intermediate Parquet and FlatGeobuf file.</p>
 <p>We will actually visualize both the train routes and the ski resorts at the same time below.</p>
-<div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;2c3919fe-5a95-4944-b9b3-4d266f605610&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;2c3919fe-5a95-4944-b9b3-4d266f605610&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1"></a><span class="op">%</span>sql</span>
 <span id="cb15-2"><a href="#cb15-2"></a>create temporary view skiresorts_with_trainroutes <span class="im">as</span></span>
 <span id="cb15-3"><a href="#cb15-3"></a>select</span>
@@ -663,13 +659,13 @@ Note
 <span id="cb15-16"><a href="#cb15-16"></a><span class="im">from</span></span>
 <span id="cb15-17"><a href="#cb15-17"></a>  train_routes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;3a46ce49-7ed4-4d18-98f5-9c88226e5a20&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;3a46ce49-7ed4-4d18-98f5-9c88226e5a20&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># Write to parquet</span></span>
 <span id="cb16-2"><a href="#cb16-2"></a>spark.table(<span class="st">"skiresorts_with_trainroutes"</span>).write.mode(<span class="st">"overwrite"</span>).parquet(</span>
 <span id="cb16-3"><a href="#cb16-3"></a>    <span class="ss">f"/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries.parquet"</span></span>
 <span id="cb16-4"><a href="#cb16-4"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;a9df1fc5-15e6-4ad7-87f0-ba4f4f62593e&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;a9df1fc5-15e6-4ad7-87f0-ba4f4f62593e&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1"></a><span class="co"># Write FlatGeobuf</span></span>
 <span id="cb17-2"><a href="#cb17-2"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
 <span id="cb17-3"><a href="#cb17-3"></a><span class="ss">copy (</span></span>
@@ -681,7 +677,7 @@ Note
 <span id="cb17-9"><a href="#cb17-9"></a><span class="ss">(FORMAT GDAL, DRIVER flatgeobuf, LAYER_CREATION_OPTIONS 'TEMPORARY_DIR=/tmp/')"""</span></span>
 <span id="cb17-10"><a href="#cb17-10"></a>duckdb.sql(query)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;31e8e449-0b9e-432f-a873-ba18c3337f72&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;31e8e449-0b9e-432f-a873-ba18c3337f72&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1"></a><span class="op">%</span>sh</span>
 <span id="cb18-2"><a href="#cb18-2"></a><span class="co"># Install tippecanoe</span></span>
 <span id="cb18-3"><a href="#cb18-3"></a></span>
@@ -692,7 +688,7 @@ Note
 <span id="cb18-8"><a href="#cb18-8"></a>make install PREFIX<span class="op">=</span>$HOME<span class="op">/</span>.local</span>
 <span id="cb18-9"><a href="#cb18-9"></a>rm <span class="op">-</span>r tippecanoe</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;950aa4ba-03c5-41a9-9f18-9033a60c6bbc&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-27" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;950aa4ba-03c5-41a9-9f18-9033a60c6bbc&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1"></a><span class="im">import</span> os</span>
 <span id="cb19-2"><a href="#cb19-2"></a></span>
 <span id="cb19-3"><a href="#cb19-3"></a>HOME <span class="op">=</span> os.environ[<span class="st">"HOME"</span>]</span>
@@ -730,7 +726,7 @@ Note
 <h2 class="anchored" data-anchor-id="spatial-join">Spatial join</h2>
 <p>To actually answer our question of which ski resorts are closest to a train line, we will also need to use a locally valid coordinate system, for <code>st_buffer</code> and similar functions to be able to work in meters, not degrees. In case of France being an example, probably <a href="https://spatialreference.org/ref/epsg/2154/"><code>EPSG:2154</code></a> is a suitable one.</p>
 <p>Now let’s say we want to find train routes at a maximum distance (say, 1km) of any ski resort. (Ideally we’d want to find train stations, but that’s too easy and in order to illustrate working with linestrings, let’s stay with routes. Think of it as a lower bound on distance.) We can thus buffer the ski resort polygons with the maximum distance, and intersect them with the routes, using <a href="https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-h3-geospatial-functions">H3</a> spatial indexing to expedite the join:</p>
-<div id="cell-29" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;bae290e3-75dd-478a-8af7-45a4e7628920&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1755862107074}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-30" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;bae290e3-75dd-478a-8af7-45a4e7628920&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1755862107074}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1"></a><span class="op">%</span>sql</span>
 <span id="cb20-2"><a href="#cb20-2"></a>create</span>
 <span id="cb20-3"><a href="#cb20-3"></a><span class="kw">or</span> replace table skiresorts_buffered_h3 cluster by (cellid) <span class="im">as</span> <span class="cf">with</span> buffered <span class="im">as</span> (</span>
@@ -760,7 +756,7 @@ Note
 <span id="cb20-27"><a href="#cb20-27"></a><span class="im">from</span></span>
 <span id="cb20-28"><a href="#cb20-28"></a>  tessellated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-30" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;e207ea92-6973-4cf0-8686-941d3d7cedab&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-31" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;e207ea92-6973-4cf0-8686-941d3d7cedab&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1"></a><span class="op">%</span>sql</span>
 <span id="cb21-2"><a href="#cb21-2"></a>create</span>
 <span id="cb21-3"><a href="#cb21-3"></a><span class="kw">or</span> replace table trainroutes_h3 cluster by (cellid) <span class="im">as</span> <span class="cf">with</span> tessellated <span class="im">as</span> (</span>
@@ -782,7 +778,7 @@ Note
 <span id="cb21-19"><a href="#cb21-19"></a><span class="im">from</span></span>
 <span id="cb21-20"><a href="#cb21-20"></a>  tessellated</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-31" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;c10516a4-8041-44c0-94bc-6c7ac7f12fbb&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1755863242369}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-32" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;c10516a4-8041-44c0-94bc-6c7ac7f12fbb&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1755863242369}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1"></a><span class="op">%</span>sql</span>
 <span id="cb22-2"><a href="#cb22-2"></a>create <span class="kw">or</span> replace table closest_resorts <span class="im">as</span></span>
 <span id="cb22-3"><a href="#cb22-3"></a>select</span>
@@ -809,7 +805,7 @@ Note
 <p>And that’s it, we found the 11 ski resorts closest to (i.e.&nbsp;within 1 km) train services! I leave it as an exercise to the reader to calculate the actual distance between the (unbuffered) resort polygons and the train route linestrings – don’t forget to use the geometry transformed to the local coordinate system, otherwise <code>st_distance</code> will work with degrees (and <code>st_distancespheroid</code> only works within points as of writing).</p>
 <p>If you were interested in, say, calculating the actual shortest path between such geometries, you could use a <a href="../stfunctions/duckdb_udf.html">Spark UDF with DuckDB</a>.</p>
 <p>Let’s visualize the winners once again:</p>
-<div id="cell-33" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;942792ea-1ccf-492c-b296-c3dcab460440&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-34" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;942792ea-1ccf-492c-b296-c3dcab460440&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1"></a><span class="op">%</span>sql</span>
 <span id="cb23-2"><a href="#cb23-2"></a>create <span class="kw">or</span> replace temporary view closest_resorts_geo <span class="im">as</span></span>
 <span id="cb23-3"><a href="#cb23-3"></a>select</span>
@@ -833,7 +829,7 @@ Note
 <span id="cb23-21"><a href="#cb23-21"></a>    )</span>
 <span id="cb23-22"><a href="#cb23-22"></a>      using (route_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-34" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;b1ef95b0-e116-4063-9ed5-e5031b92704d&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-35" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;b1ef95b0-e116-4063-9ed5-e5031b92704d&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1"></a>dfa <span class="op">=</span> (</span>
 <span id="cb24-2"><a href="#cb24-2"></a>    spark.table(<span class="st">"closest_resorts_geo"</span>)</span>
 <span id="cb24-3"><a href="#cb24-3"></a>    .withColumn(<span class="st">"geometry"</span>, F.expr(<span class="st">"st_asbinary(geometry)"</span>))</span>
