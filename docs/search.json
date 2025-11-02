@@ -366,7 +366,7 @@
     "href": "viz/QGIS.html",
     "title": "Visualizing Delta Lake geospatial data in QGIS",
     "section": "",
-    "text": "Few pointers: - For moderate data sizes, the simplest way is to download your data in a format of your liking such as GeoParquet, GeoPackage, FlatGeobuf or similar. - For large datasets, see in the FlatGeobuf section how you can stream a FlatGeobuf file from Databricks volumes into QGIS.",
+    "text": "Few pointers: - For moderate data sizes, the simplest way is to download your data in a format of your liking such as GeoParquet, GeoPackage, FlatGeobuf or similar. - For large datasets, see in the FlatGeobuf section how you can stream a FlatGeobuf file from Databricks volumes into QGIS. - last but not least, check out this plugin to connect QGIS directly to a SQL warehouse and read Delta Lake tables with GEOMETRY columns.",
     "crumbs": [
       "Visualization",
       "<span class='chapter-number'>13</span>  <span class='chapter-title'>Visualizing Delta Lake geospatial data in QGIS</span>"
