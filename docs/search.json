@@ -76,6 +76,17 @@
     ]
   },
   {
+    "objectID": "duckdb-on-databricks/DuckDB_on_Databricks.html#register-duckdb-functions-as-spark-udfs",
+    "href": "duckdb-on-databricks/DuckDB_on_Databricks.html#register-duckdb-functions-as-spark-udfs",
+    "title": "DuckDB on Databricks",
+    "section": "Register DuckDB functions as Spark UDFs",
+    "text": "Register DuckDB functions as Spark UDFs\nSee here.",
+    "crumbs": [
+      "Setup",
+      "<span class='chapter-number'>2</span>  <span class='chapter-title'>DuckDB on Databricks</span>"
+    ]
+  },
+  {
     "objectID": "delta/GEOMETRY_vs_GEOGRAPHY.html",
     "href": "delta/GEOMETRY_vs_GEOGRAPHY.html",
     "title": "GEOMETRY vs GEOGRAPHY vs WKB",
