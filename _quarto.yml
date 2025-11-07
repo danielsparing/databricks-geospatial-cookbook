@@ -31,6 +31,7 @@ book:
     - part: "Visualization"
       chapters:
         - viz/native.ipynb
+        - viz/maplibregljs.ipynb
         - viz/GeoPandas.ipynb
         - viz/lonboard.ipynb
         - viz/PMTiles.ipynb
