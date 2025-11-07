@@ -433,38 +433,40 @@ Note
 <section id="create-a-sample-table" class="level2">
 <h2 class="anchored" data-anchor-id="create-a-sample-table">Create a sample table</h2>
 <p>We create here a sample table of buildings in the Netherlands – the same worked for me also for all 2.5B Overture Maps buildings of the world, but if you tried to persist that table, you’d probably run against the daily usage limit of <em>Databricks Free Edition</em> as I did.</p>
-<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;f176cd45-e97f-4312-acb8-7d0b0e506c16&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>OVERTUREMAPS_RELEASE <span class="op">=</span> <span class="st">'2025-10-22.0'</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>COUNTRY_CODE <span class="op">=</span> <span class="st">'NL'</span></span>
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;f176cd45-e97f-4312-acb8-7d0b0e506c16&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>OVERTUREMAPS_RELEASE <span class="op">=</span> <span class="st">"2025-10-22.0"</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>COUNTRY_CODE <span class="op">=</span> <span class="st">"NL"</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a>country_bbox <span class="op">=</span> spark.read.parquet(</span>
-<span id="cb2-5"><a href="#cb2-5"></a>    <span class="ss">f"s3://overturemaps-us-west-2/release/</span><span class="sc">{</span>OVERTUREMAPS_RELEASE<span class="sc">}</span><span class="ss">/theme=divisions/type=division_area"</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>).where(<span class="ss">f"subtype = 'country' and class = 'land' and country = '</span><span class="sc">{</span>COUNTRY_CODE<span class="sc">}</span><span class="ss">'"</span>).select(<span class="st">"bbox.*"</span>).toPandas().iloc[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4"></a>country_bbox <span class="op">=</span> (</span>
+<span id="cb2-5"><a href="#cb2-5"></a>    spark.read.parquet(</span>
+<span id="cb2-6"><a href="#cb2-6"></a>        <span class="ss">f"s3://overturemaps-us-west-2/release/</span><span class="sc">{</span>OVERTUREMAPS_RELEASE<span class="sc">}</span><span class="ss">/theme=divisions/type=division_area"</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>    )</span>
+<span id="cb2-8"><a href="#cb2-8"></a>    .where(<span class="ss">f"subtype = 'country' and class = 'land' and country = '</span><span class="sc">{</span>COUNTRY_CODE<span class="sc">}</span><span class="ss">'"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9"></a>    .select(<span class="st">"bbox.*"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10"></a>    .toPandas()</span>
+<span id="cb2-11"><a href="#cb2-11"></a>    .iloc[<span class="dv">0</span>]</span>
+<span id="cb2-12"><a href="#cb2-12"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;594b160d-8386-448b-b7a0-21e079c6aab7&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
+<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;594b160d-8386-448b-b7a0-21e079c6aab7&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> functions <span class="im">as</span> F</span>
 <span id="cb3-2"><a href="#cb3-2"></a></span>
 <span id="cb3-3"><a href="#cb3-3"></a>spark.read.parquet(</span>
 <span id="cb3-4"><a href="#cb3-4"></a>    <span class="ss">f"s3://overturemaps-us-west-2/release/</span><span class="sc">{</span>OVERTUREMAPS_RELEASE<span class="sc">}</span><span class="ss">/theme=buildings/type=building"</span></span>
 <span id="cb3-5"><a href="#cb3-5"></a>).where(</span>
-<span id="cb3-6"><a href="#cb3-6"></a>    <span class="ss">f"""bbox.xmin &lt; </span><span class="sc">{</span>country_bbox[<span class="st">'xmax'</span>]<span class="sc">}</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="ss">        and bbox.xmax &gt; </span><span class="sc">{</span>country_bbox[<span class="st">'xmin'</span>]<span class="sc">}</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="ss">        and bbox.ymin &lt; </span><span class="sc">{</span>country_bbox[<span class="st">'ymax'</span>]<span class="sc">}</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="ss">        and bbox.ymax &gt; </span><span class="sc">{</span>country_bbox[<span class="st">'ymin'</span>]<span class="sc">}</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>    <span class="ss">f"""bbox.xmin &lt; </span><span class="sc">{</span>country_bbox[<span class="st">"xmax"</span>]<span class="sc">}</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="ss">        and bbox.xmax &gt; </span><span class="sc">{</span>country_bbox[<span class="st">"xmin"</span>]<span class="sc">}</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="ss">        and bbox.ymin &lt; </span><span class="sc">{</span>country_bbox[<span class="st">"ymax"</span>]<span class="sc">}</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="ss">        and bbox.ymax &gt; </span><span class="sc">{</span>country_bbox[<span class="st">"ymin"</span>]<span class="sc">}</span></span>
 <span id="cb3-10"><a href="#cb3-10"></a><span class="ss">        """</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a>).withColumn(</span>
-<span id="cb3-12"><a href="#cb3-12"></a>    <span class="st">"geometry"</span>, F.expr(<span class="st">"st_geomfromwkb(geometry)"</span>)</span>
-<span id="cb3-13"><a href="#cb3-13"></a>).write.mode(</span>
-<span id="cb3-14"><a href="#cb3-14"></a>    <span class="st">"overwrite"</span></span>
-<span id="cb3-15"><a href="#cb3-15"></a>).saveAsTable(</span>
-<span id="cb3-16"><a href="#cb3-16"></a>    <span class="ss">f"workspace.default.building_geom"</span></span>
-<span id="cb3-17"><a href="#cb3-17"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-11"><a href="#cb3-11"></a>).withColumn(<span class="st">"geometry"</span>, F.expr(<span class="st">"st_geomfromwkb(geometry)"</span>)).write.mode(</span>
+<span id="cb3-12"><a href="#cb3-12"></a>    <span class="st">"overwrite"</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a>).saveAsTable(<span class="st">"workspace.default.building_geom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now we can build on Maxxen’s <a href="https://gist.github.com/Maxxen/37e4a9f8595ea5e6a20c0c8fbbefe955">gist</a>, with the following adjustments:</p>
 <ul>
 <li>We keep DuckDB doing the MVT generation incl.&nbsp;the preprocessing of calculating the <a href="https://duckdb.org/docs/stable/core_extensions/spatial/functions#st_tileenvelope">ST_TileEnvelope</a> for the tiles needed for the current viewport, but of course we need Databricks SQL to actually spatial filter our Delta Table (DuckDB delta_scan currently <a href="https://github.com/duckdb/duckdb-delta/issues/248">does not read</a> GEOMETRY data types.)
 <ul>
-<li>An alternative approach could be to <a href="../stfunctions/duckdb_udf">wrap the used DuckDB functions into Spark UDF’s</a>, if we wanted to move some compute from your browser to DBSQL.</li>
+<li>An alternative approach could be to <a href="../stfunctions/duckdb_udf.html">wrap the used DuckDB functions into Spark UDF’s</a>, if we wanted to move some compute from your browser to DBSQL.</li>
 </ul></li>
 <li>For DBSQL we use the <a href="https://docs.databricks.com/aws/en/dev-tools/python-sql-connector">Python <code>databricks-sql-connector</code></a>, authenticating with a <a href="https://docs.databricks.com/aws/en/dev-tools/python-sql-connector#databricks-personal-access-token-authentication">Personal Access Token</a> – for serious work, you’d want to use OAuth instead.</li>
 <li><strong>Graceful feature limit.</strong> What to do if a tile has too many features? A common solution would be to define a minimum zoom level, but this would make it very cumbersome to move around the map, so we define a <code>MAX_FEATURES_PER_TYLE</code> instead. If this is reached, we gracefully fail and only show the tile boundaries – the user would only need to further zoom in to reveal all the features within that viewport.</li>
@@ -493,7 +495,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>What if you find this approach still too “slow”, from the end-user standpoint? Then you can use <a href="./duckdb_udf">PMTiles</a>. The difference is that with the MVT approach, you directly read the Delta Lake table, and the PMTile you would need to generate which means extra compute and time.</p>
+<p>What if you find this approach still too “slow”, from the end-user standpoint? Then you can use <a href="../viz/PMTiles.html">PMTiles</a>. The difference is that with the MVT approach, you directly read the Delta Lake table, and the PMTile you would need to generate which means extra compute and time.</p>
 </div>
 </div>
 <p>```python # Based on https://gist.github.com/Maxxen/37e4a9f8595ea5e6a20c0c8fbbefe955 by Max Gabrielsson</p>
