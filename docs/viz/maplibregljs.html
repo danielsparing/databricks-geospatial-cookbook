@@ -530,7 +530,7 @@ with duckdb_con.cursor() as local_con:
 
 query = f"""
     select
-     geometry
+     st_aswkb(geometry) as geometry
     from
     `workspace`.`default`.`building_geom`
         where st_intersects(geometry, st_geomfromtext('{tileenv[0]}'))
@@ -543,9 +543,11 @@ with dbx_con.cursor() as cursor:
 # Use con.cursor() to avoid threading issues with Flask
 with duckdb_con.cursor() as local_con:
     tile_blob = None
-    tile_count = local_con.execute("""
+    tile_count = local_con.execute(
+        """
         select count(*) cnt from da
-        """).fetchone()[0]
+        """
+    ).fetchone()[0]
     if tile_count == MAX_FEATURES_PER_TILE:
         # If we hit the limit, return an empty tile to avoid incomplete data
         tile_blob = local_con.execute(
@@ -564,7 +566,7 @@ with duckdb_con.cursor() as local_con:
             """
             select ST_AsMVT({
                 "geometry": ST_AsMVTGeom(
-                    st_transform(st_geomfromtext(geometry), 'OGC:CRS84', 'EPSG:3857'),
+                    st_transform(st_geomfromwkb(geometry), 'OGC:CRS84', 'EPSG:3857'),
                     ST_Extent(ST_TileEnvelope($1, $2, $3))
                     )
                 }) from da
@@ -654,7 +656,10 @@ Vector Tile Viewer
         },
         // Zoom in on amf
         center: [5.38327, 52.15660],
-        zoom: 12
+        zoom: 12,
+        prefetchZoomDelta: 0, // disables zoom-level prefetch
+        refreshExpiredTiles: false, // don’t re-request tiles that have expired
+
     });
 
     map.addControl(new maplibregl.NavigationControl());
