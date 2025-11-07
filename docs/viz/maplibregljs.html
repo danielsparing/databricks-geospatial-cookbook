@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Scalable visualization of large Delta Lake tables with GEOMETRY columms with DuckDB Spatial MVT and MaplibreGL JS – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../viz/GeoPandas.html" rel="next">
+<link href="../viz/native.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/maplibregljs.html"><span class="chapter-title">Scalable visualization of large Delta Lake tables with GEOMETRY columms with DuckDB Spatial MVT and MaplibreGL JS</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Databricks Free Edition Geospatial Cookbook with DuckDB</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/danielsparing/databricks-geospatial-cookbook" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://www.linkedin.com/sharing/share-offsite/?url=|url|" title="LinkedIn" class="quarto-navigation-tool px-1" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true">
+ <span class="menu-text">Setup</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../duckdb-on-databricks/DuckDB_on_Databricks.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">DuckDB on Databricks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Geospatial Delta Lake</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../delta/GEOMETRY_vs_GEOGRAPHY.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GEOMETRY vs GEOGRAPHY vs WKB</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../delta/GEOMETRY.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Storing spatial data in Delta Lake as GEOMETRY type</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../delta/GEOGRAPHY.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Storing spatial data in Delta Lake as GEOGRAPHY type</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../delta/WKB.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Storing spatial data in Delta Lake as WKB</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Import/Export to other formats</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../other_formats/import.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Import geospatial formats into Delta Lake with DuckDB</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../other_formats/export.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Export Delta Lake table to other formats with DuckDB</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Visualization</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../viz/native.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Native Point Map Visualization</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../viz/maplibregljs.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Scalable visualization of large Delta Lake tables with GEOMETRY columms with DuckDB Spatial MVT and MaplibreGL JS</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../viz/GeoPandas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visualize with GeoPandas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../viz/lonboard.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visualize a geospatial Delta Lake table with Lonboard</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../viz/PMTiles.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visualize with PMTiles</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../viz/QGIS.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Visualizing Delta Lake geospatial data in QGIS</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Spatial functions</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stfunctions/native.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Databricks Native ST geospatial functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stfunctions/duckdb_udf.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Define a Spark UDF using a DuckDB Spatial function</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../stfunctions/GeoPandas.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">GeoPandas</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">End-to-end examples</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../end2end/train_to_slopes.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">End-to-end example: Taking the train to the slopes</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true">
+ <span class="menu-text">Mapmatching</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../mapmatching/databricks_graphhopper.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Run GraphHopper on Databricks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+ <span class="menu-text">Helper apps on Databricks Apps</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../apps/databricks_apps.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Helper apps on Databricks Apps</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
+ <span class="menu-text">Appendix</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix/databricks_ogr2ogr_parquet.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">How to install <code>ogr2ogr</code> in a Databricks notebook (incl.&nbsp;Parquet support)</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../appendix/https_install_duckdbextension.html" class="sidebar-item-text sidebar-link"><span class="chapter-title">Install DuckDB Extensions via HTTPS</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#create-a-sample-table" id="toc-create-a-sample-table" class="nav-link active" data-scroll-target="#create-a-sample-table">Create a sample table</a></li>
+  <li><a href="#initialize-flask-app" id="toc-initialize-flask-app" class="nav-link" data-scroll-target="#initialize-flask-app">Initialize Flask app</a></li>
+  <li><a href="#tile-endpoint-to-serve-vector-tiles" id="toc-tile-endpoint-to-serve-vector-tiles" class="nav-link" data-scroll-target="#tile-endpoint-to-serve-vector-tiles">Tile endpoint to serve vector tiles</a></li>
+  <li><a href="#html-content-for-the-index-page" id="toc-html-content-for-the-index-page" class="nav-link" data-scroll-target="#html-content-for-the-index-page">HTML content for the index page</a></li>
+  <li><a href="#serve-the-static-html-file-for-the-index-page" id="toc-serve-the-static-html-file-for-the-index-page" class="nav-link" data-scroll-target="#serve-the-static-html-file-for-the-index-page">Serve the static HTML file for the index page</a></li>
+  </ul>
+<div class="toc-actions"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/viz/maplibregljs.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/maplibregljs.html"><span class="chapter-title">Scalable visualization of large Delta Lake tables with GEOMETRY columms with DuckDB Spatial MVT and MaplibreGL JS</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-title">Scalable visualization of large Delta Lake tables with GEOMETRY columms with DuckDB Spatial MVT and MaplibreGL JS</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/maplibre.png" class="img-fluid figure-img"></p>
+<figcaption>Maplibre visualization of a Delta Lake table with aGEOMETRY column, via DuckDB Spatial</figcaption>
+</figure>
+</div>
+<p>We have <a href="https://github.com/duckdb/duckdb-spatial/issues/241">MVT support</a> in DuckDB Spatial since version 1.4. This means that we can feed MVT to e.g.&nbsp;MaplibreGL JS, as shown by DuckDB Spatial author Max Gabrielsson <a href="https://gist.github.com/Maxxen/37e4a9f8595ea5e6a20c0c8fbbefe955">here in an example Flask app</a>.</p>
+<p>(Another nice tool to consume DuckDB MVT’s would be Martin, this is tracked in this <a href="https://github.com/maplibre/martin/issues/1693">issue</a>.)</p>
+<p>But how do we efficiently generate MVT’s from a Delta Lake table containing a GEOMETRY, given the tile indices?</p>
+<p>The key thing to consider is that <a href="https://www.databricks.com/blog/introducing-spatial-sql-databricks-80-functions-high-performance-geospatial-analytics">now</a> Databricks has very efficient spatial join filtering via e.g.&nbsp;<code>ST_Intersect</code>, especially if what you are filtering for is a constant. So the following query can be sub-second for e.g.&nbsp;a billion polygons such as Overture Maps buildings (note that we are not using any spatial grid or bounding box filters anymore):</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">select</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a>  geometry</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">from</span></span>
+<span id="cb1-4"><a href="#cb1-4"></a>  t</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">where</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a>  st_intersects(</span>
+<span id="cb1-7"><a href="#cb1-7"></a>    geometry,</span>
+<span id="cb1-8"><a href="#cb1-8"></a>    st_geomfromtext(</span>
+<span id="cb1-9"><a href="#cb1-9"></a>      <span class="st">'POLYGON ((5.44921875 52.160454557747045, 5.44921875 52.2143386082582, 5.537109374999999 52.2143386082582, 5.537109374999999 52.160454557747045, 5.44921875 52.160454557747045))'</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>    )</span>
+<span id="cb1-11"><a href="#cb1-11"></a>  )</span>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="kw">limit</span> <span class="dv">30000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>For this to work fast, the geometry really has to be <a href="https://docs.databricks.com/aws/en/sql/language-manual/data-types/geometry-type">GEOMETRY</a> (or probably GEOGRAPHY) type, and not WKB, which latter is still the case as of writing for the <a href="https://marketplace.databricks.com/details/ccacdfa3-b85d-4065-bd70-efa673c197e1/CARTO_Overture-Maps-Buildings">CARTO-provided tables such as <code>carto_overture_maps_buildings.carto.building</code></a>.</p>
+</div>
+</div>
+<section id="create-a-sample-table" class="level2">
+<h2 class="anchored" data-anchor-id="create-a-sample-table">Create a sample table</h2>
+<p>We create here a sample table of buildings in the Netherlands – the same worked for me also for all 2.5B Overture Maps buildings of the world, but if you tried to persist that table, you’d probably run against the daily usage limit of <em>Databricks Free Edition</em> as I did.</p>
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;f176cd45-e97f-4312-acb8-7d0b0e506c16&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>OVERTUREMAPS_RELEASE <span class="op">=</span> <span class="st">"2025-10-22.0"</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>COUNTRY_CODE <span class="op">=</span> <span class="st">"NL"</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a>country_bbox <span class="op">=</span> (</span>
+<span id="cb2-5"><a href="#cb2-5"></a>    spark.read.parquet(</span>
+<span id="cb2-6"><a href="#cb2-6"></a>        <span class="ss">f"s3://overturemaps-us-west-2/release/</span><span class="sc">{</span>OVERTUREMAPS_RELEASE<span class="sc">}</span><span class="ss">/theme=divisions/type=division_area"</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>    )</span>
+<span id="cb2-8"><a href="#cb2-8"></a>    .where(<span class="ss">f"subtype = 'country' and class = 'land' and country = '</span><span class="sc">{</span>COUNTRY_CODE<span class="sc">}</span><span class="ss">'"</span>)</span>
+<span id="cb2-9"><a href="#cb2-9"></a>    .select(<span class="st">"bbox.*"</span>)</span>
+<span id="cb2-10"><a href="#cb2-10"></a>    .toPandas()</span>
+<span id="cb2-11"><a href="#cb2-11"></a>    .iloc[<span class="dv">0</span>]</span>
+<span id="cb2-12"><a href="#cb2-12"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;594b160d-8386-448b-b7a0-21e079c6aab7&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> functions <span class="im">as</span> F</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>spark.read.parquet(</span>
+<span id="cb3-4"><a href="#cb3-4"></a>    <span class="ss">f"s3://overturemaps-us-west-2/release/</span><span class="sc">{</span>OVERTUREMAPS_RELEASE<span class="sc">}</span><span class="ss">/theme=buildings/type=building"</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a>).where(</span>
+<span id="cb3-6"><a href="#cb3-6"></a>    <span class="ss">f"""bbox.xmin &lt; </span><span class="sc">{</span>country_bbox[<span class="st">"xmax"</span>]<span class="sc">}</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="ss">        and bbox.xmax &gt; </span><span class="sc">{</span>country_bbox[<span class="st">"xmin"</span>]<span class="sc">}</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="ss">        and bbox.ymin &lt; </span><span class="sc">{</span>country_bbox[<span class="st">"ymax"</span>]<span class="sc">}</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="ss">        and bbox.ymax &gt; </span><span class="sc">{</span>country_bbox[<span class="st">"ymin"</span>]<span class="sc">}</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="ss">        """</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a>).withColumn(<span class="st">"geometry"</span>, F.expr(<span class="st">"st_geomfromwkb(geometry)"</span>)).write.mode(</span>
+<span id="cb3-12"><a href="#cb3-12"></a>    <span class="st">"overwrite"</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a>).saveAsTable(<span class="st">"workspace.default.building_geom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can build on Maxxen’s <a href="https://gist.github.com/Maxxen/37e4a9f8595ea5e6a20c0c8fbbefe955">gist</a>, with the following adjustments:</p>
+<ul>
+<li>We keep DuckDB doing the MVT generation incl.&nbsp;the preprocessing of calculating the <a href="https://duckdb.org/docs/stable/core_extensions/spatial/functions#st_tileenvelope">ST_TileEnvelope</a> for the tiles needed for the current viewport, but of course we need Databricks SQL to actually spatial filter our Delta Table (DuckDB delta_scan currently <a href="https://github.com/duckdb/duckdb-delta/issues/248">does not read</a> GEOMETRY data types.)
+<ul>
+<li>An alternative approach could be to <a href="../stfunctions/duckdb_udf.html">wrap the used DuckDB functions into Spark UDF’s</a>, if we wanted to move some compute from your browser to DBSQL.</li>
+</ul></li>
+<li>For DBSQL we use the <a href="https://docs.databricks.com/aws/en/dev-tools/python-sql-connector">Python <code>databricks-sql-connector</code></a>, authenticating with a <a href="https://docs.databricks.com/aws/en/dev-tools/python-sql-connector#databricks-personal-access-token-authentication">Personal Access Token</a> – for serious work, you’d want to use OAuth instead.</li>
+<li><strong>Graceful feature limit.</strong> What to do if a tile has too many features? A common solution would be to define a minimum zoom level, but this would make it very cumbersome to move around the map, so we define a <code>MAX_FEATURES_PER_TYLE</code> instead. If this is reached, we gracefully fail and only show the tile boundaries – the user would only need to further zoom in to reveal all the features within that viewport.</li>
+<li>MVT expects SRID 3857, while our table is probably in another SRID, so we need to use some <code>st_transform</code> there and back.</li>
+<li><strong>Tile throttling</strong>. we also added JS code under <code>// === Tile throttling logic ===</code> to take a 2 second pause starting any zoom and move interaction, in order to avoid overloading the warehouse with tile requests and therefore avoid tile queueing.
+<ul>
+<li>Note that in the current implementation this means that during zooming and moving the map, the feature layer is temporarily not visible – this probably could be improved. For example, without tile throttling, the objects would remain visible during zoom/pan, but we would need to wait much longer for the results after a big move.</li>
+</ul></li>
+</ul>
+<p>In the below video (showing a table with all 2.5B buildings worldwide, not just one country), you can see the tiling at work – note how 1) the graceful feature limit means that “too busy” tiles are just shown as rectangles, and 2) zoom-and-pan pauses the feature layer but after a short timeout, the tiles are drawn, with sub-second latency per tile.</p>
+<p>Find the full code below the video, which you can run <a href="https://flask.palletsprojects.com/en/stable/quickstart/">locally</a> as a Flask app (you could also embed it within a Databricks App if preferred, but the local app is of course a bit more cost-effective).</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="https://www.youtube.com/watch?v=6d87gGNTyRg"><img src="img/maplibre_vid.png" class="img-fluid figure-img"></a></p>
+<figcaption>Watch the video</figcaption>
+</figure>
+</div>
+<p>(click on the above image to play the video.)</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>What if you find this approach still too “slow”, from the end-user standpoint? Then you can use <a href="../viz/PMTiles.html">PMTiles</a>. The difference is that with the MVT approach, you directly read the Delta Lake table, and the PMTile you would need to generate which means extra compute and time.</p>
+</div>
+</div>
+<p>```python # Based on https://gist.github.com/Maxxen/37e4a9f8595ea5e6a20c0c8fbbefe955 by Max Gabrielsson</p>
+<p>import os</p>
+<p>import duckdb import flask</p>
+<p>from databricks import sql # type: ignore</p>
+<p>MAX_FEATURES_PER_TILE = 30_000</p>
+</section>
+<section id="initialize-flask-app" class="level1">
+<h1>Initialize Flask app</h1>
+<p>app = flask.Flask(<strong>name</strong>)</p>
+<p>config = {“allow_unsigned_extensions”: “true”} duckdb_con = duckdb.connect(config=config)</p>
+<p>duckdb_con.execute(“INSTALL spatial”)</p>
+<p>duckdb_con.execute(“load spatial”)</p>
+<p>dbx_con = sql.connect( server_hostname=os.getenv(“DATABRICKS_SERVER_HOSTNAME”), http_path=os.getenv(“DATABRICKS_HTTP_PATH”), access_token=os.getenv(“DATABRICKS_TOKEN”), )</p>
+</section>
+<section id="tile-endpoint-to-serve-vector-tiles" class="level1">
+<h1>Tile endpoint to serve vector tiles</h1>
+<p><span class="citation" data-cites="app.route">@app.route</span>(“/tiles/<int:z>/<int:x>/<int:y>.pbf”) def get_tile(z, x, y): # Query to get the tile data from DuckDB # - Note that the geometry is assumed to be projected to <code>EPSG:3857</code> (Web Mercator)</int:y></int:x></int:z></p>
+<pre><code># Use con.cursor() to avoid threading issues with Flask
+with duckdb_con.cursor() as local_con:
+    tileenv = local_con.execute(
+        """
+        select st_astext(st_transform(
+        st_tileenvelope($1, $2, $3),
+        'EPSG:3857',
+        'OGC:CRS84'
+        ))
+        """,
+        [z, x, y],
+    ).fetchone()
+
+query = f"""
+    select
+     geometry
+    from
+    `workspace`.`default`.`building_geom`
+        where st_intersects(geometry, st_geomfromtext('{tileenv[0]}'))
+        limit {MAX_FEATURES_PER_TILE}"""
+
+with dbx_con.cursor() as cursor:
+    cursor.execute(query)
+    da = cursor.fetchall_arrow()  # noqa: F841
+
+# Use con.cursor() to avoid threading issues with Flask
+with duckdb_con.cursor() as local_con:
+    tile_blob = None
+    tile_count = local_con.execute("""
+        select count(*) cnt from da
+        """).fetchone()[0]
+    if tile_count == MAX_FEATURES_PER_TILE:
+        # If we hit the limit, return an empty tile to avoid incomplete data
+        tile_blob = local_con.execute(
+            """
+            select ST_AsMVT({
+                "geometry": ST_AsMVTGeom(
+                    ST_TileEnvelope($1, $2, $3),
+                    ST_Extent(ST_TileEnvelope($1, $2, $3))
+                    )
+                }) 
+            """,
+            [z, x, y],
+        ).fetchone()
+    else:
+        tile_blob = local_con.execute(
+            """
+            select ST_AsMVT({
+                "geometry": ST_AsMVTGeom(
+                    st_transform(st_geomfromtext(geometry), 'OGC:CRS84', 'EPSG:3857'),
+                    ST_Extent(ST_TileEnvelope($1, $2, $3))
+                    )
+                }) from da
+            """,
+            [z, x, y],
+        ).fetchone()
+
+    # Send the tile data as a response
+    tile = tile_blob[0] if tile_blob and tile_blob[0] else b""
+    return flask.Response(tile, mimetype="application/x-protobuf")</code></pre>
+</section>
+<section id="html-content-for-the-index-page" class="level1">
+<h1>HTML content for the index page</h1>
+INDEX_HTML = ““” &lt;!DOCTYPE html&gt;
+
+
+<meta charset="utf-8">
+<title>
+Vector Tile Viewer
+</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+<script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+<link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet">
+<style>
+        body { margin: 0; padding: 0; }
+        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+    </style>
+
+
+<div id="map">
+
+</div>
+<script>
+    const map = new maplibregl.Map({
+        container: 'map',
+        style: {
+            version: 8,
+            sources: {
+                'buildings': {
+                    type: 'vector',
+                    tiles: [`${window.location.origin}/tiles/{z}/{x}/{y}.pbf`]
+                },
+                // Also use a public open source basemap
+                'osm': {
+                    type: 'raster',
+                    tiles: [
+                        'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                        'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
+                    ],
+                    tileSize: 256
+                }
+            },
+            layers: [
+                {
+                    id: 'background',
+                    type: 'background',
+                    paint: { 'background-color': '#a0c8f0' }
+                },
+                {
+                    id: 'osm',
+                    type: 'raster',
+                    source: 'osm'
+                },
+                {
+                    id: 'buildings-fill',
+                    type: 'fill',
+                    source: 'buildings',
+                    'source-layer': 'layer',
+                    paint: {
+                        'fill-color': 'blue',
+                        'fill-opacity': 0.6,
+                        'fill-outline-color': '#ffffff'
+                    }
+                },
+                {
+                    id: 'buildings-stroke',
+                    type: 'line',
+                    source: 'buildings',
+                    'source-layer': 'layer',
+                    paint: {
+                        'line-color': 'black',
+                        'line-width': 0.5
+                    }
+                }
+            ]
+        },
+        // Zoom in on amf
+        center: [5.38327, 52.15660],
+        zoom: 12
+    });
+
+    map.addControl(new maplibregl.NavigationControl());
+
+    // Add click handler to show feature properties
+    map.on('click', 'buildings-fill', (e) => {
+        const coordinates = e.lngLat;
+        const properties = e.features[0].properties;
+
+        let popupContent = '<h3>Building Properties</h3>';
+        for (const [key, value] of Object.entries(properties)) {
+            popupContent += `<p><strong>${key}:</strong> ${value}</p>`;
+        }
+
+        new maplibregl.Popup()
+            .setLngLat(coordinates)
+            .setHTML(popupContent)
+            .addTo(map);
+    });
+
+    // Change cursor on hover
+    map.on('mouseenter', 'buildings-fill', () => {
+        map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', 'buildings-fill', () => {
+        map.getCanvas().style.cursor = '';
+    });
+
+
+// ---- Throttle building tile loading ----
+let reloadTimeout;
+
+function removeBuildingLayers() {
+    if (map.getLayer('buildings-fill')) map.removeLayer('buildings-fill');
+    if (map.getLayer('buildings-stroke')) map.removeLayer('buildings-stroke');
+    if (map.getSource('buildings')) map.removeSource('buildings');
+}
+
+function addBuildingLayers() {
+    if (map.getSource('buildings')) return;
+
+    map.addSource('buildings', {
+        type: 'vector',
+        tiles: [`${window.location.origin}/tiles/{z}/{x}/{y}.pbf`]
+    });
+
+    map.addLayer({
+        id: 'buildings-fill',
+        type: 'fill',
+        source: 'buildings',
+        'source-layer': 'layer',
+        paint: {
+            'fill-color': 'blue',
+            'fill-opacity': 0.6,
+            'fill-outline-color': '#ffffff'
+        }
+    });
+
+    map.addLayer({
+        id: 'buildings-stroke',
+        type: 'line',
+        source: 'buildings',
+        'source-layer': 'layer',
+        paint: {
+            'line-color': 'black',
+            'line-width': 0.5
+        }
+    });
+}
+
+// When user starts moving or zooming
+function onInteractionStart() {
+    clearTimeout(reloadTimeout);
+    removeBuildingLayers();
+}
+
+// When user stops moving or zooming
+function onInteractionEnd() {
+    clearTimeout(reloadTimeout);
+    reloadTimeout = setTimeout(() => {
+        addBuildingLayers();
+    }, 2000);
+}
+
+// Bind to move & zoom events
+map.on('movestart', onInteractionStart);
+map.on('moveend', onInteractionEnd);
+map.on('zoomstart', onInteractionStart);
+map.on('zoomend', onInteractionEnd);
+
+</script>
+
+
+<p>““”</p>
+</section>
+<section id="serve-the-static-html-file-for-the-index-page" class="level1">
+<h1>Serve the static HTML file for the index page</h1>
+<p><span class="citation" data-cites="app.route">@app.route</span>(“/”) def index(): return flask.Response(INDEX_HTML, mimetype=“text/html”)</p>
+<p>if <strong>name</strong> == “<strong>main</strong>”: # Start on localhost app.run(debug=True)</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../viz/native.html" class="pagination-link" aria-label="Native Point Map Visualization">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-title">Native Point Map Visualization</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../viz/GeoPandas.html" class="pagination-link" aria-label="Visualize with GeoPandas">
+        <span class="nav-page-text"><span class="chapter-title">Visualize with GeoPandas</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+<footer class="footer"><div class="nav-footer"><div class="nav-footer-center"><div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/viz/maplibregljs.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div></div></footer></body></html>
