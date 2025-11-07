@@ -388,7 +388,7 @@
     "href": "viz/PMTiles.html",
     "title": "Visualize with PMTiles",
     "section": "",
-    "text": "PMTiles (a tileserver in the form of a single file, read with Range Requests) is a powerful way to visualize very large datasets, see https://pmtiles.io . The key tool to generate one is tippecanoe.\nSee here on how to use tippecanoe to create a PMTiles file, and for a more advanced example incl visualization, see this end-to-end notebook.\n\n\n\n\n\n\nNote\n\n\n\nNote that the maps built on PMTiles are slippy maps, pannable and zoomable, unlike the screenshot of it below.\n\n\n\n\n\nrailnetwork",
+    "text": "PMTiles (a tileserver in the form of a single file, read with Range Requests) is a powerful way to visualize very large datasets, see https://pmtiles.io . The key tool to generate one is tippecanoe.\nSee here on how to use tippecanoe to create a PMTiles file, and for a more advanced example, see this end-to-end notebook.\n\n\n\n\n\n\nNote\n\n\n\nNote that the maps built on PMTiles are slippy maps, pannable and zoomable, unlike the screenshot of it below.\n\n\n\n\n\nrailnetwork",
     "crumbs": [
       "Visualization",
       "<span class='chapter-number'>13</span>  <span class='chapter-title'>Visualize with PMTiles</span>"
