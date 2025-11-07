@@ -366,10 +366,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#create-a-sample-table" id="toc-create-a-sample-table" class="nav-link active" data-scroll-target="#create-a-sample-table">Create a sample table</a></li>
-  <li><a href="#initialize-flask-app" id="toc-initialize-flask-app" class="nav-link" data-scroll-target="#initialize-flask-app">Initialize Flask app</a></li>
-  <li><a href="#tile-endpoint-to-serve-vector-tiles" id="toc-tile-endpoint-to-serve-vector-tiles" class="nav-link" data-scroll-target="#tile-endpoint-to-serve-vector-tiles">Tile endpoint to serve vector tiles</a></li>
-  <li><a href="#html-content-for-the-index-page" id="toc-html-content-for-the-index-page" class="nav-link" data-scroll-target="#html-content-for-the-index-page">HTML content for the index page</a></li>
-  <li><a href="#serve-the-static-html-file-for-the-index-page" id="toc-serve-the-static-html-file-for-the-index-page" class="nav-link" data-scroll-target="#serve-the-static-html-file-for-the-index-page">Serve the static HTML file for the index page</a></li>
   </ul>
 <div class="toc-actions"><ul><li><a href="https://github.dev/danielsparing/databricks-geospatial-cookbook/blob/main/viz/maplibregljs.ipynb" class="toc-action"><i class="bi bi-github"></i>Edit this page</a></li><li><a href="https://github.com/danielsparing/databricks-geospatial-cookbook/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
@@ -433,7 +429,7 @@ Note
 <section id="create-a-sample-table" class="level2">
 <h2 class="anchored" data-anchor-id="create-a-sample-table">Create a sample table</h2>
 <p>We create here a sample table of buildings in the Netherlands – the same worked for me also for all 2.5B Overture Maps buildings of the world, but if you tried to persist that table, you’d probably run against the daily usage limit of <em>Databricks Free Edition</em> as I did.</p>
-<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;f176cd45-e97f-4312-acb8-7d0b0e506c16&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;f176cd45-e97f-4312-acb8-7d0b0e506c16&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>OVERTUREMAPS_RELEASE <span class="op">=</span> <span class="st">"2025-10-22.0"</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>COUNTRY_CODE <span class="op">=</span> <span class="st">"NL"</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a></span>
@@ -447,7 +443,7 @@ Note
 <span id="cb2-11"><a href="#cb2-11"></a>    .iloc[<span class="dv">0</span>]</span>
 <span id="cb2-12"><a href="#cb2-12"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;594b160d-8386-448b-b7a0-21e079c6aab7&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;594b160d-8386-448b-b7a0-21e079c6aab7&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}" data-execution_count="0">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> functions <span class="im">as</span> F</span>
 <span id="cb3-2"><a href="#cb3-2"></a></span>
 <span id="cb3-3"><a href="#cb3-3"></a>spark.read.parquet(</span>
@@ -498,268 +494,289 @@ Note
 <p>What if you find this approach still too “slow”, from the end-user standpoint? Then you can use <a href="../viz/PMTiles.html">PMTiles</a>. The difference is that with the MVT approach, you directly read the Delta Lake table, and the PMTile you would need to generate which means extra compute and time.</p>
 </div>
 </div>
-<p>```python # Based on https://gist.github.com/Maxxen/37e4a9f8595ea5e6a20c0c8fbbefe955 by Max Gabrielsson</p>
-<p>import os</p>
-<p>import duckdb import flask</p>
-<p>from databricks import sql # type: ignore</p>
-<p>MAX_FEATURES_PER_TILE = 30_000</p>
-</section>
-<section id="initialize-flask-app" class="level1">
-<h1>Initialize Flask app</h1>
-<p>app = flask.Flask(<strong>name</strong>)</p>
-<p>config = {“allow_unsigned_extensions”: “true”} duckdb_con = duckdb.connect(config=config)</p>
-<p>duckdb_con.execute(“INSTALL spatial”)</p>
-<p>duckdb_con.execute(“load spatial”)</p>
-<p>dbx_con = sql.connect( server_hostname=os.getenv(“DATABRICKS_SERVER_HOSTNAME”), http_path=os.getenv(“DATABRICKS_HTTP_PATH”), access_token=os.getenv(“DATABRICKS_TOKEN”), )</p>
-</section>
-<section id="tile-endpoint-to-serve-vector-tiles" class="level1">
-<h1>Tile endpoint to serve vector tiles</h1>
-<p><span class="citation" data-cites="app.route">@app.route</span>(“/tiles/<int:z>/<int:x>/<int:y>.pbf”) def get_tile(z, x, y): # Query to get the tile data from DuckDB # - Note that the geometry is assumed to be projected to <code>EPSG:3857</code> (Web Mercator)</int:y></int:x></int:z></p>
-<pre><code># Use con.cursor() to avoid threading issues with Flask
-with duckdb_con.cursor() as local_con:
-    tileenv = local_con.execute(
-        """
-        select st_astext(st_transform(
-        st_tileenvelope($1, $2, $3),
-        'EPSG:3857',
-        'OGC:CRS84'
-        ))
-        """,
-        [z, x, y],
-    ).fetchone()
-
-query = f"""
-    select
-     st_aswkb(geometry) as geometry
-    from
-    `workspace`.`default`.`building_geom`
-        where st_intersects(geometry, st_geomfromtext('{tileenv[0]}'))
-        limit {MAX_FEATURES_PER_TILE}"""
-
-with dbx_con.cursor() as cursor:
-    cursor.execute(query)
-    da = cursor.fetchall_arrow()  # noqa: F841
-
-# Use con.cursor() to avoid threading issues with Flask
-with duckdb_con.cursor() as local_con:
-    tile_blob = None
-    tile_count = local_con.execute(
-        """
-        select count(*) cnt from da
-        """
-    ).fetchone()[0]
-    if tile_count == MAX_FEATURES_PER_TILE:
-        # If we hit the limit, return an empty tile to avoid incomplete data
-        tile_blob = local_con.execute(
-            """
-            select ST_AsMVT({
-                "geometry": ST_AsMVTGeom(
-                    ST_TileEnvelope($1, $2, $3),
-                    ST_Extent(ST_TileEnvelope($1, $2, $3))
-                    )
-                }) 
-            """,
-            [z, x, y],
-        ).fetchone()
-    else:
-        tile_blob = local_con.execute(
-            """
-            select ST_AsMVT({
-                "geometry": ST_AsMVTGeom(
-                    st_transform(st_geomfromwkb(geometry), 'OGC:CRS84', 'EPSG:3857'),
-                    ST_Extent(ST_TileEnvelope($1, $2, $3))
-                    )
-                }) from da
-            """,
-            [z, x, y],
-        ).fetchone()
-
-    # Send the tile data as a response
-    tile = tile_blob[0] if tile_blob and tile_blob[0] else b""
-    return flask.Response(tile, mimetype="application/x-protobuf")</code></pre>
-</section>
-<section id="html-content-for-the-index-page" class="level1">
-<h1>HTML content for the index page</h1>
-INDEX_HTML = ““” &lt;!DOCTYPE html&gt;
-
-
-<meta charset="utf-8">
-<title>
-Vector Tile Viewer
-</title>
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-<script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
-<link href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" rel="stylesheet">
-<style>
-        body { margin: 0; padding: 0; }
-        #map { position: absolute; top: 0; bottom: 0; width: 100%; }
-    </style>
-
-
-<div id="map">
-
-</div>
-<script>
-    const map = new maplibregl.Map({
-        container: 'map',
-        style: {
-            version: 8,
-            sources: {
-                'buildings': {
-                    type: 'vector',
-                    tiles: [`${window.location.origin}/tiles/{z}/{x}/{y}.pbf`]
-                },
-                // Also use a public open source basemap
-                'osm': {
-                    type: 'raster',
-                    tiles: [
-                        'https://a.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        'https://b.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                        'https://c.tile.openstreetmap.org/{z}/{x}/{y}.png'
-                    ],
-                    tileSize: 256
-                }
-            },
-            layers: [
-                {
-                    id: 'background',
-                    type: 'background',
-                    paint: { 'background-color': '#a0c8f0' }
-                },
-                {
-                    id: 'osm',
-                    type: 'raster',
-                    source: 'osm'
-                },
-                {
-                    id: 'buildings-fill',
-                    type: 'fill',
-                    source: 'buildings',
-                    'source-layer': 'layer',
-                    paint: {
-                        'fill-color': 'blue',
-                        'fill-opacity': 0.6,
-                        'fill-outline-color': '#ffffff'
-                    }
-                },
-                {
-                    id: 'buildings-stroke',
-                    type: 'line',
-                    source: 'buildings',
-                    'source-layer': 'layer',
-                    paint: {
-                        'line-color': 'black',
-                        'line-width': 0.5
-                    }
-                }
-            ]
-        },
-        // Zoom in on amf
-        center: [5.38327, 52.15660],
-        zoom: 12,
-        prefetchZoomDelta: 0, // disables zoom-level prefetch
-        refreshExpiredTiles: false, // don’t re-request tiles that have expired
-
-    });
-
-    map.addControl(new maplibregl.NavigationControl());
-
-    // Add click handler to show feature properties
-    map.on('click', 'buildings-fill', (e) => {
-        const coordinates = e.lngLat;
-        const properties = e.features[0].properties;
-
-        let popupContent = '<h3>Building Properties</h3>';
-        for (const [key, value] of Object.entries(properties)) {
-            popupContent += `<p><strong>${key}:</strong> ${value}</p>`;
-        }
-
-        new maplibregl.Popup()
-            .setLngLat(coordinates)
-            .setHTML(popupContent)
-            .addTo(map);
-    });
-
-    // Change cursor on hover
-    map.on('mouseenter', 'buildings-fill', () => {
-        map.getCanvas().style.cursor = 'pointer';
-    });
-
-    map.on('mouseleave', 'buildings-fill', () => {
-        map.getCanvas().style.cursor = '';
-    });
-
-
-// ---- Throttle building tile loading ----
-let reloadTimeout;
-
-function removeBuildingLayers() {
-    if (map.getLayer('buildings-fill')) map.removeLayer('buildings-fill');
-    if (map.getLayer('buildings-stroke')) map.removeLayer('buildings-stroke');
-    if (map.getSource('buildings')) map.removeSource('buildings');
-}
-
-function addBuildingLayers() {
-    if (map.getSource('buildings')) return;
-
-    map.addSource('buildings', {
-        type: 'vector',
-        tiles: [`${window.location.origin}/tiles/{z}/{x}/{y}.pbf`]
-    });
-
-    map.addLayer({
-        id: 'buildings-fill',
-        type: 'fill',
-        source: 'buildings',
-        'source-layer': 'layer',
-        paint: {
-            'fill-color': 'blue',
-            'fill-opacity': 0.6,
-            'fill-outline-color': '#ffffff'
-        }
-    });
-
-    map.addLayer({
-        id: 'buildings-stroke',
-        type: 'line',
-        source: 'buildings',
-        'source-layer': 'layer',
-        paint: {
-            'line-color': 'black',
-            'line-width': 0.5
-        }
-    });
-}
-
-// When user starts moving or zooming
-function onInteractionStart() {
-    clearTimeout(reloadTimeout);
-    removeBuildingLayers();
-}
-
-// When user stops moving or zooming
-function onInteractionEnd() {
-    clearTimeout(reloadTimeout);
-    reloadTimeout = setTimeout(() => {
-        addBuildingLayers();
-    }, 2000);
-}
-
-// Bind to move & zoom events
-map.on('movestart', onInteractionStart);
-map.on('moveend', onInteractionEnd);
-map.on('zoomstart', onInteractionStart);
-map.on('zoomend', onInteractionEnd);
-
-</script>
-
-
-<p>““”</p>
-</section>
-<section id="serve-the-static-html-file-for-the-index-page" class="level1">
-<h1>Serve the static HTML file for the index page</h1>
-<p><span class="citation" data-cites="app.route">@app.route</span>(“/”) def index(): return flask.Response(INDEX_HTML, mimetype=“text/html”)</p>
-<p>if <strong>name</strong> == “<strong>main</strong>”: # Start on localhost app.run(debug=True)</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="co"># Based on https://gist.github.com/Maxxen/37e4a9f8595ea5e6a20c0c8fbbefe955 by Max Gabrielsson</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="im">import</span> os</span>
+<span id="cb4-4"><a href="#cb4-4"></a></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="im">import</span> duckdb</span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="im">import</span> flask</span>
+<span id="cb4-7"><a href="#cb4-7"></a></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="im">from</span> databricks <span class="im">import</span> sql  <span class="co"># type: ignore</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a></span>
+<span id="cb4-10"><a href="#cb4-10"></a>MAX_FEATURES_PER_TILE <span class="op">=</span> <span class="dv">30_000</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a></span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="co"># Initialize Flask app</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a>app <span class="op">=</span> flask.Flask(<span class="va">__name__</span>)</span>
+<span id="cb4-14"><a href="#cb4-14"></a></span>
+<span id="cb4-15"><a href="#cb4-15"></a>config <span class="op">=</span> {<span class="st">"allow_unsigned_extensions"</span>: <span class="st">"true"</span>}</span>
+<span id="cb4-16"><a href="#cb4-16"></a>duckdb_con <span class="op">=</span> duckdb.<span class="ex">connect</span>(config<span class="op">=</span>config)</span>
+<span id="cb4-17"><a href="#cb4-17"></a></span>
+<span id="cb4-18"><a href="#cb4-18"></a>duckdb_con.execute(<span class="st">"INSTALL spatial"</span>)</span>
+<span id="cb4-19"><a href="#cb4-19"></a></span>
+<span id="cb4-20"><a href="#cb4-20"></a>duckdb_con.execute(<span class="st">"load spatial"</span>)</span>
+<span id="cb4-21"><a href="#cb4-21"></a></span>
+<span id="cb4-22"><a href="#cb4-22"></a></span>
+<span id="cb4-23"><a href="#cb4-23"></a>dbx_con <span class="op">=</span> sql.<span class="ex">connect</span>(</span>
+<span id="cb4-24"><a href="#cb4-24"></a>    server_hostname<span class="op">=</span>os.getenv(<span class="st">"DATABRICKS_SERVER_HOSTNAME"</span>),</span>
+<span id="cb4-25"><a href="#cb4-25"></a>    http_path<span class="op">=</span>os.getenv(<span class="st">"DATABRICKS_HTTP_PATH"</span>),</span>
+<span id="cb4-26"><a href="#cb4-26"></a>    access_token<span class="op">=</span>os.getenv(<span class="st">"DATABRICKS_TOKEN"</span>),</span>
+<span id="cb4-27"><a href="#cb4-27"></a>)</span>
+<span id="cb4-28"><a href="#cb4-28"></a></span>
+<span id="cb4-29"><a href="#cb4-29"></a></span>
+<span id="cb4-30"><a href="#cb4-30"></a><span class="co"># Tile endpoint to serve vector tiles</span></span>
+<span id="cb4-31"><a href="#cb4-31"></a><span class="at">@app.route</span>(<span class="st">"/tiles/&lt;int:z&gt;/&lt;int:x&gt;/&lt;int:y&gt;.pbf"</span>)</span>
+<span id="cb4-32"><a href="#cb4-32"></a><span class="kw">def</span> get_tile(z, x, y):</span>
+<span id="cb4-33"><a href="#cb4-33"></a>    <span class="co"># Query to get the tile data from DuckDB</span></span>
+<span id="cb4-34"><a href="#cb4-34"></a>    <span class="co"># - Note that the geometry is assumed to be projected to `EPSG:3857` (Web Mercator)</span></span>
+<span id="cb4-35"><a href="#cb4-35"></a></span>
+<span id="cb4-36"><a href="#cb4-36"></a>    <span class="co"># Use con.cursor() to avoid threading issues with Flask</span></span>
+<span id="cb4-37"><a href="#cb4-37"></a>    <span class="cf">with</span> duckdb_con.cursor() <span class="im">as</span> local_con:</span>
+<span id="cb4-38"><a href="#cb4-38"></a>        tileenv <span class="op">=</span> local_con.execute(</span>
+<span id="cb4-39"><a href="#cb4-39"></a>            <span class="st">"""</span></span>
+<span id="cb4-40"><a href="#cb4-40"></a><span class="st">            select st_astext(st_transform(</span></span>
+<span id="cb4-41"><a href="#cb4-41"></a><span class="st">            st_tileenvelope($1, $2, $3),</span></span>
+<span id="cb4-42"><a href="#cb4-42"></a><span class="st">            'EPSG:3857',</span></span>
+<span id="cb4-43"><a href="#cb4-43"></a><span class="st">            'OGC:CRS84'</span></span>
+<span id="cb4-44"><a href="#cb4-44"></a><span class="st">            ))</span></span>
+<span id="cb4-45"><a href="#cb4-45"></a><span class="st">            """</span>,</span>
+<span id="cb4-46"><a href="#cb4-46"></a>            [z, x, y],</span>
+<span id="cb4-47"><a href="#cb4-47"></a>        ).fetchone()</span>
+<span id="cb4-48"><a href="#cb4-48"></a></span>
+<span id="cb4-49"><a href="#cb4-49"></a>    query <span class="op">=</span> <span class="ss">f"""</span></span>
+<span id="cb4-50"><a href="#cb4-50"></a><span class="ss">        select</span></span>
+<span id="cb4-51"><a href="#cb4-51"></a><span class="ss">         st_aswkb(geometry) as geometry</span></span>
+<span id="cb4-52"><a href="#cb4-52"></a><span class="ss">        from</span></span>
+<span id="cb4-53"><a href="#cb4-53"></a><span class="ss">        `workspace`.`default`.`building_geom`</span></span>
+<span id="cb4-54"><a href="#cb4-54"></a><span class="ss">            where st_intersects(geometry, st_geomfromtext('</span><span class="sc">{</span>tileenv[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">'))</span></span>
+<span id="cb4-55"><a href="#cb4-55"></a><span class="ss">            limit </span><span class="sc">{</span>MAX_FEATURES_PER_TILE<span class="sc">}</span><span class="ss">"""</span></span>
+<span id="cb4-56"><a href="#cb4-56"></a></span>
+<span id="cb4-57"><a href="#cb4-57"></a>    <span class="cf">with</span> dbx_con.cursor() <span class="im">as</span> cursor:</span>
+<span id="cb4-58"><a href="#cb4-58"></a>        cursor.execute(query)</span>
+<span id="cb4-59"><a href="#cb4-59"></a>        da <span class="op">=</span> cursor.fetchall_arrow()  <span class="co"># noqa: F841</span></span>
+<span id="cb4-60"><a href="#cb4-60"></a></span>
+<span id="cb4-61"><a href="#cb4-61"></a>    <span class="co"># Use con.cursor() to avoid threading issues with Flask</span></span>
+<span id="cb4-62"><a href="#cb4-62"></a>    <span class="cf">with</span> duckdb_con.cursor() <span class="im">as</span> local_con:</span>
+<span id="cb4-63"><a href="#cb4-63"></a>        tile_blob <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb4-64"><a href="#cb4-64"></a>        tile_count <span class="op">=</span> local_con.execute(</span>
+<span id="cb4-65"><a href="#cb4-65"></a>            <span class="st">"""</span></span>
+<span id="cb4-66"><a href="#cb4-66"></a><span class="st">            select count(*) cnt from da</span></span>
+<span id="cb4-67"><a href="#cb4-67"></a><span class="st">            """</span></span>
+<span id="cb4-68"><a href="#cb4-68"></a>        ).fetchone()[<span class="dv">0</span>]</span>
+<span id="cb4-69"><a href="#cb4-69"></a>        <span class="cf">if</span> tile_count <span class="op">==</span> MAX_FEATURES_PER_TILE:</span>
+<span id="cb4-70"><a href="#cb4-70"></a>            <span class="co"># If we hit the limit, return an empty tile to avoid incomplete data</span></span>
+<span id="cb4-71"><a href="#cb4-71"></a>            tile_blob <span class="op">=</span> local_con.execute(</span>
+<span id="cb4-72"><a href="#cb4-72"></a>                <span class="st">"""</span></span>
+<span id="cb4-73"><a href="#cb4-73"></a><span class="st">                select ST_AsMVT({</span></span>
+<span id="cb4-74"><a href="#cb4-74"></a><span class="st">                    "geometry": ST_AsMVTGeom(</span></span>
+<span id="cb4-75"><a href="#cb4-75"></a><span class="st">                        ST_TileEnvelope($1, $2, $3),</span></span>
+<span id="cb4-76"><a href="#cb4-76"></a><span class="st">                        ST_Extent(ST_TileEnvelope($1, $2, $3))</span></span>
+<span id="cb4-77"><a href="#cb4-77"></a><span class="st">                        )</span></span>
+<span id="cb4-78"><a href="#cb4-78"></a><span class="st">                    }) </span></span>
+<span id="cb4-79"><a href="#cb4-79"></a><span class="st">                """</span>,</span>
+<span id="cb4-80"><a href="#cb4-80"></a>                [z, x, y],</span>
+<span id="cb4-81"><a href="#cb4-81"></a>            ).fetchone()</span>
+<span id="cb4-82"><a href="#cb4-82"></a>        <span class="cf">else</span>:</span>
+<span id="cb4-83"><a href="#cb4-83"></a>            tile_blob <span class="op">=</span> local_con.execute(</span>
+<span id="cb4-84"><a href="#cb4-84"></a>                <span class="st">"""</span></span>
+<span id="cb4-85"><a href="#cb4-85"></a><span class="st">                select ST_AsMVT({</span></span>
+<span id="cb4-86"><a href="#cb4-86"></a><span class="st">                    "geometry": ST_AsMVTGeom(</span></span>
+<span id="cb4-87"><a href="#cb4-87"></a><span class="st">                        st_transform(st_geomfromwkb(geometry), 'OGC:CRS84', 'EPSG:3857'),</span></span>
+<span id="cb4-88"><a href="#cb4-88"></a><span class="st">                        ST_Extent(ST_TileEnvelope($1, $2, $3))</span></span>
+<span id="cb4-89"><a href="#cb4-89"></a><span class="st">                        )</span></span>
+<span id="cb4-90"><a href="#cb4-90"></a><span class="st">                    }) from da</span></span>
+<span id="cb4-91"><a href="#cb4-91"></a><span class="st">                """</span>,</span>
+<span id="cb4-92"><a href="#cb4-92"></a>                [z, x, y],</span>
+<span id="cb4-93"><a href="#cb4-93"></a>            ).fetchone()</span>
+<span id="cb4-94"><a href="#cb4-94"></a></span>
+<span id="cb4-95"><a href="#cb4-95"></a>        <span class="co"># Send the tile data as a response</span></span>
+<span id="cb4-96"><a href="#cb4-96"></a>        tile <span class="op">=</span> tile_blob[<span class="dv">0</span>] <span class="cf">if</span> tile_blob <span class="kw">and</span> tile_blob[<span class="dv">0</span>] <span class="cf">else</span> <span class="st">b""</span></span>
+<span id="cb4-97"><a href="#cb4-97"></a>        <span class="cf">return</span> flask.Response(tile, mimetype<span class="op">=</span><span class="st">"application/x-protobuf"</span>)</span>
+<span id="cb4-98"><a href="#cb4-98"></a></span>
+<span id="cb4-99"><a href="#cb4-99"></a></span>
+<span id="cb4-100"><a href="#cb4-100"></a><span class="co"># HTML content for the index page</span></span>
+<span id="cb4-101"><a href="#cb4-101"></a>INDEX_HTML <span class="op">=</span> <span class="st">"""</span></span>
+<span id="cb4-102"><a href="#cb4-102"></a><span class="st">&lt;!DOCTYPE html&gt;</span></span>
+<span id="cb4-103"><a href="#cb4-103"></a><span class="st">&lt;html&gt;</span></span>
+<span id="cb4-104"><a href="#cb4-104"></a><span class="st">&lt;head&gt;</span></span>
+<span id="cb4-105"><a href="#cb4-105"></a><span class="st">    &lt;meta charset="utf-8"&gt;</span></span>
+<span id="cb4-106"><a href="#cb4-106"></a><span class="st">    &lt;title&gt;Vector Tile Viewer&lt;/title&gt;</span></span>
+<span id="cb4-107"><a href="#cb4-107"></a><span class="st">    &lt;meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no"&gt;</span></span>
+<span id="cb4-108"><a href="#cb4-108"></a><span class="st">    &lt;script src='https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js'&gt;&lt;/script&gt;</span></span>
+<span id="cb4-109"><a href="#cb4-109"></a><span class="st">    &lt;link href='https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css' rel='stylesheet' /&gt;</span></span>
+<span id="cb4-110"><a href="#cb4-110"></a><span class="st">    &lt;style&gt;</span></span>
+<span id="cb4-111"><a href="#cb4-111"></a><span class="st">        body { margin: 0; padding: 0; }</span></span>
+<span id="cb4-112"><a href="#cb4-112"></a><span class="st">        #map { position: absolute; top: 0; bottom: 0; width: 100%; }</span></span>
+<span id="cb4-113"><a href="#cb4-113"></a><span class="st">    &lt;/style&gt;</span></span>
+<span id="cb4-114"><a href="#cb4-114"></a><span class="st">&lt;/head&gt;</span></span>
+<span id="cb4-115"><a href="#cb4-115"></a><span class="st">&lt;body&gt;</span></span>
+<span id="cb4-116"><a href="#cb4-116"></a><span class="st">&lt;div id="map"&gt;&lt;/div&gt;</span></span>
+<span id="cb4-117"><a href="#cb4-117"></a><span class="st">&lt;script&gt;</span></span>
+<span id="cb4-118"><a href="#cb4-118"></a><span class="st">    const map = new maplibregl.Map({</span></span>
+<span id="cb4-119"><a href="#cb4-119"></a><span class="st">        container: 'map',</span></span>
+<span id="cb4-120"><a href="#cb4-120"></a><span class="st">        style: {</span></span>
+<span id="cb4-121"><a href="#cb4-121"></a><span class="st">            version: 8,</span></span>
+<span id="cb4-122"><a href="#cb4-122"></a><span class="st">            sources: {</span></span>
+<span id="cb4-123"><a href="#cb4-123"></a><span class="st">                'buildings': {</span></span>
+<span id="cb4-124"><a href="#cb4-124"></a><span class="st">                    type: 'vector',</span></span>
+<span id="cb4-125"><a href="#cb4-125"></a><span class="st">                    tiles: [`$</span><span class="sc">{window.location.origin}</span><span class="st">/tiles/</span><span class="sc">{z}</span><span class="st">/</span><span class="sc">{x}</span><span class="st">/</span><span class="sc">{y}</span><span class="st">.pbf`]</span></span>
+<span id="cb4-126"><a href="#cb4-126"></a><span class="st">                },</span></span>
+<span id="cb4-127"><a href="#cb4-127"></a><span class="st">                // Also use a public open source basemap</span></span>
+<span id="cb4-128"><a href="#cb4-128"></a><span class="st">                'osm': {</span></span>
+<span id="cb4-129"><a href="#cb4-129"></a><span class="st">                    type: 'raster',</span></span>
+<span id="cb4-130"><a href="#cb4-130"></a><span class="st">                    tiles: [</span></span>
+<span id="cb4-131"><a href="#cb4-131"></a><span class="st">                        'https://a.tile.openstreetmap.org/</span><span class="sc">{z}</span><span class="st">/</span><span class="sc">{x}</span><span class="st">/</span><span class="sc">{y}</span><span class="st">.png',</span></span>
+<span id="cb4-132"><a href="#cb4-132"></a><span class="st">                        'https://b.tile.openstreetmap.org/</span><span class="sc">{z}</span><span class="st">/</span><span class="sc">{x}</span><span class="st">/</span><span class="sc">{y}</span><span class="st">.png',</span></span>
+<span id="cb4-133"><a href="#cb4-133"></a><span class="st">                        'https://c.tile.openstreetmap.org/</span><span class="sc">{z}</span><span class="st">/</span><span class="sc">{x}</span><span class="st">/</span><span class="sc">{y}</span><span class="st">.png'</span></span>
+<span id="cb4-134"><a href="#cb4-134"></a><span class="st">                    ],</span></span>
+<span id="cb4-135"><a href="#cb4-135"></a><span class="st">                    tileSize: 256</span></span>
+<span id="cb4-136"><a href="#cb4-136"></a><span class="st">                }</span></span>
+<span id="cb4-137"><a href="#cb4-137"></a><span class="st">            },</span></span>
+<span id="cb4-138"><a href="#cb4-138"></a><span class="st">            layers: [</span></span>
+<span id="cb4-139"><a href="#cb4-139"></a><span class="st">                {</span></span>
+<span id="cb4-140"><a href="#cb4-140"></a><span class="st">                    id: 'background',</span></span>
+<span id="cb4-141"><a href="#cb4-141"></a><span class="st">                    type: 'background',</span></span>
+<span id="cb4-142"><a href="#cb4-142"></a><span class="st">                    paint: { 'background-color': '#a0c8f0' }</span></span>
+<span id="cb4-143"><a href="#cb4-143"></a><span class="st">                },</span></span>
+<span id="cb4-144"><a href="#cb4-144"></a><span class="st">                {</span></span>
+<span id="cb4-145"><a href="#cb4-145"></a><span class="st">                    id: 'osm',</span></span>
+<span id="cb4-146"><a href="#cb4-146"></a><span class="st">                    type: 'raster',</span></span>
+<span id="cb4-147"><a href="#cb4-147"></a><span class="st">                    source: 'osm'</span></span>
+<span id="cb4-148"><a href="#cb4-148"></a><span class="st">                },</span></span>
+<span id="cb4-149"><a href="#cb4-149"></a><span class="st">                {</span></span>
+<span id="cb4-150"><a href="#cb4-150"></a><span class="st">                    id: 'buildings-fill',</span></span>
+<span id="cb4-151"><a href="#cb4-151"></a><span class="st">                    type: 'fill',</span></span>
+<span id="cb4-152"><a href="#cb4-152"></a><span class="st">                    source: 'buildings',</span></span>
+<span id="cb4-153"><a href="#cb4-153"></a><span class="st">                    'source-layer': 'layer',</span></span>
+<span id="cb4-154"><a href="#cb4-154"></a><span class="st">                    paint: {</span></span>
+<span id="cb4-155"><a href="#cb4-155"></a><span class="st">                        'fill-color': 'blue',</span></span>
+<span id="cb4-156"><a href="#cb4-156"></a><span class="st">                        'fill-opacity': 0.6,</span></span>
+<span id="cb4-157"><a href="#cb4-157"></a><span class="st">                        'fill-outline-color': '#ffffff'</span></span>
+<span id="cb4-158"><a href="#cb4-158"></a><span class="st">                    }</span></span>
+<span id="cb4-159"><a href="#cb4-159"></a><span class="st">                },</span></span>
+<span id="cb4-160"><a href="#cb4-160"></a><span class="st">                {</span></span>
+<span id="cb4-161"><a href="#cb4-161"></a><span class="st">                    id: 'buildings-stroke',</span></span>
+<span id="cb4-162"><a href="#cb4-162"></a><span class="st">                    type: 'line',</span></span>
+<span id="cb4-163"><a href="#cb4-163"></a><span class="st">                    source: 'buildings',</span></span>
+<span id="cb4-164"><a href="#cb4-164"></a><span class="st">                    'source-layer': 'layer',</span></span>
+<span id="cb4-165"><a href="#cb4-165"></a><span class="st">                    paint: {</span></span>
+<span id="cb4-166"><a href="#cb4-166"></a><span class="st">                        'line-color': 'black',</span></span>
+<span id="cb4-167"><a href="#cb4-167"></a><span class="st">                        'line-width': 0.5</span></span>
+<span id="cb4-168"><a href="#cb4-168"></a><span class="st">                    }</span></span>
+<span id="cb4-169"><a href="#cb4-169"></a><span class="st">                }</span></span>
+<span id="cb4-170"><a href="#cb4-170"></a><span class="st">            ]</span></span>
+<span id="cb4-171"><a href="#cb4-171"></a><span class="st">        },</span></span>
+<span id="cb4-172"><a href="#cb4-172"></a><span class="st">        // Zoom in on amf</span></span>
+<span id="cb4-173"><a href="#cb4-173"></a><span class="st">        center: [5.38327, 52.15660],</span></span>
+<span id="cb4-174"><a href="#cb4-174"></a><span class="st">        zoom: 12,</span></span>
+<span id="cb4-175"><a href="#cb4-175"></a><span class="st">        prefetchZoomDelta: 0, // disables zoom-level prefetch</span></span>
+<span id="cb4-176"><a href="#cb4-176"></a><span class="st">        refreshExpiredTiles: false, // don’t re-request tiles that have expired</span></span>
+<span id="cb4-177"><a href="#cb4-177"></a></span>
+<span id="cb4-178"><a href="#cb4-178"></a><span class="st">    });</span></span>
+<span id="cb4-179"><a href="#cb4-179"></a></span>
+<span id="cb4-180"><a href="#cb4-180"></a><span class="st">    map.addControl(new maplibregl.NavigationControl());</span></span>
+<span id="cb4-181"><a href="#cb4-181"></a></span>
+<span id="cb4-182"><a href="#cb4-182"></a><span class="st">    // Add click handler to show feature properties</span></span>
+<span id="cb4-183"><a href="#cb4-183"></a><span class="st">    map.on('click', 'buildings-fill', (e) =&gt; {</span></span>
+<span id="cb4-184"><a href="#cb4-184"></a><span class="st">        const coordinates = e.lngLat;</span></span>
+<span id="cb4-185"><a href="#cb4-185"></a><span class="st">        const properties = e.features[0].properties;</span></span>
+<span id="cb4-186"><a href="#cb4-186"></a></span>
+<span id="cb4-187"><a href="#cb4-187"></a><span class="st">        let popupContent = '&lt;h3&gt;Building Properties&lt;/h3&gt;';</span></span>
+<span id="cb4-188"><a href="#cb4-188"></a><span class="st">        for (const [key, value] of Object.entries(properties)) {</span></span>
+<span id="cb4-189"><a href="#cb4-189"></a><span class="st">            popupContent += `&lt;p&gt;&lt;strong&gt;$</span><span class="sc">{key}</span><span class="st">:&lt;/strong&gt; $</span><span class="sc">{value}</span><span class="st">&lt;/p&gt;`;</span></span>
+<span id="cb4-190"><a href="#cb4-190"></a><span class="st">        }</span></span>
+<span id="cb4-191"><a href="#cb4-191"></a></span>
+<span id="cb4-192"><a href="#cb4-192"></a><span class="st">        new maplibregl.Popup()</span></span>
+<span id="cb4-193"><a href="#cb4-193"></a><span class="st">            .setLngLat(coordinates)</span></span>
+<span id="cb4-194"><a href="#cb4-194"></a><span class="st">            .setHTML(popupContent)</span></span>
+<span id="cb4-195"><a href="#cb4-195"></a><span class="st">            .addTo(map);</span></span>
+<span id="cb4-196"><a href="#cb4-196"></a><span class="st">    });</span></span>
+<span id="cb4-197"><a href="#cb4-197"></a></span>
+<span id="cb4-198"><a href="#cb4-198"></a><span class="st">    // Change cursor on hover</span></span>
+<span id="cb4-199"><a href="#cb4-199"></a><span class="st">    map.on('mouseenter', 'buildings-fill', () =&gt; {</span></span>
+<span id="cb4-200"><a href="#cb4-200"></a><span class="st">        map.getCanvas().style.cursor = 'pointer';</span></span>
+<span id="cb4-201"><a href="#cb4-201"></a><span class="st">    });</span></span>
+<span id="cb4-202"><a href="#cb4-202"></a></span>
+<span id="cb4-203"><a href="#cb4-203"></a><span class="st">    map.on('mouseleave', 'buildings-fill', () =&gt; {</span></span>
+<span id="cb4-204"><a href="#cb4-204"></a><span class="st">        map.getCanvas().style.cursor = '';</span></span>
+<span id="cb4-205"><a href="#cb4-205"></a><span class="st">    });</span></span>
+<span id="cb4-206"><a href="#cb4-206"></a></span>
+<span id="cb4-207"><a href="#cb4-207"></a></span>
+<span id="cb4-208"><a href="#cb4-208"></a><span class="st">// ---- Throttle building tile loading ----</span></span>
+<span id="cb4-209"><a href="#cb4-209"></a><span class="st">let reloadTimeout;</span></span>
+<span id="cb4-210"><a href="#cb4-210"></a></span>
+<span id="cb4-211"><a href="#cb4-211"></a><span class="st">function removeBuildingLayers() {</span></span>
+<span id="cb4-212"><a href="#cb4-212"></a><span class="st">    if (map.getLayer('buildings-fill')) map.removeLayer('buildings-fill');</span></span>
+<span id="cb4-213"><a href="#cb4-213"></a><span class="st">    if (map.getLayer('buildings-stroke')) map.removeLayer('buildings-stroke');</span></span>
+<span id="cb4-214"><a href="#cb4-214"></a><span class="st">    if (map.getSource('buildings')) map.removeSource('buildings');</span></span>
+<span id="cb4-215"><a href="#cb4-215"></a><span class="st">}</span></span>
+<span id="cb4-216"><a href="#cb4-216"></a></span>
+<span id="cb4-217"><a href="#cb4-217"></a><span class="st">function addBuildingLayers() {</span></span>
+<span id="cb4-218"><a href="#cb4-218"></a><span class="st">    if (map.getSource('buildings')) return;</span></span>
+<span id="cb4-219"><a href="#cb4-219"></a></span>
+<span id="cb4-220"><a href="#cb4-220"></a><span class="st">    map.addSource('buildings', {</span></span>
+<span id="cb4-221"><a href="#cb4-221"></a><span class="st">        type: 'vector',</span></span>
+<span id="cb4-222"><a href="#cb4-222"></a><span class="st">        tiles: [`$</span><span class="sc">{window.location.origin}</span><span class="st">/tiles/</span><span class="sc">{z}</span><span class="st">/</span><span class="sc">{x}</span><span class="st">/</span><span class="sc">{y}</span><span class="st">.pbf`]</span></span>
+<span id="cb4-223"><a href="#cb4-223"></a><span class="st">    });</span></span>
+<span id="cb4-224"><a href="#cb4-224"></a></span>
+<span id="cb4-225"><a href="#cb4-225"></a><span class="st">    map.addLayer({</span></span>
+<span id="cb4-226"><a href="#cb4-226"></a><span class="st">        id: 'buildings-fill',</span></span>
+<span id="cb4-227"><a href="#cb4-227"></a><span class="st">        type: 'fill',</span></span>
+<span id="cb4-228"><a href="#cb4-228"></a><span class="st">        source: 'buildings',</span></span>
+<span id="cb4-229"><a href="#cb4-229"></a><span class="st">        'source-layer': 'layer',</span></span>
+<span id="cb4-230"><a href="#cb4-230"></a><span class="st">        paint: {</span></span>
+<span id="cb4-231"><a href="#cb4-231"></a><span class="st">            'fill-color': 'blue',</span></span>
+<span id="cb4-232"><a href="#cb4-232"></a><span class="st">            'fill-opacity': 0.6,</span></span>
+<span id="cb4-233"><a href="#cb4-233"></a><span class="st">            'fill-outline-color': '#ffffff'</span></span>
+<span id="cb4-234"><a href="#cb4-234"></a><span class="st">        }</span></span>
+<span id="cb4-235"><a href="#cb4-235"></a><span class="st">    });</span></span>
+<span id="cb4-236"><a href="#cb4-236"></a></span>
+<span id="cb4-237"><a href="#cb4-237"></a><span class="st">    map.addLayer({</span></span>
+<span id="cb4-238"><a href="#cb4-238"></a><span class="st">        id: 'buildings-stroke',</span></span>
+<span id="cb4-239"><a href="#cb4-239"></a><span class="st">        type: 'line',</span></span>
+<span id="cb4-240"><a href="#cb4-240"></a><span class="st">        source: 'buildings',</span></span>
+<span id="cb4-241"><a href="#cb4-241"></a><span class="st">        'source-layer': 'layer',</span></span>
+<span id="cb4-242"><a href="#cb4-242"></a><span class="st">        paint: {</span></span>
+<span id="cb4-243"><a href="#cb4-243"></a><span class="st">            'line-color': 'black',</span></span>
+<span id="cb4-244"><a href="#cb4-244"></a><span class="st">            'line-width': 0.5</span></span>
+<span id="cb4-245"><a href="#cb4-245"></a><span class="st">        }</span></span>
+<span id="cb4-246"><a href="#cb4-246"></a><span class="st">    });</span></span>
+<span id="cb4-247"><a href="#cb4-247"></a><span class="st">}</span></span>
+<span id="cb4-248"><a href="#cb4-248"></a></span>
+<span id="cb4-249"><a href="#cb4-249"></a><span class="st">// When user starts moving or zooming</span></span>
+<span id="cb4-250"><a href="#cb4-250"></a><span class="st">function onInteractionStart() {</span></span>
+<span id="cb4-251"><a href="#cb4-251"></a><span class="st">    clearTimeout(reloadTimeout);</span></span>
+<span id="cb4-252"><a href="#cb4-252"></a><span class="st">    removeBuildingLayers();</span></span>
+<span id="cb4-253"><a href="#cb4-253"></a><span class="st">}</span></span>
+<span id="cb4-254"><a href="#cb4-254"></a></span>
+<span id="cb4-255"><a href="#cb4-255"></a><span class="st">// When user stops moving or zooming</span></span>
+<span id="cb4-256"><a href="#cb4-256"></a><span class="st">function onInteractionEnd() {</span></span>
+<span id="cb4-257"><a href="#cb4-257"></a><span class="st">    clearTimeout(reloadTimeout);</span></span>
+<span id="cb4-258"><a href="#cb4-258"></a><span class="st">    reloadTimeout = setTimeout(() =&gt; {</span></span>
+<span id="cb4-259"><a href="#cb4-259"></a><span class="st">        addBuildingLayers();</span></span>
+<span id="cb4-260"><a href="#cb4-260"></a><span class="st">    }, 2000);</span></span>
+<span id="cb4-261"><a href="#cb4-261"></a><span class="st">}</span></span>
+<span id="cb4-262"><a href="#cb4-262"></a></span>
+<span id="cb4-263"><a href="#cb4-263"></a><span class="st">// Bind to move &amp; zoom events</span></span>
+<span id="cb4-264"><a href="#cb4-264"></a><span class="st">map.on('movestart', onInteractionStart);</span></span>
+<span id="cb4-265"><a href="#cb4-265"></a><span class="st">map.on('moveend', onInteractionEnd);</span></span>
+<span id="cb4-266"><a href="#cb4-266"></a><span class="st">map.on('zoomstart', onInteractionStart);</span></span>
+<span id="cb4-267"><a href="#cb4-267"></a><span class="st">map.on('zoomend', onInteractionEnd);</span></span>
+<span id="cb4-268"><a href="#cb4-268"></a></span>
+<span id="cb4-269"><a href="#cb4-269"></a><span class="st">&lt;/script&gt;</span></span>
+<span id="cb4-270"><a href="#cb4-270"></a><span class="st">&lt;/body&gt;</span></span>
+<span id="cb4-271"><a href="#cb4-271"></a><span class="st">&lt;/html&gt;</span></span>
+<span id="cb4-272"><a href="#cb4-272"></a><span class="st">"""</span></span>
+<span id="cb4-273"><a href="#cb4-273"></a></span>
+<span id="cb4-274"><a href="#cb4-274"></a></span>
+<span id="cb4-275"><a href="#cb4-275"></a><span class="co"># Serve the static HTML file for the index page</span></span>
+<span id="cb4-276"><a href="#cb4-276"></a><span class="at">@app.route</span>(<span class="st">"/"</span>)</span>
+<span id="cb4-277"><a href="#cb4-277"></a><span class="kw">def</span> index():</span>
+<span id="cb4-278"><a href="#cb4-278"></a>    <span class="cf">return</span> flask.Response(INDEX_HTML, mimetype<span class="op">=</span><span class="st">"text/html"</span>)</span>
+<span id="cb4-279"><a href="#cb4-279"></a></span>
+<span id="cb4-280"><a href="#cb4-280"></a></span>
+<span id="cb4-281"><a href="#cb4-281"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb4-282"><a href="#cb4-282"></a>    <span class="co"># Start on localhost</span></span>
+<span id="cb4-283"><a href="#cb4-283"></a>    app.run(debug<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
