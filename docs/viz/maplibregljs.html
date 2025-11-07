@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -465,7 +465,7 @@ Note
 <li>An alternative approach could be to <a href="../stfunctions/duckdb_udf.html">wrap the used DuckDB functions into Spark UDF’s</a>, if we wanted to move some compute from your browser to DBSQL.</li>
 </ul></li>
 <li>For DBSQL we use the <a href="https://docs.databricks.com/aws/en/dev-tools/python-sql-connector">Python <code>databricks-sql-connector</code></a>, authenticating with a <a href="https://docs.databricks.com/aws/en/dev-tools/python-sql-connector#databricks-personal-access-token-authentication">Personal Access Token</a> – for serious work, you’d want to use OAuth instead.</li>
-<li><strong>Graceful feature limit.</strong> What to do if a tile has too many features? A common solution would be to define a minimum zoom level, but this would make it very cumbersome to move around the map, so we define a <code>MAX_FEATURES_PER_TYLE</code> instead. If this is reached, we gracefully fail and only show the tile boundaries – the user would only need to further zoom in to reveal all the features within that viewport.</li>
+<li><strong>Graceful feature limit.</strong> What to do if a tile has too many features? A common solution would be to define a minimum zoom level, but this would make it very cumbersome to move around the map, so we define a <code>MAX_FEATURES_PER_TILE</code> instead. If this is reached, we gracefully fail and only show the tile boundaries – the user would only need to further zoom in to reveal all the features within that viewport. (Of course you can throttle this value as you wish to find a balance between loading time and number of features shown.)</li>
 <li>MVT expects SRID 3857, while our table is probably in another SRID, so we need to use some <code>st_transform</code> there and back.</li>
 <li><strong>Tile throttling</strong>. we also added JS code under <code>// === Tile throttling logic ===</code> to take a 2 second pause starting any zoom and move interaction, in order to avoid overloading the warehouse with tile requests and therefore avoid tile queueing.
 <ul>
@@ -473,7 +473,7 @@ Note
 </ul></li>
 </ul>
 <p>In the below video (showing a table with all 2.5B buildings worldwide, not just one country), you can see the tiling at work – note how 1) the graceful feature limit means that “too busy” tiles are just shown as rectangles, and 2) zoom-and-pan pauses the feature layer but after a short timeout, the tiles are drawn, with sub-second latency per tile.</p>
-<p>Find the full code <a href="./dbgeo_duckdbmvt_app.py">here</a>, which you can run <a href="https://flask.palletsprojects.com/en/stable/quickstart/">locally</a> as a Flask app (you could also embed it within a Databricks App if preferred, but the local app is of course a bit more cost-effective).</p>
+<p>Find the full code <a href="https://github.com/danielsparing/databricks-geospatial-cookbook/blob/main/viz/dbgeo_duckdbmvt_app.py">here</a>, which you can run <a href="https://flask.palletsprojects.com/en/stable/quickstart/">locally</a> as a Flask app (you could also embed it within a Databricks App if preferred, but the local app is of course a bit more cost-effective).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="https://www.youtube.com/watch?v=6d87gGNTyRg"><img src="img/maplibre_vid.png" class="img-fluid figure-img"></a></p>
@@ -491,7 +491,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>What if you find this approach still too “slow”, from the end-user standpoint? Then you can use <a href="../viz/PMTiles.html">PMTiles</a>. The difference is that with the MVT approach, you directly read the Delta Lake table, and the PMTile you would need to generate which means extra compute and time.</p>
+<p>What if you find this approach still too “slow”, from the end-user standpoint? And/or, you find it “cheating” that we use <code>MAX_FEATURES_PER_TILE</code>? Then you can use <a href="../viz/PMTiles.html">PMTiles</a>. The difference is that with the MVT approach, you directly read the Delta Lake table, and the PMTile you would need to generate which means extra compute and time.</p>
 </div>
 </div>
 
