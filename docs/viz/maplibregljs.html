@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Scalable visualization of large Delta Lake tables with GEOMETRY columms with DuckDB Spatial MVT and MaplibreGL JS – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
+<title>Scalable visualization with DuckDB Spatial MVT – Databricks Free Edition Geospatial Cookbook with DuckDB</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -117,7 +117,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/maplibregljs.html"><span class="chapter-title">Scalable visualization of large Delta Lake tables with GEOMETRY columms with DuckDB Spatial MVT and MaplibreGL JS</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/maplibregljs.html"><span class="chapter-title">Scalable visualization with DuckDB Spatial MVT</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -235,7 +235,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../viz/maplibregljs.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Scalable visualization of large Delta Lake tables with GEOMETRY columms with DuckDB Spatial MVT and MaplibreGL JS</span></a>
+  <a href="../viz/maplibregljs.html" class="sidebar-item-text sidebar-link active"><span class="chapter-title">Scalable visualization with DuckDB Spatial MVT</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -372,9 +372,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/maplibregljs.html"><span class="chapter-title">Scalable visualization of large Delta Lake tables with GEOMETRY columms with DuckDB Spatial MVT and MaplibreGL JS</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../viz/native.html">Visualization</a></li><li class="breadcrumb-item"><a href="../viz/maplibregljs.html"><span class="chapter-title">Scalable visualization with DuckDB Spatial MVT</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-title">Scalable visualization of large Delta Lake tables with GEOMETRY columms with DuckDB Spatial MVT and MaplibreGL JS</span></h1>
+<h1 class="title"><span class="chapter-title">Scalable visualization with DuckDB Spatial MVT</span></h1>
 </div>
 
 
@@ -393,11 +393,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
-<p><img src="img/maplibre.png" class="img-fluid figure-img"></p>
-<figcaption>Maplibre visualization of a Delta Lake table with aGEOMETRY column, via DuckDB Spatial</figcaption>
+<p><a href="https://www.youtube.com/watch?v=6d87gGNTyRg"><img src="img/youtube_thumbnail.png" class="img-fluid figure-img"></a></p>
+<figcaption>Click on the image to play the video.</figcaption>
 </figure>
 </div>
-<p>We have <a href="https://github.com/duckdb/duckdb-spatial/issues/241">MVT support</a> in DuckDB Spatial since version 1.4. This means that we can feed MVT to e.g.&nbsp;MaplibreGL JS, as shown by DuckDB Spatial author Max Gabrielsson <a href="https://gist.github.com/Maxxen/37e4a9f8595ea5e6a20c0c8fbbefe955">here in an example Flask app</a>.</p>
+<p>(click on the above image to play the video.)</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="img/maplibre.png" class="img-fluid figure-img"></p>
+<figcaption>MapLibre visualization of a Delta Lake table with aGEOMETRY column, via DuckDB Spatial</figcaption>
+</figure>
+</div>
+<p>We have <a href="https://github.com/duckdb/duckdb-spatial/issues/241">MVT support</a> in DuckDB Spatial since version 1.4. This means that we can feed MVT to e.g.&nbsp;MapLibreGL JS, as shown by DuckDB Spatial author Max Gabrielsson <a href="https://gist.github.com/Maxxen/37e4a9f8595ea5e6a20c0c8fbbefe955">here in an example Flask app</a>.</p>
 <p>(Another nice tool to consume DuckDB MVT’s would be Martin, this is tracked in this <a href="https://github.com/maplibre/martin/issues/1693">issue</a>.)</p>
 <p>But how do we efficiently generate MVT’s from a Delta Lake table containing a GEOMETRY, given the tile indices?</p>
 <p>The key thing to consider is that <a href="https://www.databricks.com/blog/introducing-spatial-sql-databricks-80-functions-high-performance-geospatial-analytics">now</a> Databricks has very efficient spatial join filtering via e.g.&nbsp;<code>ST_Intersect</code>, especially if what you are filtering for is a constant. So the following query can be sub-second for e.g.&nbsp;a billion polygons such as Overture Maps buildings (note that we are not using any spatial grid or bounding box filters anymore):</p>
@@ -465,7 +472,7 @@ Note
 <li>An alternative approach could be to <a href="../stfunctions/duckdb_udf.html">wrap the used DuckDB functions into Spark UDF’s</a>, if we wanted to move some compute from your browser to DBSQL.</li>
 </ul></li>
 <li>For DBSQL we use the <a href="https://docs.databricks.com/aws/en/dev-tools/python-sql-connector">Python <code>databricks-sql-connector</code></a>, authenticating with a <a href="https://docs.databricks.com/aws/en/dev-tools/python-sql-connector#databricks-personal-access-token-authentication">Personal Access Token</a> – for serious work, you’d want to use OAuth instead.</li>
-<li><strong>Graceful feature limit.</strong> What to do if a tile has too many features? A common solution would be to define a minimum zoom level, but this would make it very cumbersome to move around the map, so we define a <code>MAX_FEATURES_PER_TYLE</code> instead. If this is reached, we gracefully fail and only show the tile boundaries – the user would only need to further zoom in to reveal all the features within that viewport.</li>
+<li><strong>Graceful feature limit.</strong> What to do if a tile has too many features? A common solution would be to define a minimum zoom level, but this would make it very cumbersome to move around the map, so we define a <code>MAX_FEATURES_PER_TILE</code> instead. If this is reached, we gracefully fail and only show the tile boundaries – the user would only need to further zoom in to reveal all the features within that viewport. (Of course you can throttle this value as you wish to find a balance between loading time and number of features shown.)</li>
 <li>MVT expects SRID 3857, while our table is probably in another SRID, so we need to use some <code>st_transform</code> there and back.</li>
 <li><strong>Tile throttling</strong>. we also added JS code under <code>// === Tile throttling logic ===</code> to take a 2 second pause starting any zoom and move interaction, in order to avoid overloading the warehouse with tile requests and therefore avoid tile queueing.
 <ul>
@@ -477,7 +484,7 @@ Note
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="https://www.youtube.com/watch?v=6d87gGNTyRg"><img src="img/maplibre_vid.png" class="img-fluid figure-img"></a></p>
-<figcaption>Watch the video</figcaption>
+<figcaption>Click on the image to play the video.</figcaption>
 </figure>
 </div>
 <p>(click on the above image to play the video.)</p>
@@ -491,7 +498,7 @@ Note
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>What if you find this approach still too “slow”, from the end-user standpoint? Then you can use <a href="../viz/PMTiles.html">PMTiles</a>. The difference is that with the MVT approach, you directly read the Delta Lake table, and the PMTile you would need to generate which means extra compute and time.</p>
+<p>If you still find this approach too “slow” from the end-user standpoint, and/or you find it “cheating” that we use <code>MAX_FEATURES_PER_TILE</code>, then you can use <a href="../viz/PMTiles.html">PMTiles</a> instead. The difference is that with the MVT approach, you directly read the Delta Lake table, and the PMTile you would need to generate which means extra compute and time.</p>
 </div>
 </div>
 
