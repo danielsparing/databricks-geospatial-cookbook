@@ -76,7 +76,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-364982630eef5352dd1537128a8ed5cb.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -480,7 +480,7 @@ Note
 </ul></li>
 </ul>
 <p>In the below video (showing a table with all 2.5B buildings worldwide, not just one country), you can see the tiling at work – note how 1) the graceful feature limit means that “too busy” tiles are just shown as rectangles, and 2) zoom-and-pan pauses the feature layer but after a short timeout, the tiles are drawn, with sub-second latency per tile.</p>
-<p>Find the full code <a href="https://github.com/danielsparing/databricks-geospatial-cookbook/blob/main/viz/dbgeo_duckdbmvt_app.py">here</a>, which you can run <a href="https://flask.palletsprojects.com/en/stable/quickstart/">locally</a> as a Flask app (you could also embed it within a Databricks App if preferred, but the local app is of course a bit more cost-effective).</p>
+<p>Find the full code <a href="https://github.com/danielsparing/databricks-geospatial-cookbook/blob/main/viz/dbgeo_duckdbmvt_app.py">here</a> (make sure you installed the latest <code>duckdb</code> package for Python, as well as <code>databricks-sql-connector[pyarrow]</code>), which you can run <a href="https://flask.palletsprojects.com/en/stable/quickstart/">locally</a> as a Flask app (you could also embed it within a Databricks App if preferred, but the local app is of course a bit more cost-effective).</p>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="https://www.youtube.com/watch?v=6d87gGNTyRg"><img src="img/maplibre_vid.png" class="img-fluid figure-img"></a></p>
