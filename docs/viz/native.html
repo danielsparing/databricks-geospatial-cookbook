@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../other_formats/export.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -400,11 +401,11 @@ Note
 </div>
 </div>
 <div id="cell-1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;634c8df0-c7fe-47f5-b8a4-43d7e1584ae6&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install <span class="st">"databricks-connect&gt;=17.1.0"</span> <span class="op">--</span>quiet</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="op">%</span>restart_python</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install <span class="st">"databricks-connect&gt;=17.1.0"</span> <span class="op">--</span>quiet</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="op">%</span>restart_python</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;fbf95545-58f8-4cb9-8b84-ea590417f3d5&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">%</span>sql</span>
 <span id="cb2-2"><a href="#cb2-2"></a>create <span class="kw">or</span> replace table tmp_geometries <span class="im">as</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a>select</span>
 <span id="cb2-4"><a href="#cb2-4"></a>  <span class="co">"Onze Lieve Vrouwetoren"</span> <span class="im">as</span> name,</span>
@@ -428,12 +429,12 @@ Note
 <span id="cb2-22"><a href="#cb2-22"></a><span class="op">--</span> Returns:</span>
 <span id="cb2-23"><a href="#cb2-23"></a><span class="op">--</span> name geometry</span>
 <span id="cb2-24"><a href="#cb2-24"></a><span class="op">--</span> Bermuda Triangle SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>,<span class="op">-</span><span class="fl">64.7563086</span> <span class="fl">32.3040273</span>,<span class="op">-</span><span class="fl">66.1166669</span> <span class="fl">18.4653003</span>,<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>))</span>
-<span id="cb2-25"><a href="#cb2-25"></a><span class="op">--</span> Onze Lieve Vrouwetoren   SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="fl">5.3872035084137675</span> <span class="fl">52.15517230119224</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-25"><a href="#cb2-25"></a><span class="op">--</span> Onze Lieve Vrouwetoren   SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="fl">5.3872035084137675</span> <span class="fl">52.15517230119224</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Our example table contains not only points, but the native visualization can only show points, so one thing we can do is to show the centroids.</p>
 <p>In the above example, the SRID happens to be 4326, therefore the below <code>st_transform</code> is a unnecessary. In general, however, you’d want to transform the geometries to 4326 in order to obtain valid <code>(lon, lat)</code> tuples.</p>
 <div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;c24b0bb6-c531-463e-b76d-59c3bbf542cd&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="cf">with</span> t <span class="im">as</span> (</span>
 <span id="cb3-3"><a href="#cb3-3"></a>  select</span>
 <span id="cb3-4"><a href="#cb3-4"></a>    name,</span>
@@ -444,7 +445,7 @@ Note
 <span id="cb3-9"><a href="#cb3-9"></a>    tmp_geometries</span>
 <span id="cb3-10"><a href="#cb3-10"></a>)</span>
 <span id="cb3-11"><a href="#cb3-11"></a><span class="im">from</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a>  t</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-12"><a href="#cb3-12"></a>  t</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Once the result above is shown, click on the <code>+</code> icon right of the <code>Table</code> tab to add the visualization “Map (Markers)” such as the one shown on the below image.</p>
 <div class="quarto-figure quarto-figure-center">
@@ -509,13 +510,14 @@ Note
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

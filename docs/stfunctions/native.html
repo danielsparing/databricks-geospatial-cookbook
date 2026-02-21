@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../viz/QGIS.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -399,11 +400,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;270ea053-4411-4c2c-a40a-2e96cb01265a&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>CATALOG <span class="op">=</span> <span class="st">"workspace"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a>CATALOG <span class="op">=</span> <span class="st">"workspace"</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a>SCHEMA <span class="op">=</span> <span class="st">"default"</span></span>
 <span id="cb1-3"><a href="#cb1-3"></a>VOLUME <span class="op">=</span> <span class="st">"default"</span></span>
 <span id="cb1-4"><a href="#cb1-4"></a></span>
-<span id="cb1-5"><a href="#cb1-5"></a>spark.sql(<span class="ss">f"use </span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5"></a>spark.sql(<span class="ss">f"use </span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="geography-operations" class="level2">
@@ -436,7 +437,7 @@ Caution
 </div>
 </div>
 <div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;043782a8-6bbd-4f87-8aa2-24a0c366b6e3&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1754629004417}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">%</span>sql</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="op">--</span> Areas of countries. Note that a country might <span class="kw">not</span> be listed <span class="cf">if</span> they cross the date line, leading to either missing geometry <span class="kw">in</span> the CARTO dataset already, <span class="kw">or</span> unsupported coordinates <span class="cf">for</span> `st_geogfromwkb` (hence the use of `try_to_geography`)</span>
 <span id="cb2-3"><a href="#cb2-3"></a>select</span>
 <span id="cb2-4"><a href="#cb2-4"></a>  country,</span>
@@ -456,11 +457,11 @@ Caution
 <span id="cb2-18"><a href="#cb2-18"></a><span class="op">--</span> CN   <span class="st">"""中国"""</span>    <span class="fl">9390439.241133066</span></span>
 <span id="cb2-19"><a href="#cb2-19"></a><span class="op">--</span> BR   <span class="st">"""Brasil"""</span>    <span class="fl">8507809.984099092</span></span>
 <span id="cb2-20"><a href="#cb2-20"></a><span class="op">--</span> IN   <span class="st">"""India"""</span> <span class="fl">3149764.8857977577</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a><span class="op">--</span> ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-21"><a href="#cb2-21"></a><span class="op">--</span> ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>If you store (lon, lat) point data as GEOGRAPHY, you can calculate distance in meters by converting to <code>GEOMETRY(4326)</code> first:</p>
 <div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;9a6e0e2d-d21b-4e7f-829a-0a2f2cc47739&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1754632322022}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="cf">with</span> cities <span class="im">as</span> (</span>
 <span id="cb3-3"><a href="#cb3-3"></a>  select</span>
 <span id="cb3-4"><a href="#cb3-4"></a>    names:primary::string <span class="im">as</span> name,</span>
@@ -499,14 +500,14 @@ Caution
 <span id="cb3-37"><a href="#cb3-37"></a><span class="op">--</span> Returns:</span>
 <span id="cb3-38"><a href="#cb3-38"></a><span class="op">--</span></span>
 <span id="cb3-39"><a href="#cb3-39"></a><span class="op">--</span> dist_km</span>
-<span id="cb3-40"><a href="#cb3-40"></a><span class="op">--</span> <span class="fl">344.08532856606695</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-40"><a href="#cb3-40"></a><span class="op">--</span> <span class="fl">344.08532856606695</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="geometry-operations" class="level2">
 <h2 class="anchored" data-anchor-id="geometry-operations">GEOMETRY operations</h2>
 <p>We can also calculate the distance in meters between two GEOMETRY lon-lat polygons (i.e.&nbsp;not just between points) if we transform to an appropriate local Cartesian coordinate system first:</p>
 <div id="cell-8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;357df58d-53e7-4344-b2f5-0eecb3a451b4&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">%</span>sql</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="cf">with</span> dutch_provinces <span class="im">as</span> (</span>
 <span id="cb4-3"><a href="#cb4-3"></a>  select</span>
 <span id="cb4-4"><a href="#cb4-4"></a>    names:primary::string <span class="im">as</span> name,</span>
@@ -544,7 +545,7 @@ Caution
 <span id="cb4-36"><a href="#cb4-36"></a><span class="op">--</span> Returns:</span>
 <span id="cb4-37"><a href="#cb4-37"></a><span class="op">--</span></span>
 <span id="cb4-38"><a href="#cb4-38"></a><span class="op">--</span> dist_km</span>
-<span id="cb4-39"><a href="#cb4-39"></a><span class="op">--</span> <span class="fl">131.66041515751186</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-39"><a href="#cb4-39"></a><span class="op">--</span> <span class="fl">131.66041515751186</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout-notes">
 <p>If you want to find the actual shortest line as well, not just the distance, see <a href="../stfunctions/duckdb_udf.html">how to define UDFs with DuckDB</a>.</p>
@@ -555,7 +556,7 @@ Caution
 <p>Optimizing for efficient spatial joins is out of scope here – you’d need to use some spatial indexing such as <a href="https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-h3-geospatial-functions">H3</a>. (Databricks might add support to spatial joins of GEOMETRY/GEOGRAPHY types over time, but as of Aug 2025, using an explicit spatial index is highly benefitial.)</p>
 <p>We were using the Delta Lake tables of Overture Maps provided by CARTO as our examples. Notice that these are clustered by the <code>__carto_[x|y][min|max]</code> columns:</p>
 <div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;9a24e393-edc2-4fe8-ad4e-3017cc62b5de&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">%</span>sql</span>
 <span id="cb5-2"><a href="#cb5-2"></a>describe extended carto_overture_maps_divisions.carto.division</span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="op">--</span></span>
 <span id="cb5-4"><a href="#cb5-4"></a><span class="op">--</span> Returns:</span>
@@ -566,12 +567,12 @@ Caution
 <span id="cb5-9"><a href="#cb5-9"></a><span class="op">--</span> __carto_xmin double</span>
 <span id="cb5-10"><a href="#cb5-10"></a><span class="op">--</span> __carto_xmax double</span>
 <span id="cb5-11"><a href="#cb5-11"></a><span class="op">--</span> __carto_ymin double</span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="op">--</span> __carto_ymax double</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="op">--</span> __carto_ymax double</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>So in the case of these tables, we can make use of these columns for efficient joins, filtering for bounding boxes before calling <code>st_contains</code> (or <code>st_intersects</code>) for a precise join.</p>
 <p>Let’s fetch all buildings of Amsterdam:</p>
 <div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;397cf8b3-9ecc-437d-ad96-109c2197b612&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="op">%</span>sql</span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="op">--</span> capture the city bbox <span class="kw">in</span> a table</span>
 <span id="cb6-3"><a href="#cb6-3"></a>create <span class="kw">or</span> replace table tmp_ams <span class="im">as</span></span>
 <span id="cb6-4"><a href="#cb6-4"></a>select</span>
@@ -585,11 +586,11 @@ Caution
 <span id="cb6-12"><a href="#cb6-12"></a>where</span>
 <span id="cb6-13"><a href="#cb6-13"></a>  country <span class="op">=</span> <span class="st">'NL'</span></span>
 <span id="cb6-14"><a href="#cb6-14"></a>  <span class="kw">and</span> subtype <span class="op">=</span> <span class="st">'county'</span></span>
-<span id="cb6-15"><a href="#cb6-15"></a>  <span class="kw">and</span> names:primary::string <span class="op">=</span> <span class="st">"Amsterdam"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-15"><a href="#cb6-15"></a>  <span class="kw">and</span> names:primary::string <span class="op">=</span> <span class="st">"Amsterdam"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We’ll fetch the bbox values from above to inject into the SQL query below – yes, it would be way more elegant to avoid hardcoding and use a join, but as of current testing, this is way faster.</p>
 <div id="cell-15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;8db7cacc-8191-43aa-97d9-55bd4f5f1599&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>bbox <span class="op">=</span> spark.table(<span class="st">"tmp_ams"</span>).toPandas().iloc[<span class="dv">0</span>,]</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>bbox <span class="op">=</span> spark.table(<span class="st">"tmp_ams"</span>).toPandas().iloc[<span class="dv">0</span>,]</span>
 <span id="cb7-2"><a href="#cb7-2"></a></span>
 <span id="cb7-3"><a href="#cb7-3"></a>spark.sql(<span class="ss">f"""create or replace table tmp_ams_buildings_bbox as</span></span>
 <span id="cb7-4"><a href="#cb7-4"></a><span class="ss">select</span></span>
@@ -601,11 +602,11 @@ Caution
 <span id="cb7-10"><a href="#cb7-10"></a><span class="ss">where</span></span>
 <span id="cb7-11"><a href="#cb7-11"></a><span class="ss">  building.__carto_xmin between </span><span class="sc">{</span>bbox[<span class="st">"__carto_xmin"</span>]<span class="sc">}</span><span class="ss"> and </span><span class="sc">{</span>bbox[<span class="st">"__carto_xmax"</span>]<span class="sc">}</span></span>
 <span id="cb7-12"><a href="#cb7-12"></a><span class="ss">  and building.__carto_ymin between </span><span class="sc">{</span>bbox[<span class="st">"__carto_ymin"</span>]<span class="sc">}</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a><span class="ss">    and </span><span class="sc">{</span>bbox[<span class="st">"__carto_ymax"</span>]<span class="sc">}</span><span class="ss">"""</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="ss">    and </span><span class="sc">{</span>bbox[<span class="st">"__carto_ymax"</span>]<span class="sc">}</span><span class="ss">"""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we can filter with <code>st_contains</code> to leave out the false positives:</p>
 <div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;2a8ed129-701d-4591-a462-c664af6f2118&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">%</span>sql</span>
 <span id="cb8-2"><a href="#cb8-2"></a>create <span class="kw">or</span> replace table tmp_ams_buildings <span class="im">as</span></span>
 <span id="cb8-3"><a href="#cb8-3"></a>select</span>
 <span id="cb8-4"><a href="#cb8-4"></a>  b.<span class="op">*</span></span>
@@ -613,13 +614,13 @@ Caution
 <span id="cb8-6"><a href="#cb8-6"></a>  tmp_ams</span>
 <span id="cb8-7"><a href="#cb8-7"></a>    join tmp_ams_buildings_bbox b</span>
 <span id="cb8-8"><a href="#cb8-8"></a>      on <span class="op">--</span> then more precise <span class="bu">filter</span> on `st_contains`</span>
-<span id="cb8-9"><a href="#cb8-9"></a>      st_contains(tmp_ams.geometry, building_geometry)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-9"><a href="#cb8-9"></a>      st_contains(tmp_ams.geometry, building_geometry)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;5c664d04-61cf-4654-b741-3eee540df977&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="op">%</span>pip install duckdb lonboard shapely <span class="op">--</span>quiet</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="op">%</span>pip install duckdb lonboard shapely <span class="op">--</span>quiet</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;1eab4a3b-56d8-481c-a43f-46a68880040e&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">def</span> spark_viz(df, wkb_col<span class="op">=</span><span class="st">"geometry"</span>, other_cols<span class="op">=</span><span class="va">None</span>, limit<span class="op">=</span><span class="dv">10_000</span>, output_html<span class="op">=</span><span class="va">None</span>):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">def</span> spark_viz(df, wkb_col<span class="op">=</span><span class="st">"geometry"</span>, other_cols<span class="op">=</span><span class="va">None</span>, limit<span class="op">=</span><span class="dv">10_000</span>, output_html<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb10-2"><a href="#cb10-2"></a>    <span class="co"># needs `%pip install duckdb lonboard shapely`</span></span>
 <span id="cb10-3"><a href="#cb10-3"></a></span>
 <span id="cb10-4"><a href="#cb10-4"></a>    <span class="cf">if</span> other_cols <span class="kw">is</span> <span class="va">None</span>:</span>
@@ -647,14 +648,14 @@ Caution
 <span id="cb10-26"><a href="#cb10-26"></a>        <span class="cf">return</span> viz(query).as_html()</span>
 <span id="cb10-27"><a href="#cb10-27"></a>    <span class="cf">else</span>:</span>
 <span id="cb10-28"><a href="#cb10-28"></a>        viz(query).to_html(output_html)</span>
-<span id="cb10-29"><a href="#cb10-29"></a>        <span class="cf">return</span> output_html</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb10-29"><a href="#cb10-29"></a>        <span class="cf">return</span> output_html</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-20" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;10e22957-6e45-4abd-b786-e5c08c9421bd&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>spark_viz(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a>spark_viz(</span>
 <span id="cb11-2"><a href="#cb11-2"></a>    spark.table(<span class="st">"tmp_ams_buildings"</span>).selectExpr(</span>
 <span id="cb11-3"><a href="#cb11-3"></a>        <span class="st">"st_asbinary(building_geometry) as geometry"</span></span>
 <span id="cb11-4"><a href="#cb11-4"></a>    )</span>
-<span id="cb11-5"><a href="#cb11-5"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-5"><a href="#cb11-5"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -664,13 +665,13 @@ Caution
 </div>
 <p>If you want to see a much larger sample (or possibly the whole dataset), you’ll need to output to a HTML into Volumes, and either download the file and open it locally, or use a Databricks App such as <a href="../apps/databricks_apps.html#html-viewer">this <code>html-viewwer</code> example</a>:</p>
 <div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;38c46dd0-5fa6-4144-8b48-4eed274fe6ea&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>spark_viz(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>spark_viz(</span>
 <span id="cb12-2"><a href="#cb12-2"></a>    spark.table(<span class="st">"tmp_ams_buildings"</span>).selectExpr(</span>
 <span id="cb12-3"><a href="#cb12-3"></a>        <span class="st">"st_asbinary(building_geometry) as geometry"</span></span>
 <span id="cb12-4"><a href="#cb12-4"></a>    ),</span>
 <span id="cb12-5"><a href="#cb12-5"></a>    limit<span class="op">=</span><span class="dv">1_000_000</span>,</span>
 <span id="cb12-6"><a href="#cb12-6"></a>    output_html<span class="op">=</span><span class="ss">f"/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/ams_buildings.html"</span>,</span>
-<span id="cb12-7"><a href="#cb12-7"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-7"><a href="#cb12-7"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -682,10 +683,10 @@ Caution
 <section id="cleanup" class="level2">
 <h2 class="anchored" data-anchor-id="cleanup">Cleanup</h2>
 <div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;73b5a8c2-1daf-4ad6-94a8-844682ba60cb&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="op">%</span>sql</span>
 <span id="cb13-2"><a href="#cb13-2"></a> <span class="op">--</span> drop table tmp_ams</span>
 <span id="cb13-3"><a href="#cb13-3"></a> <span class="op">--</span> drop table tmp_ams_buildings_bbox</span>
-<span id="cb13-4"><a href="#cb13-4"></a> <span class="op">--</span> drop table tmp_ams_buildings</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb13-4"><a href="#cb13-4"></a> <span class="op">--</span> drop table tmp_ams_buildings</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
@@ -743,13 +744,14 @@ Caution
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

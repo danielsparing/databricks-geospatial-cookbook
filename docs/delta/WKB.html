@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../delta/GEOGRAPHY.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -393,17 +394,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>You can store geometry or geography data in a Delta Lake table in a <a href="https://docs.databricks.com/aws/en/sql/language-manual/data-types/binary-type">BINARY</a> column as <a href="https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary">Well-known binary</a> (WKB or EWKB). This is a more compact representation than well-known text (WKT), and widely supported incl.&nbsp;in the Geoparquet specification. On the other hand, unlike the newer <a href="https://docs.databricks.com/aws/en/sql/language-manual/data-types/geometry-type">GEOMETRY</a> and GEOGRAPHY types, there is no higher level semantic support possible. Also, you need to use the conversion function <a href="https://docs.databricks.com/gcp/en/sql/language-manual/functions/st_geomfromwkb">st_geomfromwkb</a> or <a href="https://docs.databricks.com/gcp/en/sql/language-manual/functions/st_geomfromewkb">st_geomfromwekb</a> before any other ST function.</p>
 <div id="cell-1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;58caf313-c0ff-41b8-ad62-6cfaa6b5786b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install <span class="st">"databricks-connect&gt;=17.1.0"</span> <span class="op">--</span>quiet</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="op">%</span>restart_python</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install <span class="st">"databricks-connect&gt;=17.1.0"</span> <span class="op">--</span>quiet</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="op">%</span>restart_python</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;b7ff4077-cee0-437d-8a81-16473b13f6c1&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">%</span>sql</span>
 <span id="cb2-2"><a href="#cb2-2"></a>create <span class="kw">or</span> replace temporary view t_ewkb <span class="im">as</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a>select</span>
-<span id="cb2-4"><a href="#cb2-4"></a>  st_asewkb(st_point(<span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">4326</span>)) wkb_geometry</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4"></a>  st_asewkb(st_point(<span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">4326</span>)) wkb_geometry</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;c33be0d2-99fd-4eb1-9bc6-5b75aa358a52&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
 <span id="cb3-2"><a href="#cb3-2"></a>select</span>
 <span id="cb3-3"><a href="#cb3-3"></a>  st_geomfromewkb(wkb_geometry) geometry,</span>
 <span id="cb3-4"><a href="#cb3-4"></a>  wkb_geometry</span>
@@ -411,7 +412,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-6"><a href="#cb3-6"></a>  t_ewkb</span>
 <span id="cb3-7"><a href="#cb3-7"></a><span class="op">--</span> Returns:</span>
 <span id="cb3-8"><a href="#cb3-8"></a><span class="op">--</span>   geometry   wkb_geometry</span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="op">--</span> SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="dv">3</span> <span class="dv">0</span>) AQEAACDmEAAAAAAAAAAACEAAAAAAAAAAAA<span class="op">==</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="op">--</span> SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="dv">3</span> <span class="dv">0</span>) AQEAACDmEAAAAAAAAAAACEAAAAAAAAAAAA<span class="op">==</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Another example of Delta Lake tables with WKB columns are the <a href="https://marketplace.databricks.com/provider/dd56dcf4-cb70-449e-abad-c8038c0de3d9/CARTO">Overture Maps datasets</a> prepared by CARTO, available via the Databricks Marketplace. Follow the previous link to add any them (at no cost) to your catalog, if you haven’t yet. For example, for the below query, use <a href="https://dbc-63c92876-2d84.cloud.databricks.com/marketplace/consumer/listings/2b2d3511-55cf-493c-8224-f5c5103a8d74?o=3737817604111714">Divisions</a> (borders of countries and other administrative divisions):</p>
 <div class="callout callout-style-default callout-caution callout-titled">
@@ -428,7 +429,7 @@ Caution
 </div>
 </div>
 <div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;4abc1430-5118-49dc-9bb0-3c48c05d3b1f&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">%</span>sql</span>
 <span id="cb4-2"><a href="#cb4-2"></a>select</span>
 <span id="cb4-3"><a href="#cb4-3"></a>  names:primary <span class="im">as</span> name,</span>
 <span id="cb4-4"><a href="#cb4-4"></a>  geometry</span>
@@ -441,14 +442,14 @@ Caution
 <span id="cb4-11"><a href="#cb4-11"></a><span class="op">--</span> <span class="st">"""Australia"""</span>  AQYAAAAjAAAAAQMAAAABAAAA (truncated)</span>
 <span id="cb4-12"><a href="#cb4-12"></a><span class="op">--</span> <span class="st">"""Timor-Leste"""</span>    AQYAAAAEAAAAAQMAAAABAAAA (truncated)</span>
 <span id="cb4-13"><a href="#cb4-13"></a><span class="op">--</span> <span class="st">"""Vanuatu"""</span>    AQYAAABlAAAAAQMAAAABAAAA (truncated)</span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="op">--</span> ... ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="op">--</span> ... ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>These CARTO tables also show one pattern to organize and cluster tables with geometries: they include the bounding box columns <code>__carto_xmin</code>, <code>__carto_xmax</code>, <code>__carto_ymin</code>, <code>___carto_ymax</code> and are clustered by these colums.</p>
 <p>Another pattern would be to make use of spatial indexing such as <a href="https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-h3-geospatial-functions">H3</a>.</p>
 <section id="example-usage-with-st-functions" class="level2">
 <h2 class="anchored" data-anchor-id="example-usage-with-st-functions">Example usage with ST functions</h2>
 <div id="cell-8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;d23d8da8-5ff6-49e4-9914-85fdb3e3951b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1754201398911}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">%</span>sql</span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="cf">with</span> countries <span class="im">as</span> (</span>
 <span id="cb5-3"><a href="#cb5-3"></a>  select</span>
 <span id="cb5-4"><a href="#cb5-4"></a>    country,</span>
@@ -468,7 +469,7 @@ Caution
 <span id="cb5-18"><a href="#cb5-18"></a><span class="op">--</span> Returns:</span>
 <span id="cb5-19"><a href="#cb5-19"></a><span class="op">--</span> country  area_km2s</span>
 <span id="cb5-20"><a href="#cb5-20"></a><span class="op">--</span> FR   <span class="fl">549231.6644010496</span></span>
-<span id="cb5-21"><a href="#cb5-21"></a><span class="op">--</span> GB   <span class="fl">244408.1099778328</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-21"><a href="#cb5-21"></a><span class="op">--</span> GB   <span class="fl">244408.1099778328</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
@@ -526,13 +527,14 @@ Caution
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

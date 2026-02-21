@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../delta/GEOMETRY_vs_GEOGRAPHY.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -393,11 +394,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <p>You can store geometry or geography data in a Delta Lake table in a <a href="https://docs.databricks.com/aws/en/sql/language-manual/data-types/geometry-type">GEOMETRY</a> column. See also <a href="../delta/GEOMETRY_vs_GEOGRAPHY.html">GEOMETRY_vs_GEOGRAPHY</a>.</p>
 <div id="cell-1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;569495b6-7416-4bb4-859d-b14233377ba9&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install <span class="st">"databricks-connect&gt;=17.1.0"</span> <span class="op">--</span>quiet</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="op">%</span>restart_python</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install <span class="st">"databricks-connect&gt;=17.1.0"</span> <span class="op">--</span>quiet</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="op">%</span>restart_python</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;fb8b2454-2e55-4aa3-ae0f-0c2329db108e&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">%</span>sql</span>
 <span id="cb2-2"><a href="#cb2-2"></a>create <span class="kw">or</span> replace table tmp_geometries <span class="im">as</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a>select</span>
 <span id="cb2-4"><a href="#cb2-4"></a>  st_point(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">4326</span>) <span class="im">as</span> geometry,</span>
@@ -424,7 +425,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-25"><a href="#cb2-25"></a><span class="op">--</span> Returns:</span>
 <span id="cb2-26"><a href="#cb2-26"></a><span class="op">--</span> col_name data_type   comment</span>
 <span id="cb2-27"><a href="#cb2-27"></a><span class="op">--</span> geometry geometry(<span class="dv">4326</span>)  null</span>
-<span id="cb2-28"><a href="#cb2-28"></a><span class="op">--</span> name string  null</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-28"><a href="#cb2-28"></a><span class="op">--</span> name string  null</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Note the <code>geometry(4326)</code> type above.</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -441,19 +442,19 @@ Note
 </div>
 </div>
 <div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;41603648-30d6-4775-983b-96831d3fd9fd&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="im">from</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a>  tmp_geometries</span>
 <span id="cb3-4"><a href="#cb3-4"></a><span class="op">--</span> Returns:</span>
 <span id="cb3-5"><a href="#cb3-5"></a><span class="op">--</span> geometry name</span>
 <span id="cb3-6"><a href="#cb3-6"></a><span class="op">--</span> SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>,<span class="op">-</span><span class="fl">64.7563086</span> <span class="fl">32.3040273</span>,<span class="op">-</span><span class="fl">66.1166669</span> <span class="fl">18.4653003</span>,<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>)) Bermuda Triangle</span>
 <span id="cb3-7"><a href="#cb3-7"></a><span class="op">--</span> SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="fl">5.3872035084137675</span> <span class="fl">52.15517230119224</span>)    Onze Lieve Vrouwetoren</span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="op">--</span> SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="dv">0</span> <span class="dv">0</span>) Null Island</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="op">--</span> SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="dv">0</span> <span class="dv">0</span>) Null Island</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>(Note that you <em>could</em> mix multiple SRID’s in one GEOMETRY column inside a Spark Dataframe, including inside a view, but must have a single SRID in a table.)</p>
 <p>Let’s calculate the distance in kilometers (on the surface of the spheroid Earth) between the two point examples above. <a href="https://docs.databricks.com/aws/en/sql/language-manual/functions/st_distancespheroid">st_distancespheroid</a> expects lat/lon, so we’ll first convert everything to SRID 4326 – Null Island already is though.</p>
 <div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;7b0a5af2-e906-4fa0-8d68-48ad94903b28&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">%</span>sql</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="cf">with</span> geoms_lonlat <span class="im">as</span> (</span>
 <span id="cb4-3"><a href="#cb4-3"></a>  select</span>
 <span id="cb4-4"><a href="#cb4-4"></a>    st_transform(geometry, <span class="dv">4326</span>) geom_lonlat,</span>
@@ -484,11 +485,11 @@ Note
 <span id="cb4-29"><a href="#cb4-29"></a>  onzelieve</span>
 <span id="cb4-30"><a href="#cb4-30"></a><span class="op">--</span> Returns:</span>
 <span id="cb4-31"><a href="#cb4-31"></a><span class="op">--</span> distance_kms</span>
-<span id="cb4-32"><a href="#cb4-32"></a><span class="op">--</span> <span class="fl">5821.233209229107</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb4-32"><a href="#cb4-32"></a><span class="op">--</span> <span class="fl">5821.233209229107</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>The GEOGRAPHY type also offers further functions that take lon/lat as input and produce meters as output, such as <a href="https://docs.databricks.com/aws/en/sql/language-manual/functions/st_area">st_area</a>. So let’s calculate the size of the Bermuda Triangle in square kms:</p>
 <div id="cell-8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;3924a1ed-1956-4956-a2aa-e23c89010aae&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">%</span>sql</span>
 <span id="cb5-2"><a href="#cb5-2"></a><span class="cf">with</span> bermuda_geog <span class="im">as</span> (</span>
 <span id="cb5-3"><a href="#cb5-3"></a>  select</span>
 <span id="cb5-4"><a href="#cb5-4"></a>    try_cast(st_setsrid(geometry, <span class="dv">4326</span>) <span class="im">as</span> geography(<span class="dv">4326</span>)) geography</span>
@@ -503,13 +504,13 @@ Note
 <span id="cb5-13"><a href="#cb5-13"></a>  bermuda_geog</span>
 <span id="cb5-14"><a href="#cb5-14"></a><span class="op">--</span> Returns:</span>
 <span id="cb5-15"><a href="#cb5-15"></a><span class="op">--</span> area_km2s</span>
-<span id="cb5-16"><a href="#cb5-16"></a><span class="op">--</span> <span class="fl">1144371.82556931</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-16"><a href="#cb5-16"></a><span class="op">--</span> <span class="fl">1144371.82556931</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="cleanup" class="level2">
 <h2 class="anchored" data-anchor-id="cleanup">Cleanup</h2>
 <div id="cell-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;64abe896-7c9a-4aee-ac48-e1bfd1ea48ad&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="op">%</span>sql</span>
-<span id="cb6-2"><a href="#cb6-2"></a> <span class="op">--</span> drop table tmp_geometries</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a><span class="op">%</span>sql</span>
+<span id="cb6-2"><a href="#cb6-2"></a> <span class="op">--</span> drop table tmp_geometries</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
@@ -567,13 +568,14 @@ Note
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy

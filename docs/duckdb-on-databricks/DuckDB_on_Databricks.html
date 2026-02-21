@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../index.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -403,12 +404,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="setting-up-duckdb-on-databricks" class="level2">
 <h2 class="anchored" data-anchor-id="setting-up-duckdb-on-databricks">Setting up DuckDB on Databricks</h2>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;76287d43-3e3f-486b-b658-40bd03725abc&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install duckdb <span class="op">--</span>quiet</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install duckdb <span class="op">--</span>quiet</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> duckdb</span>
 <span id="cb1-4"><a href="#cb1-4"></a></span>
 <span id="cb1-5"><a href="#cb1-5"></a><span class="co"># Install the Spatial Extension:</span></span>
-<span id="cb1-6"><a href="#cb1-6"></a>duckdb.sql(<span class="st">"install spatial; load spatial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-6"><a href="#cb1-6"></a>duckdb.sql(<span class="st">"install spatial; load spatial"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -425,7 +426,7 @@ Note
 </div>
 <p>This allows you to directly use the DuckDB Spatial, for example:</p>
 <div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;d2e8f1da-a69d-478e-b5bf-be92fcb16bb8&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>duckdb.sql(<span class="st">"select st_distance(st_point(3, 0), st_point(0, 4)) d"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>duckdb.sql(<span class="st">"select st_distance(st_point(3, 0), st_point(0, 4)) d"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="co"># Returns:</span></span>
 <span id="cb2-4"><a href="#cb2-4"></a></span>
@@ -434,7 +435,7 @@ Note
 <span id="cb2-7"><a href="#cb2-7"></a><span class="co"># │ double │</span></span>
 <span id="cb2-8"><a href="#cb2-8"></a><span class="co"># ├────────┤</span></span>
 <span id="cb2-9"><a href="#cb2-9"></a><span class="co"># │    5.0 │</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="co"># └────────┘</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co"># └────────┘</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="visualize-duckdb-spatial-output" class="level2">
@@ -442,7 +443,7 @@ Note
 <p>If your data is simply lon/lat points, you can make use of the built-in point map visualization in Databricks Notebooks if you convert the DuckDB to a Spark DataFrame via Pandas.</p>
 <p>Following the New York City pizza restaurants <a href="https://docs.overturemaps.org/getting-data/duckdb/?query=Places#downloading-overture-data">example</a>, but let’s switch to Amsterdam:</p>
 <div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;6bbba57f-b0fc-4bb6-9493-fb3a0a610b78&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>query <span class="op">=</span> duckdb.sql(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>query <span class="op">=</span> duckdb.sql(</span>
 <span id="cb3-2"><a href="#cb3-2"></a>    <span class="st">"""</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a><span class="st">with t as (</span></span>
 <span id="cb3-4"><a href="#cb3-4"></a><span class="st">  SELECT</span></span>
@@ -474,11 +475,11 @@ Note
 <span id="cb3-30"><a href="#cb3-30"></a><span class="co"># │ 4.7811585 │ 52.3367951 │ CiCi Pizza                               │</span></span>
 <span id="cb3-31"><a href="#cb3-31"></a><span class="co"># │     ·     │      ·     │       ·                                  │</span></span>
 <span id="cb3-32"><a href="#cb3-32"></a><span class="co"># │     ·     │      ·     │       ·                                  │</span></span>
-<span id="cb3-33"><a href="#cb3-33"></a><span class="co"># │     ·     │      ·     │       ·                                  │</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-33"><a href="#cb3-33"></a><span class="co"># │     ·     │      ·     │       ·                                  │</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Once the result below is shown, click on the <code>+</code> icon right of the <code>Table</code> tab to add the visualization “Map (Markers)” such as the one shown on the below image.</p>
 <div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;959091e2-7c35-47a6-8999-e57eab0c4d5b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>spark.createDataFrame(query.df()).display()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>spark.createDataFrame(query.df()).display()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -488,12 +489,12 @@ Note
 </div>
 <p>Or visualize with lonboard, which will work also for other geometry types like linestrings and polygons, again following an Overture Maps example:</p>
 <div id="cell-12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;3195aaeb-d076-4b7d-9267-0d6e6281e996&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">%</span>pip install lonboard shapely <span class="op">--</span>quiet</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">%</span>pip install lonboard shapely <span class="op">--</span>quiet</span>
 <span id="cb5-2"><a href="#cb5-2"></a></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="im">from</span> lonboard <span class="im">import</span> viz</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="im">from</span> lonboard <span class="im">import</span> viz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;7d938d3d-68c4-4901-ba3c-48fc14cf5aca&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>query <span class="op">=</span> duckdb.sql(</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>query <span class="op">=</span> duckdb.sql(</span>
 <span id="cb6-2"><a href="#cb6-2"></a>    <span class="st">"""</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="st">  SELECT</span></span>
 <span id="cb6-4"><a href="#cb6-4"></a><span class="st">    subtype,</span></span>
@@ -509,7 +510,7 @@ Note
 <span id="cb6-14"><a href="#cb6-14"></a><span class="st">"""</span></span>
 <span id="cb6-15"><a href="#cb6-15"></a>)</span>
 <span id="cb6-16"><a href="#cb6-16"></a></span>
-<span id="cb6-17"><a href="#cb6-17"></a>viz(query).as_html()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-17"><a href="#cb6-17"></a>viz(query).as_html()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -524,13 +525,13 @@ Note
 <h2 class="anchored" data-anchor-id="write-delta-lake-tables-from-duckdb">Write Delta Lake Tables from DuckDB</h2>
 <p>If you want to write a result to a delta lake table (or temporary view), you can use Pandas as an intermediary format:</p>
 <div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;55fc4e92-c9ee-4c7a-ade4-84a3d2a9397f&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>spark.createDataFrame(query.df()).createOrReplaceTempView(<span class="st">"t"</span>)</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>spark.createDataFrame(query.df()).createOrReplaceTempView(<span class="st">"t"</span>)</span>
 <span id="cb7-2"><a href="#cb7-2"></a></span>
 <span id="cb7-3"><a href="#cb7-3"></a><span class="co"># Or write a persistent table, instead of a temporary view:</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="co"># spark.createDataFrame(query.df()).write.saveAsTable("t")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="co"># spark.createDataFrame(query.df()).write.saveAsTable("t")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;80f446b2-f88e-4b9c-a9a3-2b0017370ef3&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1754156918738}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">%</span>sql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">%</span>sql</span>
 <span id="cb8-2"><a href="#cb8-2"></a>select</span>
 <span id="cb8-3"><a href="#cb8-3"></a>  name</span>
 <span id="cb8-4"><a href="#cb8-4"></a><span class="im">from</span></span>
@@ -547,14 +548,14 @@ Note
 <span id="cb8-15"><a href="#cb8-15"></a><span class="op">--</span> │ Amsterdam      │</span>
 <span id="cb8-16"><a href="#cb8-16"></a><span class="op">--</span> │ Diemen         │</span>
 <span id="cb8-17"><a href="#cb8-17"></a><span class="op">--</span> │ Waterland      │</span>
-<span id="cb8-18"><a href="#cb8-18"></a><span class="op">--</span> └────────────────┘</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-18"><a href="#cb8-18"></a><span class="op">--</span> └────────────────┘</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="read-delta-lake-tables-with-duckdb" class="level2">
 <h2 class="anchored" data-anchor-id="read-delta-lake-tables-with-duckdb">Read Delta Lake Tables with DuckDB</h2>
 <p>We can read moderate amount of data from a delta table to duckdb via Arrow (or Pandas). (This assumes that the data volume is not prohibitively large to load into the memory of a single machine.)</p>
 <div id="cell-20" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;e8afa572-0a0d-40c5-bd00-b09ff926212d&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>dfa <span class="op">=</span> spark.read.table(<span class="st">"t"</span>).toArrow()</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>dfa <span class="op">=</span> spark.read.table(<span class="st">"t"</span>).toArrow()</span>
 <span id="cb9-2"><a href="#cb9-2"></a></span>
 <span id="cb9-3"><a href="#cb9-3"></a>query <span class="op">=</span> duckdb.sql(</span>
 <span id="cb9-4"><a href="#cb9-4"></a>    <span class="st">"""</span></span>
@@ -580,7 +581,7 @@ Note
 <span id="cb9-24"><a href="#cb9-24"></a><span class="co"># │ Amsterdam      │</span></span>
 <span id="cb9-25"><a href="#cb9-25"></a><span class="co"># │ Diemen         │</span></span>
 <span id="cb9-26"><a href="#cb9-26"></a><span class="co"># │ Waterland      │</span></span>
-<span id="cb9-27"><a href="#cb9-27"></a><span class="co"># └────────────────┘</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-27"><a href="#cb9-27"></a><span class="co"># └────────────────┘</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Another, more scalable way to read Delta Lake tables with DuckDB is to use the Databricks <a href="https://docs.databricks.com/api/workspace/temporarytablecredentials">Temporary Table Credentials API</a> (not available on Databricks Free Edition as of writing) and the DuckDB <a href="https://duckdb.org/docs/stable/core_extensions/delta.html">Delta extension</a>.</p>
 <p>Finally, a high-level tool to make this work would be the DuckDB extension <a href="https://github.com/duckdb/uc_catalog">uc-catalog</a>, but this did not reliably work for me (on either Free Edition or “paid” Databricks) as of writing.</p>
@@ -589,24 +590,24 @@ Note
 <h2 class="anchored" data-anchor-id="use-cell-magic-jupysql-for-duckdb-queries">Use cell magic <code>%%jupysql</code> for duckdb queries</h2>
 <p>In Databricks, you can write Databricks SQL code (so not DuckDB SQL code) in SQL code cells, using the <code>%sql</code> cell magic. DuckDB is also <a href="https://duckdb.org/docs/stable/guides/python/jupyter.html">compatible</a> with similar cell magic tooling, but in order to not get crossed with Databricks SQL, we’ll need to use another magic, <code>%%jupysql</code> (which is also the name of the <a href="https://github.com/ploomber/jupysql">package</a> that makes this possible). We can set it all up as the following:</p>
 <div id="cell-23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;12f59984-e581-4bf6-89a2-fe4a33abc2bf&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="op">%</span>pip install jupysql <span class="op">--</span>quiet</span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="op">%</span>restart_python</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="op">%</span>pip install jupysql <span class="op">--</span>quiet</span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="op">%</span>restart_python</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;8c44de6f-2a7a-49b9-a22b-0268c31e4f21&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="op">%</span>load_ext sql</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="op">%</span>load_ext sql</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;a5ab7b1a-7a13-4ed2-9a5c-8fe0a8f0c093&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">import</span> duckdb</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">import</span> duckdb</span>
 <span id="cb12-2"><a href="#cb12-2"></a></span>
-<span id="cb12-3"><a href="#cb12-3"></a>con <span class="op">=</span> duckdb.<span class="ex">connect</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-3"><a href="#cb12-3"></a>con <span class="op">=</span> duckdb.<span class="ex">connect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We need to specify the connection object only at the first use of <code>%%jupysql</code>, as below:</p>
 <div id="cell-27" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;8482714b-e5f8-4e97-ad48-3237eb3777a5&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="op">%%</span>jupysql con <span class="op">--</span>alias duckdb</span>
-<span id="cb13-2"><a href="#cb13-2"></a>install spatial<span class="op">;</span> load spatial</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="op">%%</span>jupysql con <span class="op">--</span>alias duckdb</span>
+<span id="cb13-2"><a href="#cb13-2"></a>install spatial<span class="op">;</span> load spatial</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-28" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;76fc86c4-cdc3-44cd-bdbc-2f53d8455380&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="op">%%</span>jupysql</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="op">%%</span>jupysql</span>
 <span id="cb14-2"><a href="#cb14-2"></a><span class="cf">with</span> t <span class="im">as</span> (</span>
 <span id="cb14-3"><a href="#cb14-3"></a>  SELECT</span>
 <span id="cb14-4"><a href="#cb14-4"></a>    <span class="bu">id</span>,</span>
@@ -637,7 +638,7 @@ Note
 <span id="cb14-29"><a href="#cb14-29"></a><span class="op">--</span> <span class="fl">4.797318</span> <span class="fl">52.3516662</span>  Il Delfino Blu</span>
 <span id="cb14-30"><a href="#cb14-30"></a><span class="op">--</span> <span class="fl">4.7988733</span>    <span class="fl">52.351978</span>   Domino<span class="st">'s Pizza</span></span>
 <span id="cb14-31"><a href="#cb14-31"></a><span class="er">-- 4.8107487    52.3539346  New York Pizza</span></span>
-<span id="cb14-32"><a href="#cb14-32"></a><span class="op">--</span> Truncated to displaylimit of <span class="fl">10.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-32"><a href="#cb14-32"></a><span class="op">--</span> Truncated to displaylimit of <span class="fl">10.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="register-duckdb-functions-as-spark-udfs" class="level2">
@@ -699,13 +700,14 @@ Note
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
