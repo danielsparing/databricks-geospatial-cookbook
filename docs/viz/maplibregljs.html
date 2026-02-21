@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.7.32">
+<meta name="generator" content="quarto-1.8.27">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -69,14 +69,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../viz/native.html" rel="prev">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
 <script src="../site_libs/quarto-html/popper.min.js"></script>
 <script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-485d01fc63b59abcd3ee1bf1e8e2748d.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-27c261d06b905028a18691de25d09dde.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -408,7 +409,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>(Another nice tool to consume DuckDB MVT’s would be Martin, this is tracked in this <a href="https://github.com/maplibre/martin/issues/1693">issue</a>.)</p>
 <p>But how do we efficiently generate MVT’s from a Delta Lake table containing a GEOMETRY, given the tile indices?</p>
 <p>The key thing to consider is that <a href="https://www.databricks.com/blog/introducing-spatial-sql-databricks-80-functions-high-performance-geospatial-analytics">now</a> Databricks has very efficient spatial join filtering via e.g.&nbsp;<code>ST_Intersect</code>, especially if what you are filtering for is a constant. So the following query can be sub-second for e.g.&nbsp;a billion polygons such as Overture Maps buildings (note that we are not using any spatial grid or bounding box filters anymore):</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">select</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode numberSource sql number-lines code-with-copy"><code class="sourceCode sql"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">select</span></span>
 <span id="cb1-2"><a href="#cb1-2"></a>  geometry</span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="kw">from</span></span>
 <span id="cb1-4"><a href="#cb1-4"></a>  t</span>
@@ -419,7 +420,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-9"><a href="#cb1-9"></a>      <span class="st">'POLYGON ((5.44921875 52.160454557747045, 5.44921875 52.2143386082582, 5.537109374999999 52.2143386082582, 5.537109374999999 52.160454557747045, 5.44921875 52.160454557747045))'</span></span>
 <span id="cb1-10"><a href="#cb1-10"></a>    )</span>
 <span id="cb1-11"><a href="#cb1-11"></a>  )</span>
-<span id="cb1-12"><a href="#cb1-12"></a><span class="kw">limit</span> <span class="dv">30000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-12"><a href="#cb1-12"></a><span class="kw">limit</span> <span class="dv">30000</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -437,7 +438,7 @@ Note
 <h2 class="anchored" data-anchor-id="create-a-sample-table">Create a sample table</h2>
 <p>We create here a sample table of buildings in the Netherlands – the same worked for me also for all 2.5B Overture Maps buildings of the world, but if you tried to persist that table, you’d probably run against the daily usage limit of <em>Databricks Free Edition</em> as I did.</p>
 <div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;f176cd45-e97f-4312-acb8-7d0b0e506c16&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>OVERTUREMAPS_RELEASE <span class="op">=</span> <span class="st">"2025-10-22.0"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>OVERTUREMAPS_RELEASE <span class="op">=</span> <span class="st">"2025-10-22.0"</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>COUNTRY_CODE <span class="op">=</span> <span class="st">"NL"</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a></span>
 <span id="cb2-4"><a href="#cb2-4"></a>country_bbox <span class="op">=</span> (</span>
@@ -448,10 +449,10 @@ Note
 <span id="cb2-9"><a href="#cb2-9"></a>    .select(<span class="st">"bbox.*"</span>)</span>
 <span id="cb2-10"><a href="#cb2-10"></a>    .toPandas()</span>
 <span id="cb2-11"><a href="#cb2-11"></a>    .iloc[<span class="dv">0</span>]</span>
-<span id="cb2-12"><a href="#cb2-12"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-12"><a href="#cb2-12"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;594b160d-8386-448b-b7a0-21e079c6aab7&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> functions <span class="im">as</span> F</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> functions <span class="im">as</span> F</span>
 <span id="cb3-2"><a href="#cb3-2"></a></span>
 <span id="cb3-3"><a href="#cb3-3"></a>spark.read.parquet(</span>
 <span id="cb3-4"><a href="#cb3-4"></a>    <span class="ss">f"s3://overturemaps-us-west-2/release/</span><span class="sc">{</span>OVERTUREMAPS_RELEASE<span class="sc">}</span><span class="ss">/theme=buildings/type=building"</span></span>
@@ -463,7 +464,7 @@ Note
 <span id="cb3-10"><a href="#cb3-10"></a><span class="ss">        """</span></span>
 <span id="cb3-11"><a href="#cb3-11"></a>).withColumn(<span class="st">"geometry"</span>, F.expr(<span class="st">"st_geomfromwkb(geometry)"</span>)).write.mode(</span>
 <span id="cb3-12"><a href="#cb3-12"></a>    <span class="st">"overwrite"</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a>).saveAsTable(<span class="st">"workspace.default.building_geom"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb3-13"><a href="#cb3-13"></a>).saveAsTable(<span class="st">"workspace.default.building_geom"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we can build on Maxxen’s <a href="https://gist.github.com/Maxxen/37e4a9f8595ea5e6a20c0c8fbbefe955">gist</a>, with the following adjustments:</p>
 <ul>
@@ -557,13 +558,14 @@ Note
       e.clearSelection();
     }
     const getTextToCopy = function(trigger) {
-        const codeEl = trigger.previousElementSibling.cloneNode(true);
-        for (const childEl of codeEl.children) {
-          if (isCodeAnnotation(childEl)) {
-            childEl.remove();
-          }
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
         }
-        return codeEl.innerText;
+      }
+      return codeEl.innerText;
     }
     const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
       text: getTextToCopy
