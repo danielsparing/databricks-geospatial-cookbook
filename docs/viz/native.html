@@ -400,52 +400,48 @@ Note
 <p>Make sure you are using <a href="https://docs.databricks.com/aws/en/release-notes/serverless/environment-version/four">Serverless environment version 4+</a>, or else outputting GEOMETRY/GEOGRAPHY types directly (without e.g.&nbsp;<code>st_asewkt()</code>) will not work.</p>
 </div>
 </div>
-<div id="cell-1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;634c8df0-c7fe-47f5-b8a4-43d7e1584ae6&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install <span class="st">"databricks-connect&gt;=17.1.0"</span> <span class="op">--</span>quiet</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="op">%</span>restart_python</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;fbf95545-58f8-4cb9-8b84-ea590417f3d5&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">%</span>sql</span>
-<span id="cb2-2"><a href="#cb2-2"></a>create <span class="kw">or</span> replace table tmp_geometries <span class="im">as</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>select</span>
-<span id="cb2-4"><a href="#cb2-4"></a>  <span class="co">"Onze Lieve Vrouwetoren"</span> <span class="im">as</span> name,</span>
-<span id="cb2-5"><a href="#cb2-5"></a>  st_transform(st_point(<span class="dv">155000</span>, <span class="dv">463000</span>, <span class="dv">28992</span>), <span class="dv">4326</span>) <span class="im">as</span> geometry</span>
-<span id="cb2-6"><a href="#cb2-6"></a>union <span class="bu">all</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a>select</span>
-<span id="cb2-8"><a href="#cb2-8"></a>  <span class="co">"Bermuda Triangle"</span> <span class="im">as</span> name,</span>
-<span id="cb2-9"><a href="#cb2-9"></a>  st_makepolygon(</span>
-<span id="cb2-10"><a href="#cb2-10"></a>    st_makeline(</span>
-<span id="cb2-11"><a href="#cb2-11"></a>      array(</span>
-<span id="cb2-12"><a href="#cb2-12"></a>        st_point(<span class="op">-</span> <span class="fl">80.1935973</span>, <span class="fl">25.7741566</span>, <span class="dv">4326</span>),</span>
-<span id="cb2-13"><a href="#cb2-13"></a>        st_point(<span class="op">-</span> <span class="fl">64.7563086</span>, <span class="fl">32.3040273</span>, <span class="dv">4326</span>),</span>
-<span id="cb2-14"><a href="#cb2-14"></a>        st_point(<span class="op">-</span> <span class="fl">66.1166669</span>, <span class="fl">18.4653003</span>, <span class="dv">4326</span>),</span>
-<span id="cb2-15"><a href="#cb2-15"></a>        st_point(<span class="op">-</span> <span class="fl">80.1935973</span>, <span class="fl">25.7741566</span>, <span class="dv">4326</span>)</span>
-<span id="cb2-16"><a href="#cb2-16"></a>      )</span>
-<span id="cb2-17"><a href="#cb2-17"></a>    )</span>
-<span id="cb2-18"><a href="#cb2-18"></a>  ) <span class="im">as</span> geometry<span class="op">;</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a></span>
-<span id="cb2-20"><a href="#cb2-20"></a><span class="im">from</span></span>
-<span id="cb2-21"><a href="#cb2-21"></a>  tmp_geometries</span>
-<span id="cb2-22"><a href="#cb2-22"></a><span class="op">--</span> Returns:</span>
-<span id="cb2-23"><a href="#cb2-23"></a><span class="op">--</span> name geometry</span>
-<span id="cb2-24"><a href="#cb2-24"></a><span class="op">--</span> Bermuda Triangle SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>,<span class="op">-</span><span class="fl">64.7563086</span> <span class="fl">32.3040273</span>,<span class="op">-</span><span class="fl">66.1166669</span> <span class="fl">18.4653003</span>,<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>))</span>
-<span id="cb2-25"><a href="#cb2-25"></a><span class="op">--</span> Onze Lieve Vrouwetoren   SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="fl">5.3872035084137675</span> <span class="fl">52.15517230119224</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;fbf95545-58f8-4cb9-8b84-ea590417f3d5&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>sql</span>
+<span id="cb1-2"><a href="#cb1-2"></a>create <span class="kw">or</span> replace table tmp_geometries <span class="im">as</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>select</span>
+<span id="cb1-4"><a href="#cb1-4"></a>  <span class="co">"Onze Lieve Vrouwetoren"</span> <span class="im">as</span> name,</span>
+<span id="cb1-5"><a href="#cb1-5"></a>  st_transform(st_point(<span class="dv">155000</span>, <span class="dv">463000</span>, <span class="dv">28992</span>), <span class="dv">4326</span>) <span class="im">as</span> geometry</span>
+<span id="cb1-6"><a href="#cb1-6"></a>union <span class="bu">all</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a>select</span>
+<span id="cb1-8"><a href="#cb1-8"></a>  <span class="co">"Bermuda Triangle"</span> <span class="im">as</span> name,</span>
+<span id="cb1-9"><a href="#cb1-9"></a>  st_makepolygon(</span>
+<span id="cb1-10"><a href="#cb1-10"></a>    st_makeline(</span>
+<span id="cb1-11"><a href="#cb1-11"></a>      array(</span>
+<span id="cb1-12"><a href="#cb1-12"></a>        st_point(<span class="op">-</span> <span class="fl">80.1935973</span>, <span class="fl">25.7741566</span>, <span class="dv">4326</span>),</span>
+<span id="cb1-13"><a href="#cb1-13"></a>        st_point(<span class="op">-</span> <span class="fl">64.7563086</span>, <span class="fl">32.3040273</span>, <span class="dv">4326</span>),</span>
+<span id="cb1-14"><a href="#cb1-14"></a>        st_point(<span class="op">-</span> <span class="fl">66.1166669</span>, <span class="fl">18.4653003</span>, <span class="dv">4326</span>),</span>
+<span id="cb1-15"><a href="#cb1-15"></a>        st_point(<span class="op">-</span> <span class="fl">80.1935973</span>, <span class="fl">25.7741566</span>, <span class="dv">4326</span>)</span>
+<span id="cb1-16"><a href="#cb1-16"></a>      )</span>
+<span id="cb1-17"><a href="#cb1-17"></a>    )</span>
+<span id="cb1-18"><a href="#cb1-18"></a>  ) <span class="im">as</span> geometry<span class="op">;</span></span>
+<span id="cb1-19"><a href="#cb1-19"></a></span>
+<span id="cb1-20"><a href="#cb1-20"></a><span class="im">from</span></span>
+<span id="cb1-21"><a href="#cb1-21"></a>  tmp_geometries</span>
+<span id="cb1-22"><a href="#cb1-22"></a><span class="op">--</span> Returns:</span>
+<span id="cb1-23"><a href="#cb1-23"></a><span class="op">--</span> name geometry</span>
+<span id="cb1-24"><a href="#cb1-24"></a><span class="op">--</span> Bermuda Triangle SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POLYGON((<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>,<span class="op">-</span><span class="fl">64.7563086</span> <span class="fl">32.3040273</span>,<span class="op">-</span><span class="fl">66.1166669</span> <span class="fl">18.4653003</span>,<span class="op">-</span><span class="fl">80.1935973</span> <span class="fl">25.7741566</span>))</span>
+<span id="cb1-25"><a href="#cb1-25"></a><span class="op">--</span> Onze Lieve Vrouwetoren   SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="fl">5.3872035084137675</span> <span class="fl">52.15517230119224</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Our example table contains not only points, but the native visualization can only show points, so one thing we can do is to show the centroids.</p>
 <p>In the above example, the SRID happens to be 4326, therefore the below <code>st_transform</code> is a unnecessary. In general, however, you’d want to transform the geometries to 4326 in order to obtain valid <code>(lon, lat)</code> tuples.</p>
-<div id="cell-4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;c24b0bb6-c531-463e-b76d-59c3bbf542cd&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="cf">with</span> t <span class="im">as</span> (</span>
-<span id="cb3-3"><a href="#cb3-3"></a>  select</span>
-<span id="cb3-4"><a href="#cb3-4"></a>    name,</span>
-<span id="cb3-5"><a href="#cb3-5"></a>    st_transform(st_centroid(geometry), <span class="dv">4326</span>) centroid,</span>
-<span id="cb3-6"><a href="#cb3-6"></a>    st_x(centroid) lon,</span>
-<span id="cb3-7"><a href="#cb3-7"></a>    st_y(centroid) lat</span>
-<span id="cb3-8"><a href="#cb3-8"></a>  <span class="im">from</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a>    tmp_geometries</span>
-<span id="cb3-10"><a href="#cb3-10"></a>)</span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="im">from</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a>  t</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;c24b0bb6-c531-463e-b76d-59c3bbf542cd&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">%</span>sql</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="cf">with</span> t <span class="im">as</span> (</span>
+<span id="cb2-3"><a href="#cb2-3"></a>  select</span>
+<span id="cb2-4"><a href="#cb2-4"></a>    name,</span>
+<span id="cb2-5"><a href="#cb2-5"></a>    st_transform(st_centroid(geometry), <span class="dv">4326</span>) centroid,</span>
+<span id="cb2-6"><a href="#cb2-6"></a>    st_x(centroid) lon,</span>
+<span id="cb2-7"><a href="#cb2-7"></a>    st_y(centroid) lat</span>
+<span id="cb2-8"><a href="#cb2-8"></a>  <span class="im">from</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>    tmp_geometries</span>
+<span id="cb2-10"><a href="#cb2-10"></a>)</span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="im">from</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a>  t</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Once the result above is shown, click on the <code>+</code> icon right of the <code>Table</code> tab to add the visualization “Map (Markers)” such as the one shown on the below image.</p>
 <div class="quarto-figure quarto-figure-center">

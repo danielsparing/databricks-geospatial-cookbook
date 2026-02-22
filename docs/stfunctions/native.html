@@ -441,8 +441,8 @@ Caution
 <span id="cb2-2"><a href="#cb2-2"></a><span class="op">--</span> Areas of countries. Note that a country might <span class="kw">not</span> be listed <span class="cf">if</span> they cross the date line, leading to either missing geometry <span class="kw">in</span> the CARTO dataset already, <span class="kw">or</span> unsupported coordinates <span class="cf">for</span> `st_geogfromwkb` (hence the use of `try_to_geography`)</span>
 <span id="cb2-3"><a href="#cb2-3"></a>select</span>
 <span id="cb2-4"><a href="#cb2-4"></a>  country,</span>
-<span id="cb2-5"><a href="#cb2-5"></a>  names:primary name,</span>
-<span id="cb2-6"><a href="#cb2-6"></a>  st_area(try_to_geography(geometry)) <span class="op">/</span> <span class="fl">1e6</span> area_km2</span>
+<span id="cb2-5"><a href="#cb2-5"></a>  names.primary name,</span>
+<span id="cb2-6"><a href="#cb2-6"></a>  st_area(try_to_geography(geom)) <span class="op">/</span> <span class="fl">1e6</span> area_km2</span>
 <span id="cb2-7"><a href="#cb2-7"></a><span class="im">from</span></span>
 <span id="cb2-8"><a href="#cb2-8"></a>  carto_overture_maps_divisions.carto.division_area</span>
 <span id="cb2-9"><a href="#cb2-9"></a>where</span>
@@ -464,16 +464,16 @@ Caution
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
 <span id="cb3-2"><a href="#cb3-2"></a><span class="cf">with</span> cities <span class="im">as</span> (</span>
 <span id="cb3-3"><a href="#cb3-3"></a>  select</span>
-<span id="cb3-4"><a href="#cb3-4"></a>    names:primary::string <span class="im">as</span> name,</span>
-<span id="cb3-5"><a href="#cb3-5"></a>    st_geogfromwkb(geometry) geog</span>
+<span id="cb3-4"><a href="#cb3-4"></a>    names.primary <span class="im">as</span> name,</span>
+<span id="cb3-5"><a href="#cb3-5"></a>    st_geogfromwkb(geom) geog</span>
 <span id="cb3-6"><a href="#cb3-6"></a>  <span class="im">from</span></span>
 <span id="cb3-7"><a href="#cb3-7"></a>    carto_overture_maps_divisions.carto.division</span>
 <span id="cb3-8"><a href="#cb3-8"></a>  where</span>
 <span id="cb3-9"><a href="#cb3-9"></a>    subtype <span class="op">=</span> <span class="st">'locality'</span></span>
 <span id="cb3-10"><a href="#cb3-10"></a>    <span class="kw">and</span> <span class="kw">class</span> <span class="op">=</span> <span class="st">'city'</span></span>
 <span id="cb3-11"><a href="#cb3-11"></a>    <span class="op">--</span> just to speed up the lookup</span>
-<span id="cb3-12"><a href="#cb3-12"></a>    <span class="kw">and</span> `__carto_xmax` between <span class="op">-</span> <span class="fl">1.41</span> <span class="kw">and</span> <span class="fl">2.99</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a>    <span class="kw">and</span> `__carto_ymax` between <span class="fl">48.57</span> <span class="kw">and</span> <span class="fl">52.21</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a>    <span class="kw">and</span> bbox.xmax between <span class="op">-</span> <span class="fl">1.41</span> <span class="kw">and</span> <span class="fl">2.99</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a>    <span class="kw">and</span> bbox.ymax between <span class="fl">48.57</span> <span class="kw">and</span> <span class="fl">52.21</span></span>
 <span id="cb3-14"><a href="#cb3-14"></a>),</span>
 <span id="cb3-15"><a href="#cb3-15"></a>london <span class="im">as</span> (</span>
 <span id="cb3-16"><a href="#cb3-16"></a>  select</span>
@@ -510,10 +510,10 @@ Caution
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">%</span>sql</span>
 <span id="cb4-2"><a href="#cb4-2"></a><span class="cf">with</span> dutch_provinces <span class="im">as</span> (</span>
 <span id="cb4-3"><a href="#cb4-3"></a>  select</span>
-<span id="cb4-4"><a href="#cb4-4"></a>    names:primary::string <span class="im">as</span> name,</span>
+<span id="cb4-4"><a href="#cb4-4"></a>    names.primary <span class="im">as</span> name,</span>
 <span id="cb4-5"><a href="#cb4-5"></a>    <span class="op">--</span> <span class="dv">28992</span> <span class="kw">is</span> the SRID of the Dutch local Cartesian coordinate system:</span>
 <span id="cb4-6"><a href="#cb4-6"></a>    <span class="op">--</span> https:<span class="op">//</span>epsg.io<span class="op">/</span><span class="dv">28992</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a>    st_transform(st_geomfromwkb(geometry, <span class="dv">4326</span>), <span class="dv">28992</span>) geom_rd</span>
+<span id="cb4-7"><a href="#cb4-7"></a>    st_transform(st_geomfromwkb(geom, <span class="dv">4326</span>), <span class="dv">28992</span>) geom_rd</span>
 <span id="cb4-8"><a href="#cb4-8"></a>  <span class="im">from</span></span>
 <span id="cb4-9"><a href="#cb4-9"></a>    carto_overture_maps_divisions.carto.division</span>
 <span id="cb4-10"><a href="#cb4-10"></a>  where</span>
@@ -554,7 +554,7 @@ Caution
 <section id="spatial-join" class="level2">
 <h2 class="anchored" data-anchor-id="spatial-join">Spatial join</h2>
 <p>Optimizing for efficient spatial joins is out of scope here – you’d need to use some spatial indexing such as <a href="https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-h3-geospatial-functions">H3</a>. (Databricks might add support to spatial joins of GEOMETRY/GEOGRAPHY types over time, but as of Aug 2025, using an explicit spatial index is highly benefitial.)</p>
-<p>We were using the Delta Lake tables of Overture Maps provided by CARTO as our examples. Notice that these are clustered by the <code>__carto_[x|y][min|max]</code> columns:</p>
+<p>We were using the Delta Lake tables of Overture Maps provided by CARTO as our examples. Notice that these are clustered by the <code>bbox.[x|y][min|max]</code> columns:</p>
 <div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;9a24e393-edc2-4fe8-ad4e-3017cc62b5de&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">%</span>sql</span>
 <span id="cb5-2"><a href="#cb5-2"></a>describe extended carto_overture_maps_divisions.carto.division</span>
@@ -563,11 +563,11 @@ Caution
 <span id="cb5-5"><a href="#cb5-5"></a><span class="op">--</span></span>
 <span id="cb5-6"><a href="#cb5-6"></a><span class="op">--</span> ...</span>
 <span id="cb5-7"><a href="#cb5-7"></a><span class="op">--</span> <span class="co"># Clustering Information</span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="op">--</span> <span class="co"># col_name   data_type</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="op">--</span> __carto_xmin double</span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="op">--</span> __carto_xmax double</span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="op">--</span> __carto_ymin double</span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="op">--</span> __carto_ymax double</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="op">--</span> <span class="co"># col_name   data_type   comment</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="op">--</span> bbox.xmin    <span class="bu">float</span>   null</span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="op">--</span> bbox.xmax    <span class="bu">float</span>   null</span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="op">--</span> bbox.ymin    <span class="bu">float</span>   null</span>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="op">--</span> bbox.ymax    <span class="bu">float</span>   null</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>So in the case of these tables, we can make use of these columns for efficient joins, filtering for bounding boxes before calling <code>st_contains</code> (or <code>st_intersects</code>) for a precise join.</p>
 <p>Let’s fetch all buildings of Amsterdam:</p>
@@ -576,17 +576,17 @@ Caution
 <span id="cb6-2"><a href="#cb6-2"></a><span class="op">--</span> capture the city bbox <span class="kw">in</span> a table</span>
 <span id="cb6-3"><a href="#cb6-3"></a>create <span class="kw">or</span> replace table tmp_ams <span class="im">as</span></span>
 <span id="cb6-4"><a href="#cb6-4"></a>select</span>
-<span id="cb6-5"><a href="#cb6-5"></a>  st_geomfromwkb(geometry) geometry,</span>
-<span id="cb6-6"><a href="#cb6-6"></a>  `__carto_xmin`,</span>
-<span id="cb6-7"><a href="#cb6-7"></a>  `__carto_xmax`,</span>
-<span id="cb6-8"><a href="#cb6-8"></a>  `__carto_ymin`,</span>
-<span id="cb6-9"><a href="#cb6-9"></a>  `__carto_ymax`</span>
+<span id="cb6-5"><a href="#cb6-5"></a>  st_geomfromwkb(geom) geometry,</span>
+<span id="cb6-6"><a href="#cb6-6"></a>  bbox.xmin,</span>
+<span id="cb6-7"><a href="#cb6-7"></a>  bbox.xmax,</span>
+<span id="cb6-8"><a href="#cb6-8"></a>  bbox.ymin,</span>
+<span id="cb6-9"><a href="#cb6-9"></a>  bbox.ymax</span>
 <span id="cb6-10"><a href="#cb6-10"></a><span class="im">from</span></span>
 <span id="cb6-11"><a href="#cb6-11"></a>  carto_overture_maps_divisions.carto.division_area</span>
 <span id="cb6-12"><a href="#cb6-12"></a>where</span>
 <span id="cb6-13"><a href="#cb6-13"></a>  country <span class="op">=</span> <span class="st">'NL'</span></span>
 <span id="cb6-14"><a href="#cb6-14"></a>  <span class="kw">and</span> subtype <span class="op">=</span> <span class="st">'county'</span></span>
-<span id="cb6-15"><a href="#cb6-15"></a>  <span class="kw">and</span> names:primary::string <span class="op">=</span> <span class="st">"Amsterdam"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-15"><a href="#cb6-15"></a>  <span class="kw">and</span> names.primary <span class="op">=</span> <span class="st">"Amsterdam"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We’ll fetch the bbox values from above to inject into the SQL query below – yes, it would be way more elegant to avoid hardcoding and use a join, but as of current testing, this is way faster.</p>
 <div id="cell-15" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;8db7cacc-8191-43aa-97d9-55bd4f5f1599&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
@@ -594,15 +594,15 @@ Caution
 <span id="cb7-2"><a href="#cb7-2"></a></span>
 <span id="cb7-3"><a href="#cb7-3"></a>spark.sql(<span class="ss">f"""create or replace table tmp_ams_buildings_bbox as</span></span>
 <span id="cb7-4"><a href="#cb7-4"></a><span class="ss">select</span></span>
-<span id="cb7-5"><a href="#cb7-5"></a><span class="ss">  building.* except (geometry),</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="ss">  st_geomfromwkb(building.geometry) building_geometry</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="ss">  building.* except (geom),</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="ss">  st_geomfromwkb(building.geom) building_geometry</span></span>
 <span id="cb7-7"><a href="#cb7-7"></a><span class="ss">from</span></span>
 <span id="cb7-8"><a href="#cb7-8"></a><span class="ss">  -- first approximate join on bounding boxes</span></span>
 <span id="cb7-9"><a href="#cb7-9"></a><span class="ss">  carto_overture_maps_buildings.carto.building</span></span>
 <span id="cb7-10"><a href="#cb7-10"></a><span class="ss">where</span></span>
-<span id="cb7-11"><a href="#cb7-11"></a><span class="ss">  building.__carto_xmin between </span><span class="sc">{</span>bbox[<span class="st">"__carto_xmin"</span>]<span class="sc">}</span><span class="ss"> and </span><span class="sc">{</span>bbox[<span class="st">"__carto_xmax"</span>]<span class="sc">}</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="ss">  and building.__carto_ymin between </span><span class="sc">{</span>bbox[<span class="st">"__carto_ymin"</span>]<span class="sc">}</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a><span class="ss">    and </span><span class="sc">{</span>bbox[<span class="st">"__carto_ymax"</span>]<span class="sc">}</span><span class="ss">"""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="ss">  building.bbox.xmin between </span><span class="sc">{</span>bbox<span class="sc">.</span>xmin<span class="sc">}</span><span class="ss"> and </span><span class="sc">{</span>bbox<span class="sc">.</span>xmax<span class="sc">}</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="ss">  and building.bbox.ymin between </span><span class="sc">{</span>bbox<span class="sc">.</span>ymin<span class="sc">}</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="ss">    and </span><span class="sc">{</span>bbox<span class="sc">.</span>ymax<span class="sc">}</span><span class="ss">"""</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Now we can filter with <code>st_contains</code> to leave out the false positives:</p>
 <div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;2a8ed129-701d-4591-a462-c664af6f2118&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
@@ -616,8 +616,9 @@ Caution
 <span id="cb8-8"><a href="#cb8-8"></a>      on <span class="op">--</span> then more precise <span class="bu">filter</span> on `st_contains`</span>
 <span id="cb8-9"><a href="#cb8-9"></a>      st_contains(tmp_ams.geometry, building_geometry)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;5c664d04-61cf-4654-b741-3eee540df977&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="op">%</span>pip install duckdb lonboard shapely <span class="op">--</span>quiet</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;5c664d04-61cf-4654-b741-3eee540df977&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a><span class="op">%</span>pip install duckdb lonboard<span class="op">~=</span><span class="fl">0.12.1</span> shapely <span class="op">--</span>quiet</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co"># lonboard pinned due to https://github.com/developmentseed/lonboard/issues/1112</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;1eab4a3b-56d8-481c-a43f-46a68880040e&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">def</span> spark_viz(df, wkb_col<span class="op">=</span><span class="st">"geometry"</span>, other_cols<span class="op">=</span><span class="va">None</span>, limit<span class="op">=</span><span class="dv">10_000</span>, output_html<span class="op">=</span><span class="va">None</span>):</span>
@@ -631,7 +632,7 @@ Caution
 <span id="cb10-9"><a href="#cb10-9"></a></span>
 <span id="cb10-10"><a href="#cb10-10"></a>    <span class="cf">try</span>:</span>
 <span id="cb10-11"><a href="#cb10-11"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
-<span id="cb10-12"><a href="#cb10-12"></a>    <span class="cf">except</span> duckdb.duckdb.IOException:</span>
+<span id="cb10-12"><a href="#cb10-12"></a>    <span class="cf">except</span> duckdb.IOException:</span>
 <span id="cb10-13"><a href="#cb10-13"></a>        duckdb.install_extension(<span class="st">"spatial"</span>)</span>
 <span id="cb10-14"><a href="#cb10-14"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
 <span id="cb10-15"><a href="#cb10-15"></a></span>
@@ -663,7 +664,7 @@ Caution
 <figcaption>ams_buildings_10k</figcaption>
 </figure>
 </div>
-<p>If you want to see a much larger sample (or possibly the whole dataset), you’ll need to output to a HTML into Volumes, and either download the file and open it locally, or use a Databricks App such as <a href="../apps/databricks_apps.html#html-viewer">this <code>html-viewwer</code> example</a>:</p>
+<p>If you want to see a much larger sample (or possibly the whole dataset), you’ll need to output to a HTML into Volumes, and either download the file and open it locally, or use a Databricks App such as <a href="../apps/databricks_apps.html#html-viewer">this <code>html-viewer</code> example</a>:</p>
 <div id="cell-22" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;38c46dd0-5fa6-4144-8b48-4eed274fe6ea&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a>spark_viz(</span>
 <span id="cb12-2"><a href="#cb12-2"></a>    spark.table(<span class="st">"tmp_ams_buildings"</span>).selectExpr(</span>
@@ -682,7 +683,7 @@ Caution
 </section>
 <section id="cleanup" class="level2">
 <h2 class="anchored" data-anchor-id="cleanup">Cleanup</h2>
-<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;73b5a8c2-1daf-4ad6-94a8-844682ba60cb&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;73b5a8c2-1daf-4ad6-94a8-844682ba60cb&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="op">%</span>sql</span>
 <span id="cb13-2"><a href="#cb13-2"></a> <span class="op">--</span> drop table tmp_ams</span>
 <span id="cb13-3"><a href="#cb13-3"></a> <span class="op">--</span> drop table tmp_ams_buildings_bbox</span>

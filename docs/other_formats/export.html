@@ -406,8 +406,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="setup" class="level2">
 <h2 class="anchored" data-anchor-id="setup">Setup</h2>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;vscode&quot;,&quot;value&quot;:{&quot;languageId&quot;:&quot;plaintext&quot;}}">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install <span class="st">"databricks-connect&gt;=17.1.0"</span> duckdb <span class="op">--</span>quiet</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="op">%</span>restart_python</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install duckdb <span class="op">--</span>quiet</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;8aa0585e-a3af-48a5-8ee3-10ae40b21e41&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> duckdb</span>
@@ -432,9 +431,7 @@ Note
 <span id="cb3-2"><a href="#cb3-2"></a>SCHEMA <span class="op">=</span> <span class="st">"default"</span></span>
 <span id="cb3-3"><a href="#cb3-3"></a>VOLUME <span class="op">=</span> <span class="st">"default"</span></span>
 <span id="cb3-4"><a href="#cb3-4"></a></span>
-<span id="cb3-5"><a href="#cb3-5"></a>GEOMETRY_COLUMN <span class="op">=</span> <span class="st">"geometry"</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a></span>
-<span id="cb3-7"><a href="#cb3-7"></a>spark.sql(<span class="ss">f"create volume if not exists </span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-5"><a href="#cb3-5"></a>spark.sql(<span class="ss">f"create volume if not exists </span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">.</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Let’s first create an example table with GEOMETRY columns:</p>
 <div class="callout callout-style-default callout-note callout-titled">
@@ -485,7 +482,7 @@ Note
 </section>
 <section id="parquet-files" class="level2">
 <h2 class="anchored" data-anchor-id="parquet-files">Parquet files</h2>
-<p>We’ll use DuckDB Spatial to write he Geoparquet file, so first, we output the above Delta Lake table as a directory of Parquet files, using lon/lat coordinates.</p>
+<p>We’ll use DuckDB Spatial to write the Geoparquet file, so first, we output the above Delta Lake table as a directory of Parquet files, using lon/lat coordinates.</p>
 <p>(You could also use Databricks <a href="https://docs.databricks.com/api/workspace/temporarytablecredentials">Temporary Table Credentials API</a> to directly read the Delta Lake table with the DuckDB <a href="https://duckdb.org/docs/stable/core_extensions/delta.html">Delta Extension</a> instead.)</p>
 <div id="cell-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;03af0497-8c91-4a43-bd97-31975068d2b4&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> functions <span class="im">as</span> F</span>
@@ -518,12 +515,10 @@ Note
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="ss">load spatial;</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="ss">copy (</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="ss">select </span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="ss">    * replace (st_geomfromwkb(</span><span class="sc">{</span>GEOMETRY_COLUMN<span class="sc">}</span><span class="ss">) as geometry)</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="ss">from</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="ss">    read_parquet('/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries.parquet/part-*.parquet')</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="ss">) to '/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries_geo.parquet' (format parquet)"""</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a>duckdb.sql(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="ss">from</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="ss">    read_parquet('/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries.parquet/part-*.parquet')</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="ss">) to '/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries_geo.parquet' (format parquet)"""</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a>duckdb.sql(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>There are more details around writing Geoparquet such as writing custom CRS’s or defining a <a href="https://geoparquet.org/releases/v1.1.0/">“covering”</a> using bounding boxes, but the above example is already a valid Geoparquet. For example, if your QGIS already supports the Parquet format (as of Aug 2025, the latest Windows version does but the latest macOS version doesn’t), then you can open this file in QGIS (after having downloaded from Volumes):</p>
 <div class="quarto-figure quarto-figure-center">
@@ -557,13 +552,11 @@ Note
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
 <span id="cb8-2"><a href="#cb8-2"></a><span class="ss">load spatial;</span></span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="ss">copy (</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="ss">select </span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="ss">    * replace (st_geomfromwkb(</span><span class="sc">{</span>GEOMETRY_COLUMN<span class="sc">}</span><span class="ss">) as geometry)</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="ss">from</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="ss">    read_parquet('/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries.parquet/part-*.parquet')</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="ss">) to '/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries.fgb'</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="ss">(FORMAT GDAL, DRIVER flatgeobuf, LAYER_CREATION_OPTIONS 'TEMPORARY_DIR=/tmp/')"""</span></span>
-<span id="cb8-10"><a href="#cb8-10"></a>duckdb.sql(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="ss">from</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="ss">    read_parquet('/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries.parquet/part-*.parquet')</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="ss">) to '/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries.fgb'</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="ss">(FORMAT GDAL, DRIVER flatgeobuf, LAYER_CREATION_OPTIONS 'TEMPORARY_DIR=/tmp/')"""</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a>duckdb.sql(query)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout callout-style-default callout-caution callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -672,14 +665,12 @@ Note
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a>query <span class="op">=</span> <span class="ss">f"""</span></span>
 <span id="cb14-2"><a href="#cb14-2"></a><span class="ss">load spatial;</span></span>
 <span id="cb14-3"><a href="#cb14-3"></a><span class="ss">copy (</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="ss">select </span></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="ss">    * replace (st_geomfromwkb(</span><span class="sc">{</span>GEOMETRY_COLUMN<span class="sc">}</span><span class="ss">) as geometry)</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a><span class="ss">from</span></span>
-<span id="cb14-7"><a href="#cb14-7"></a><span class="ss">    read_parquet('/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries.parquet/part-*.parquet')</span></span>
-<span id="cb14-8"><a href="#cb14-8"></a><span class="ss">) to '/tmp/geometries.gpkg'</span></span>
-<span id="cb14-9"><a href="#cb14-9"></a><span class="ss">(FORMAT GDAL, DRIVER GPKG)"""</span></span>
-<span id="cb14-10"><a href="#cb14-10"></a>duckdb.sql(query)</span>
-<span id="cb14-11"><a href="#cb14-11"></a><span class="op">!</span>mv <span class="st">"/tmp/geometries.gpkg"</span> <span class="st">"/Volumes/</span><span class="sc">{CATALOG}</span><span class="st">/</span><span class="sc">{SCHEMA}</span><span class="st">/</span><span class="sc">{VOLUME}</span><span class="st">/geometries.gpkg"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="ss">from</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="ss">    read_parquet('/Volumes/</span><span class="sc">{</span>CATALOG<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>SCHEMA<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>VOLUME<span class="sc">}</span><span class="ss">/geometries.parquet/part-*.parquet')</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="ss">) to '/tmp/geometries.gpkg'</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a><span class="ss">(FORMAT GDAL, DRIVER GPKG)"""</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a>duckdb.sql(query)</span>
+<span id="cb14-9"><a href="#cb14-9"></a><span class="op">!</span>mv <span class="st">"/tmp/geometries.gpkg"</span> <span class="st">"/Volumes/</span><span class="sc">{CATALOG}</span><span class="st">/</span><span class="sc">{SCHEMA}</span><span class="st">/</span><span class="sc">{VOLUME}</span><span class="st">/geometries.gpkg"</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="callout-info">
 <p>The GPKG writer might not like all non-geo data types either, for example a <code>varchar[]</code> array would not be supported.</p>

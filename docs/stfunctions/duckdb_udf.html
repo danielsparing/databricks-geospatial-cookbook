@@ -424,7 +424,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-10"><a href="#cb2-10"></a>    duckdb.sql(<span class="st">"SET extension_directory = '/tmp/duckdb_ext'"</span>)</span>
 <span id="cb2-11"><a href="#cb2-11"></a>    <span class="cf">try</span>:</span>
 <span id="cb2-12"><a href="#cb2-12"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
-<span id="cb2-13"><a href="#cb2-13"></a>    <span class="cf">except</span> duckdb.duckdb.IOException:</span>
+<span id="cb2-13"><a href="#cb2-13"></a>    <span class="cf">except</span> duckdb.IOException:</span>
 <span id="cb2-14"><a href="#cb2-14"></a>        duckdb.install_extension(<span class="st">"spatial"</span>)</span>
 <span id="cb2-15"><a href="#cb2-15"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
 <span id="cb2-16"><a href="#cb2-16"></a></span>
@@ -487,7 +487,7 @@ Caution
 <span id="cb4-2"><a href="#cb4-2"></a>create <span class="kw">or</span> replace temporary view lamanche <span class="im">as</span></span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="cf">with</span> england <span class="im">as</span> (</span>
 <span id="cb4-4"><a href="#cb4-4"></a>  select</span>
-<span id="cb4-5"><a href="#cb4-5"></a>    geometry</span>
+<span id="cb4-5"><a href="#cb4-5"></a>    geom</span>
 <span id="cb4-6"><a href="#cb4-6"></a>  <span class="im">from</span></span>
 <span id="cb4-7"><a href="#cb4-7"></a>    carto_overture_maps_divisions.carto.division_area</span>
 <span id="cb4-8"><a href="#cb4-8"></a>  where</span>
@@ -497,7 +497,7 @@ Caution
 <span id="cb4-12"><a href="#cb4-12"></a>),</span>
 <span id="cb4-13"><a href="#cb4-13"></a>france <span class="im">as</span> (</span>
 <span id="cb4-14"><a href="#cb4-14"></a>  select</span>
-<span id="cb4-15"><a href="#cb4-15"></a>    geometry</span>
+<span id="cb4-15"><a href="#cb4-15"></a>    geom</span>
 <span id="cb4-16"><a href="#cb4-16"></a>  <span class="im">from</span></span>
 <span id="cb4-17"><a href="#cb4-17"></a>    carto_overture_maps_divisions.carto.division_area</span>
 <span id="cb4-18"><a href="#cb4-18"></a>  where</span>
@@ -506,7 +506,7 @@ Caution
 <span id="cb4-21"><a href="#cb4-21"></a>    <span class="kw">and</span> <span class="kw">class</span> <span class="op">=</span> <span class="st">'land'</span></span>
 <span id="cb4-22"><a href="#cb4-22"></a>)</span>
 <span id="cb4-23"><a href="#cb4-23"></a>select</span>
-<span id="cb4-24"><a href="#cb4-24"></a>  st_duckdb_shortestline(england.geometry, france.geometry) geometry</span>
+<span id="cb4-24"><a href="#cb4-24"></a>  st_duckdb_shortestline(england.geom, france.geom) geom</span>
 <span id="cb4-25"><a href="#cb4-25"></a><span class="im">from</span></span>
 <span id="cb4-26"><a href="#cb4-26"></a>  england,</span>
 <span id="cb4-27"><a href="#cb4-27"></a>  france</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -530,7 +530,7 @@ Note
 <h2 class="anchored" data-anchor-id="visualizing-the-result">Visualizing the result</h2>
 <p>Let’s visualize the result with <a href="../viz/lonboard.html">Lonboard</a>:</p>
 <div id="cell-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;0a604465-bafc-4b69-9db1-06cbf83885f8&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">def</span> spark_viz(df, wkb_col<span class="op">=</span><span class="st">"geometry"</span>, other_cols<span class="op">=</span><span class="va">None</span>, limit<span class="op">=</span><span class="dv">10_000</span>, output_html<span class="op">=</span><span class="va">None</span>):</span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">def</span> spark_viz(df, wkb_col<span class="op">=</span><span class="st">"geom"</span>, other_cols<span class="op">=</span><span class="va">None</span>, limit<span class="op">=</span><span class="dv">10_000</span>, output_html<span class="op">=</span><span class="va">None</span>):</span>
 <span id="cb5-2"><a href="#cb5-2"></a>    <span class="co"># needs `%pip install duckdb lonboard shapely`</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a></span>
 <span id="cb5-4"><a href="#cb5-4"></a>    <span class="cf">if</span> other_cols <span class="kw">is</span> <span class="va">None</span>:</span>
@@ -540,7 +540,7 @@ Note
 <span id="cb5-8"><a href="#cb5-8"></a></span>
 <span id="cb5-9"><a href="#cb5-9"></a>    <span class="cf">try</span>:</span>
 <span id="cb5-10"><a href="#cb5-10"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
-<span id="cb5-11"><a href="#cb5-11"></a>    <span class="cf">except</span> duckdb.duckdb.IOException:</span>
+<span id="cb5-11"><a href="#cb5-11"></a>    <span class="cf">except</span> duckdb.IOException:</span>
 <span id="cb5-12"><a href="#cb5-12"></a>        duckdb.install_extension(<span class="st">"spatial"</span>)</span>
 <span id="cb5-13"><a href="#cb5-13"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
 <span id="cb5-14"><a href="#cb5-14"></a></span>
