@@ -401,9 +401,22 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a href="https://duckdb.org/">DuckDB</a> is a formidable new single-machine analytics tool, tracing its origins to the same <a href="https://www.cwi.nl/nl/">Dutch research institute</a> as Python. Crucially for this guide, it comes with a remarkably good <a href="https://duckdb.org/docs/stable/core_extensions/spatial/overview.html">Spatial extension</a>.</p>
 <p>While Databricks comes with its own set of geospatial features, such as <a href="https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-st-geospatial-functions">ST functions</a> and <a href="https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-h3-geospatial-functions">H3 functions</a>, nothing stops you to use DuckDB on the side as well.</p>
 <p>(What you do have to keep in mind though is that while much of Databricks’s tooling, namely Apache Spark, is focused on big data analysis multi-node clusters, your DuckDB instead will just run on single-node, just like e.g.&nbsp;Pandas would. So use single-node clusters, or <a href="../stfunctions/duckdb_udf.html">Spark UDFs</a>.)</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This was tested on Serverless notebook, Environment version 4.</p>
+</div>
+</div>
 <section id="setting-up-duckdb-on-databricks" class="level2">
 <h2 class="anchored" data-anchor-id="setting-up-duckdb-on-databricks">Setting up DuckDB on Databricks</h2>
-<div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;76287d43-3e3f-486b-b658-40bd03725abc&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;76287d43-3e3f-486b-b658-40bd03725abc&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install duckdb <span class="op">--</span>quiet</span>
 <span id="cb1-2"><a href="#cb1-2"></a></span>
 <span id="cb1-3"><a href="#cb1-3"></a><span class="im">import</span> duckdb</span>
@@ -425,7 +438,7 @@ Note
 </div>
 </div>
 <p>This allows you to directly use the DuckDB Spatial, for example:</p>
-<div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;d2e8f1da-a69d-478e-b5bf-be92fcb16bb8&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;d2e8f1da-a69d-478e-b5bf-be92fcb16bb8&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>duckdb.sql(<span class="st">"select st_distance(st_point(3, 0), st_point(0, 4)) d"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2"></a></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="co"># Returns:</span></span>
@@ -442,43 +455,45 @@ Note
 <h2 class="anchored" data-anchor-id="visualize-duckdb-spatial-output">Visualize DuckDB Spatial output</h2>
 <p>If your data is simply lon/lat points, you can make use of the built-in point map visualization in Databricks Notebooks if you convert the DuckDB to a Spark DataFrame via Pandas.</p>
 <p>Following the New York City pizza restaurants <a href="https://docs.overturemaps.org/getting-data/duckdb/?query=Places#downloading-overture-data">example</a>, but let’s switch to Amsterdam:</p>
-<div id="cell-7" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;6bbba57f-b0fc-4bb6-9493-fb3a0a610b78&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>query <span class="op">=</span> duckdb.sql(</span>
-<span id="cb3-2"><a href="#cb3-2"></a>    <span class="st">"""</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="st">with t as (</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="st">  SELECT</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="st">    id,</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="st">    names.primary as name,</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="st">    confidence AS confidence,</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="st">    CAST(socials AS JSON) as socials,</span></span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="st">    geometry</span></span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="st">  FROM</span></span>
-<span id="cb3-11"><a href="#cb3-11"></a><span class="st">    read_parquet('s3://overturemaps-us-west-2/release/2025-07-23.0/theme=places/type=place/*')</span></span>
-<span id="cb3-12"><a href="#cb3-12"></a><span class="st">  WHERE</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a><span class="st">    categories.primary = 'pizza_restaurant'</span></span>
-<span id="cb3-14"><a href="#cb3-14"></a><span class="st">    AND bbox.xmin BETWEEN 4.7 AND 5.0</span></span>
-<span id="cb3-15"><a href="#cb3-15"></a><span class="st">    AND bbox.ymin BETWEEN 52.3 AND 52.4</span></span>
-<span id="cb3-16"><a href="#cb3-16"></a><span class="st">)</span></span>
-<span id="cb3-17"><a href="#cb3-17"></a><span class="st">select st_x(geometry) lon, st_y(geometry) lat, name from t</span></span>
-<span id="cb3-18"><a href="#cb3-18"></a><span class="st">"""</span></span>
-<span id="cb3-19"><a href="#cb3-19"></a>)</span>
-<span id="cb3-20"><a href="#cb3-20"></a>query</span>
-<span id="cb3-21"><a href="#cb3-21"></a></span>
-<span id="cb3-22"><a href="#cb3-22"></a><span class="co"># Returns:</span></span>
+<div id="cell-8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;6bbba57f-b0fc-4bb6-9493-fb3a0a610b78&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a>OVERTURE_RELEASE <span class="op">=</span> <span class="st">"2026-02-18.0/"</span>  <span class="co"># Replace with the release you want, see https://docs.overturemaps.org/getting-data/</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>query <span class="op">=</span> duckdb.sql(</span>
+<span id="cb3-4"><a href="#cb3-4"></a>    <span class="ss">f"""</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="ss">with t as (</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a><span class="ss">  SELECT</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="ss">    id,</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a><span class="ss">    names.primary as name,</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="ss">    confidence AS confidence,</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="ss">    CAST(socials AS JSON) as socials,</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="ss">    geometry</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="ss">  FROM</span></span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="ss">    read_parquet('s3://overturemaps-us-west-2/release/</span><span class="sc">{</span>OVERTURE_RELEASE<span class="sc">}</span><span class="ss">theme=places/type=place/*')</span></span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="ss">  WHERE</span></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="ss">    categories.primary = 'pizza_restaurant'</span></span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="ss">    AND bbox.xmin BETWEEN 4.7 AND 5.0</span></span>
+<span id="cb3-17"><a href="#cb3-17"></a><span class="ss">    AND bbox.ymin BETWEEN 52.3 AND 52.4</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="ss">)</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a><span class="ss">select st_x(geometry) lon, st_y(geometry) lat, name from t</span></span>
+<span id="cb3-20"><a href="#cb3-20"></a><span class="ss">"""</span></span>
+<span id="cb3-21"><a href="#cb3-21"></a>)</span>
+<span id="cb3-22"><a href="#cb3-22"></a>query</span>
 <span id="cb3-23"><a href="#cb3-23"></a></span>
-<span id="cb3-24"><a href="#cb3-24"></a><span class="co"># ┌───────────┬────────────┬──────────────────────────────────────────┐</span></span>
-<span id="cb3-25"><a href="#cb3-25"></a><span class="co"># │    lon    │    lat     │                   name                   │</span></span>
-<span id="cb3-26"><a href="#cb3-26"></a><span class="co"># │  double   │   double   │                 varchar                  │</span></span>
-<span id="cb3-27"><a href="#cb3-27"></a><span class="co"># ├───────────┼────────────┼──────────────────────────────────────────┤</span></span>
-<span id="cb3-28"><a href="#cb3-28"></a><span class="co"># │  4.762994 │ 52.3099144 │ Per Tutti                                │</span></span>
-<span id="cb3-29"><a href="#cb3-29"></a><span class="co"># │ 4.7789755 │ 52.3381557 │ New York Pizza                           │</span></span>
-<span id="cb3-30"><a href="#cb3-30"></a><span class="co"># │ 4.7811585 │ 52.3367951 │ CiCi Pizza                               │</span></span>
-<span id="cb3-31"><a href="#cb3-31"></a><span class="co"># │     ·     │      ·     │       ·                                  │</span></span>
-<span id="cb3-32"><a href="#cb3-32"></a><span class="co"># │     ·     │      ·     │       ·                                  │</span></span>
-<span id="cb3-33"><a href="#cb3-33"></a><span class="co"># │     ·     │      ·     │       ·                                  │</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-24"><a href="#cb3-24"></a><span class="co"># Returns:</span></span>
+<span id="cb3-25"><a href="#cb3-25"></a></span>
+<span id="cb3-26"><a href="#cb3-26"></a><span class="co"># ┌───────────┬────────────┬──────────────────────────────────────────┐</span></span>
+<span id="cb3-27"><a href="#cb3-27"></a><span class="co"># │    lon    │    lat     │                   name                   │</span></span>
+<span id="cb3-28"><a href="#cb3-28"></a><span class="co"># │  double   │   double   │                 varchar                  │</span></span>
+<span id="cb3-29"><a href="#cb3-29"></a><span class="co"># ├───────────┼────────────┼──────────────────────────────────────────┤</span></span>
+<span id="cb3-30"><a href="#cb3-30"></a><span class="co"># │  4.762994 │ 52.3099144 │ Per Tutti                                │</span></span>
+<span id="cb3-31"><a href="#cb3-31"></a><span class="co"># │ 4.7789755 │ 52.3381557 │ New York Pizza                           │</span></span>
+<span id="cb3-32"><a href="#cb3-32"></a><span class="co"># │ 4.7811585 │ 52.3367951 │ CiCi Pizza                               │</span></span>
+<span id="cb3-33"><a href="#cb3-33"></a><span class="co"># │     ·     │      ·     │       ·                                  │</span></span>
+<span id="cb3-34"><a href="#cb3-34"></a><span class="co"># │     ·     │      ·     │       ·                                  │</span></span>
+<span id="cb3-35"><a href="#cb3-35"></a><span class="co"># │     ·     │      ·     │       ·                                  │</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Once the result below is shown, click on the <code>+</code> icon right of the <code>Table</code> tab to add the visualization “Map (Markers)” such as the one shown on the below image.</p>
-<div id="cell-9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;959091e2-7c35-47a6-8999-e57eab0c4d5b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-10" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;959091e2-7c35-47a6-8999-e57eab0c4d5b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a>spark.createDataFrame(query.df()).display()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
@@ -488,26 +503,26 @@ Note
 </figure>
 </div>
 <p>Or visualize with lonboard, which will work also for other geometry types like linestrings and polygons, again following an Overture Maps example:</p>
-<div id="cell-12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;3195aaeb-d076-4b7d-9267-0d6e6281e996&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;3195aaeb-d076-4b7d-9267-0d6e6281e996&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">%</span>pip install lonboard shapely <span class="op">--</span>quiet</span>
 <span id="cb5-2"><a href="#cb5-2"></a></span>
 <span id="cb5-3"><a href="#cb5-3"></a><span class="im">from</span> lonboard <span class="im">import</span> viz</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-13" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;7d938d3d-68c4-4901-ba3c-48fc14cf5aca&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;7d938d3d-68c4-4901-ba3c-48fc14cf5aca&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>query <span class="op">=</span> duckdb.sql(</span>
-<span id="cb6-2"><a href="#cb6-2"></a>    <span class="st">"""</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  SELECT</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="st">    subtype,</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="st">    names.primary as name,</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="st">    geometry</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="st">  FROM</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="st">    read_parquet('s3://overturemaps-us-west-2/release/2025-07-23.0/theme=divisions/type=division_area/*')</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="st">  WHERE</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a><span class="st">    4.7 &lt; bbox.xmax AND bbox.xmin &lt; 5.0</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a><span class="st">    AND 52.3 &lt; bbox.ymax AND bbox.ymin &lt; 52.4</span></span>
-<span id="cb6-12"><a href="#cb6-12"></a><span class="st">    AND subtype = 'county'</span></span>
-<span id="cb6-13"><a href="#cb6-13"></a><span class="st">    AND country = 'NL'</span></span>
-<span id="cb6-14"><a href="#cb6-14"></a><span class="st">"""</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>    <span class="ss">f"""</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="ss">  SELECT</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="ss">    subtype,</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="ss">    names.primary as name,</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="ss">    geometry</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="ss">  FROM</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="ss">    read_parquet('s3://overturemaps-us-west-2/release/</span><span class="sc">{</span>OVERTURE_RELEASE<span class="sc">}</span><span class="ss">theme=divisions/type=division_area/*')</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="ss">  WHERE</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="ss">    4.7 &lt; bbox.xmax AND bbox.xmin &lt; 5.0</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="ss">    AND 52.3 &lt; bbox.ymax AND bbox.ymin &lt; 52.4</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="ss">    AND subtype = 'county'</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="ss">    AND country = 'NL'</span></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="ss">"""</span></span>
 <span id="cb6-15"><a href="#cb6-15"></a>)</span>
 <span id="cb6-16"><a href="#cb6-16"></a></span>
 <span id="cb6-17"><a href="#cb6-17"></a>viz(query).as_html()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -524,13 +539,13 @@ Note
 <section id="write-delta-lake-tables-from-duckdb" class="level2">
 <h2 class="anchored" data-anchor-id="write-delta-lake-tables-from-duckdb">Write Delta Lake Tables from DuckDB</h2>
 <p>If you want to write a result to a delta lake table (or temporary view), you can use Pandas as an intermediary format:</p>
-<div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;55fc4e92-c9ee-4c7a-ade4-84a3d2a9397f&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;55fc4e92-c9ee-4c7a-ade4-84a3d2a9397f&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1"></a>spark.createDataFrame(query.df()).createOrReplaceTempView(<span class="st">"t"</span>)</span>
 <span id="cb7-2"><a href="#cb7-2"></a></span>
 <span id="cb7-3"><a href="#cb7-3"></a><span class="co"># Or write a persistent table, instead of a temporary view:</span></span>
 <span id="cb7-4"><a href="#cb7-4"></a><span class="co"># spark.createDataFrame(query.df()).write.saveAsTable("t")</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-18" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;80f446b2-f88e-4b9c-a9a3-2b0017370ef3&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1754156918738}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-19" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;80f446b2-f88e-4b9c-a9a3-2b0017370ef3&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1754156918738}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1"></a><span class="op">%</span>sql</span>
 <span id="cb8-2"><a href="#cb8-2"></a>select</span>
 <span id="cb8-3"><a href="#cb8-3"></a>  name</span>
@@ -554,7 +569,7 @@ Note
 <section id="read-delta-lake-tables-with-duckdb" class="level2">
 <h2 class="anchored" data-anchor-id="read-delta-lake-tables-with-duckdb">Read Delta Lake Tables with DuckDB</h2>
 <p>We can read moderate amount of data from a delta table to duckdb via Arrow (or Pandas). (This assumes that the data volume is not prohibitively large to load into the memory of a single machine.)</p>
-<div id="cell-20" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;e8afa572-0a0d-40c5-bd00-b09ff926212d&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-21" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;e8afa572-0a0d-40c5-bd00-b09ff926212d&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1"></a>dfa <span class="op">=</span> spark.read.table(<span class="st">"t"</span>).toArrow()</span>
 <span id="cb9-2"><a href="#cb9-2"></a></span>
 <span id="cb9-3"><a href="#cb9-3"></a>query <span class="op">=</span> duckdb.sql(</span>
@@ -589,24 +604,24 @@ Note
 <section id="use-cell-magic-jupysql-for-duckdb-queries" class="level2">
 <h2 class="anchored" data-anchor-id="use-cell-magic-jupysql-for-duckdb-queries">Use cell magic <code>%%jupysql</code> for duckdb queries</h2>
 <p>In Databricks, you can write Databricks SQL code (so not DuckDB SQL code) in SQL code cells, using the <code>%sql</code> cell magic. DuckDB is also <a href="https://duckdb.org/docs/stable/guides/python/jupyter.html">compatible</a> with similar cell magic tooling, but in order to not get crossed with Databricks SQL, we’ll need to use another magic, <code>%%jupysql</code> (which is also the name of the <a href="https://github.com/ploomber/jupysql">package</a> that makes this possible). We can set it all up as the following:</p>
-<div id="cell-23" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;12f59984-e581-4bf6-89a2-fe4a33abc2bf&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;12f59984-e581-4bf6-89a2-fe4a33abc2bf&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1"></a><span class="op">%</span>pip install jupysql <span class="op">--</span>quiet</span>
 <span id="cb10-2"><a href="#cb10-2"></a><span class="op">%</span>restart_python</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;8c44de6f-2a7a-49b9-a22b-0268c31e4f21&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;8c44de6f-2a7a-49b9-a22b-0268c31e4f21&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1"></a><span class="op">%</span>load_ext sql</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-25" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;a5ab7b1a-7a13-4ed2-9a5c-8fe0a8f0c093&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;a5ab7b1a-7a13-4ed2-9a5c-8fe0a8f0c093&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1"></a><span class="im">import</span> duckdb</span>
 <span id="cb12-2"><a href="#cb12-2"></a></span>
 <span id="cb12-3"><a href="#cb12-3"></a>con <span class="op">=</span> duckdb.<span class="ex">connect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We need to specify the connection object only at the first use of <code>%%jupysql</code>, as below:</p>
-<div id="cell-27" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;8482714b-e5f8-4e97-ad48-3237eb3777a5&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-28" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;8482714b-e5f8-4e97-ad48-3237eb3777a5&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1"></a><span class="op">%%</span>jupysql con <span class="op">--</span>alias duckdb</span>
 <span id="cb13-2"><a href="#cb13-2"></a>install spatial<span class="op">;</span> load spatial</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<div id="cell-28" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;76fc86c4-cdc3-44cd-bdbc-2f53d8455380&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
+<div id="cell-29" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;76fc86c4-cdc3-44cd-bdbc-2f53d8455380&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1"></a><span class="op">%%</span>jupysql</span>
 <span id="cb14-2"><a href="#cb14-2"></a><span class="cf">with</span> t <span class="im">as</span> (</span>
 <span id="cb14-3"><a href="#cb14-3"></a>  SELECT</span>
@@ -616,29 +631,30 @@ Note
 <span id="cb14-7"><a href="#cb14-7"></a>    CAST(socials AS JSON) <span class="im">as</span> socials,</span>
 <span id="cb14-8"><a href="#cb14-8"></a>    geometry</span>
 <span id="cb14-9"><a href="#cb14-9"></a>  FROM</span>
-<span id="cb14-10"><a href="#cb14-10"></a>    read_parquet(<span class="st">'s3://overturemaps-us-west-2/release/2025-07-23.0/theme=places/type=place/*'</span>)</span>
-<span id="cb14-11"><a href="#cb14-11"></a>  WHERE</span>
-<span id="cb14-12"><a href="#cb14-12"></a>    categories.primary <span class="op">=</span> <span class="st">'pizza_restaurant'</span></span>
-<span id="cb14-13"><a href="#cb14-13"></a>    AND bbox.xmin BETWEEN <span class="fl">4.7</span> AND <span class="fl">5.0</span></span>
-<span id="cb14-14"><a href="#cb14-14"></a>    AND bbox.ymin BETWEEN <span class="fl">52.3</span> AND <span class="fl">52.4</span></span>
-<span id="cb14-15"><a href="#cb14-15"></a>)</span>
-<span id="cb14-16"><a href="#cb14-16"></a>select st_x(geometry) lon, st_y(geometry) lat, name <span class="im">from</span> t</span>
-<span id="cb14-17"><a href="#cb14-17"></a></span>
-<span id="cb14-18"><a href="#cb14-18"></a><span class="op">--</span> Returns:</span>
-<span id="cb14-19"><a href="#cb14-19"></a></span>
-<span id="cb14-20"><a href="#cb14-20"></a><span class="op">--</span> Running query <span class="kw">in</span> <span class="st">'duckdb'</span></span>
-<span id="cb14-21"><a href="#cb14-21"></a><span class="op">--</span> lon  lat name</span>
-<span id="cb14-22"><a href="#cb14-22"></a><span class="op">--</span> <span class="fl">4.762994</span> <span class="fl">52.3099144</span>  Per Tutti</span>
-<span id="cb14-23"><a href="#cb14-23"></a><span class="op">--</span> <span class="fl">4.7789755</span>    <span class="fl">52.3381557</span>  New York Pizza</span>
-<span id="cb14-24"><a href="#cb14-24"></a><span class="op">--</span> <span class="fl">4.7811585</span>    <span class="fl">52.3367951</span>  CiCi Pizza</span>
-<span id="cb14-25"><a href="#cb14-25"></a><span class="op">--</span> <span class="fl">4.7812061</span>    <span class="fl">52.3368685</span>  Joey<span class="st">'s kitchen</span></span>
-<span id="cb14-26"><a href="#cb14-26"></a><span class="er">-- 4.7500226    52.3816196  Gastronoom</span></span>
-<span id="cb14-27"><a href="#cb14-27"></a><span class="op">--</span> <span class="fl">4.7905345</span>    <span class="fl">52.34096</span>    Amon</span>
-<span id="cb14-28"><a href="#cb14-28"></a><span class="op">--</span> <span class="fl">4.7948139</span>    <span class="fl">52.3512209</span>  Moeruth Pizza</span>
-<span id="cb14-29"><a href="#cb14-29"></a><span class="op">--</span> <span class="fl">4.797318</span> <span class="fl">52.3516662</span>  Il Delfino Blu</span>
-<span id="cb14-30"><a href="#cb14-30"></a><span class="op">--</span> <span class="fl">4.7988733</span>    <span class="fl">52.351978</span>   Domino<span class="st">'s Pizza</span></span>
-<span id="cb14-31"><a href="#cb14-31"></a><span class="er">-- 4.8107487    52.3539346  New York Pizza</span></span>
-<span id="cb14-32"><a href="#cb14-32"></a><span class="op">--</span> Truncated to displaylimit of <span class="fl">10.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb14-10"><a href="#cb14-10"></a>    <span class="op">--</span> replace below <span class="cf">with</span> a recent release <span class="cf">if</span> needed</span>
+<span id="cb14-11"><a href="#cb14-11"></a>    read_parquet(<span class="st">'s3://overturemaps-us-west-2/release/2026-02-18.0/theme=places/type=place/*'</span>)</span>
+<span id="cb14-12"><a href="#cb14-12"></a>  WHERE</span>
+<span id="cb14-13"><a href="#cb14-13"></a>    categories.primary <span class="op">=</span> <span class="st">'pizza_restaurant'</span></span>
+<span id="cb14-14"><a href="#cb14-14"></a>    AND bbox.xmin BETWEEN <span class="fl">4.7</span> AND <span class="fl">5.0</span></span>
+<span id="cb14-15"><a href="#cb14-15"></a>    AND bbox.ymin BETWEEN <span class="fl">52.3</span> AND <span class="fl">52.4</span></span>
+<span id="cb14-16"><a href="#cb14-16"></a>)</span>
+<span id="cb14-17"><a href="#cb14-17"></a>select st_x(geometry) lon, st_y(geometry) lat, name <span class="im">from</span> t</span>
+<span id="cb14-18"><a href="#cb14-18"></a></span>
+<span id="cb14-19"><a href="#cb14-19"></a><span class="op">--</span> Returns:</span>
+<span id="cb14-20"><a href="#cb14-20"></a></span>
+<span id="cb14-21"><a href="#cb14-21"></a><span class="op">--</span> Running query <span class="kw">in</span> <span class="st">'duckdb'</span></span>
+<span id="cb14-22"><a href="#cb14-22"></a><span class="op">--</span> lon  lat name</span>
+<span id="cb14-23"><a href="#cb14-23"></a><span class="op">--</span> <span class="fl">4.762994</span> <span class="fl">52.3099144</span>  Per Tutti</span>
+<span id="cb14-24"><a href="#cb14-24"></a><span class="op">--</span> <span class="fl">4.7789755</span>    <span class="fl">52.3381557</span>  New York Pizza</span>
+<span id="cb14-25"><a href="#cb14-25"></a><span class="op">--</span> <span class="fl">4.7811585</span>    <span class="fl">52.3367951</span>  CiCi Pizza</span>
+<span id="cb14-26"><a href="#cb14-26"></a><span class="op">--</span> <span class="fl">4.7812061</span>    <span class="fl">52.3368685</span>  Joey<span class="st">'s kitchen</span></span>
+<span id="cb14-27"><a href="#cb14-27"></a><span class="er">-- 4.7500226    52.3816196  Gastronoom</span></span>
+<span id="cb14-28"><a href="#cb14-28"></a><span class="op">--</span> <span class="fl">4.7905345</span>    <span class="fl">52.34096</span>    Amon</span>
+<span id="cb14-29"><a href="#cb14-29"></a><span class="op">--</span> <span class="fl">4.7948139</span>    <span class="fl">52.3512209</span>  Moeruth Pizza</span>
+<span id="cb14-30"><a href="#cb14-30"></a><span class="op">--</span> <span class="fl">4.797318</span> <span class="fl">52.3516662</span>  Il Delfino Blu</span>
+<span id="cb14-31"><a href="#cb14-31"></a><span class="op">--</span> <span class="fl">4.7988733</span>    <span class="fl">52.351978</span>   Domino<span class="st">'s Pizza</span></span>
+<span id="cb14-32"><a href="#cb14-32"></a><span class="er">-- 4.8107487    52.3539346  New York Pizza</span></span>
+<span id="cb14-33"><a href="#cb14-33"></a><span class="op">--</span> Truncated to displaylimit of <span class="fl">10.</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="register-duckdb-functions-as-spark-udfs" class="level2">

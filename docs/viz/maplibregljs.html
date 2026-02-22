@@ -438,12 +438,12 @@ Note
 <h2 class="anchored" data-anchor-id="create-a-sample-table">Create a sample table</h2>
 <p>We create here a sample table of buildings in the Netherlands – the same worked for me also for all 2.5B Overture Maps buildings of the world, but if you tried to persist that table, you’d probably run against the daily usage limit of <em>Databricks Free Edition</em> as I did.</p>
 <div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;f176cd45-e97f-4312-acb8-7d0b0e506c16&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>OVERTUREMAPS_RELEASE <span class="op">=</span> <span class="st">"2025-10-22.0"</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a>OVERTURE_RELEASE <span class="op">=</span> <span class="st">"2026-02-18.0/"</span>  <span class="co"># Replace with the release you want, see https://docs.overturemaps.org/getting-data/\n",</span></span>
 <span id="cb2-2"><a href="#cb2-2"></a>COUNTRY_CODE <span class="op">=</span> <span class="st">"NL"</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a></span>
 <span id="cb2-4"><a href="#cb2-4"></a>country_bbox <span class="op">=</span> (</span>
 <span id="cb2-5"><a href="#cb2-5"></a>    spark.read.parquet(</span>
-<span id="cb2-6"><a href="#cb2-6"></a>        <span class="ss">f"s3://overturemaps-us-west-2/release/</span><span class="sc">{</span>OVERTUREMAPS_RELEASE<span class="sc">}</span><span class="ss">/theme=divisions/type=division_area"</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>        <span class="ss">f"s3://overturemaps-us-west-2/release/</span><span class="sc">{</span>OVERTURE_RELEASE<span class="sc">}</span><span class="ss">theme=divisions/type=division_area"</span></span>
 <span id="cb2-7"><a href="#cb2-7"></a>    )</span>
 <span id="cb2-8"><a href="#cb2-8"></a>    .where(<span class="ss">f"subtype = 'country' and class = 'land' and country = '</span><span class="sc">{</span>COUNTRY_CODE<span class="sc">}</span><span class="ss">'"</span>)</span>
 <span id="cb2-9"><a href="#cb2-9"></a>    .select(<span class="st">"bbox.*"</span>)</span>
@@ -455,7 +455,7 @@ Note
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="im">from</span> pyspark.sql <span class="im">import</span> functions <span class="im">as</span> F</span>
 <span id="cb3-2"><a href="#cb3-2"></a></span>
 <span id="cb3-3"><a href="#cb3-3"></a>spark.read.parquet(</span>
-<span id="cb3-4"><a href="#cb3-4"></a>    <span class="ss">f"s3://overturemaps-us-west-2/release/</span><span class="sc">{</span>OVERTUREMAPS_RELEASE<span class="sc">}</span><span class="ss">/theme=buildings/type=building"</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a>    <span class="ss">f"s3://overturemaps-us-west-2/release/</span><span class="sc">{</span>OVERTURE_RELEASE<span class="sc">}</span><span class="ss">theme=buildings/type=building"</span></span>
 <span id="cb3-5"><a href="#cb3-5"></a>).where(</span>
 <span id="cb3-6"><a href="#cb3-6"></a>    <span class="ss">f"""bbox.xmin &lt; </span><span class="sc">{</span>country_bbox[<span class="st">"xmax"</span>]<span class="sc">}</span></span>
 <span id="cb3-7"><a href="#cb3-7"></a><span class="ss">        and bbox.xmax &gt; </span><span class="sc">{</span>country_bbox[<span class="st">"xmin"</span>]<span class="sc">}</span></span>

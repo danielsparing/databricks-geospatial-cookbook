@@ -409,7 +409,8 @@ Note
 </div>
 <p><a href="https://developmentseed.org/lonboard/latest/">Lonboard</a> is an excellent tool to visualize geospatial data via Arrow or <a href="../duckdb-on-databricks/DuckDB_on_Databricks.html">DuckDB</a>. While it cannot visualize as large datasets as you can with using <a href="../other_formats/export.html">streaming Flatgeobuf or PMTiles</a>, it can go far – theoretically the driver’s memory, your browser’s memory and your network is the limit. On Databricks, however, there is a quite frugal limit for the sizes of widgets, so we’ll have to limit the sample dataset a bit more, or you can generate a separate HTML file instead.</p>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;59a10374-fa62-4124-bbe4-1763b60fbe4d&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install duckdb lonboard shapely <span class="op">--</span>quiet</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install duckdb lonboard<span class="op">~=</span><span class="fl">0.12.1</span> shapely <span class="op">--</span>quiet</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># lonboard pinned due to https://github.com/developmentseed/lonboard/issues/1112</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;fdc0d775-545a-417a-a785-3f344d3f7447&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="im">import</span> duckdb</span>
@@ -424,7 +425,7 @@ Note
 <span id="cb2-10"><a href="#cb2-10"></a></span>
 <span id="cb2-11"><a href="#cb2-11"></a>    <span class="cf">try</span>:</span>
 <span id="cb2-12"><a href="#cb2-12"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
-<span id="cb2-13"><a href="#cb2-13"></a>    <span class="cf">except</span> duckdb.duckdb.IOException:</span>
+<span id="cb2-13"><a href="#cb2-13"></a>    <span class="cf">except</span> duckdb.IOException:</span>
 <span id="cb2-14"><a href="#cb2-14"></a>        duckdb.install_extension(<span class="st">"spatial"</span>)</span>
 <span id="cb2-15"><a href="#cb2-15"></a>        duckdb.load_extension(<span class="st">"spatial"</span>)</span>
 <span id="cb2-16"><a href="#cb2-16"></a></span>
@@ -476,11 +477,11 @@ Caution
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Example dataset: Municipalities in the Netherlands via Overture Maps</span></span>
 <span id="cb3-2"><a href="#cb3-2"></a>df <span class="op">=</span> (</span>
 <span id="cb3-3"><a href="#cb3-3"></a>    spark.table(<span class="st">"carto_overture_maps_divisions.carto.division_area"</span>)</span>
-<span id="cb3-4"><a href="#cb3-4"></a>    .selectExpr(<span class="st">"geometry"</span>, <span class="st">"names:primary::string as name"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4"></a>    .selectExpr(<span class="st">"geom"</span>, <span class="st">"names.primary as name"</span>)</span>
 <span id="cb3-5"><a href="#cb3-5"></a>    .where(<span class="st">"""country = 'NL' and subtype='county'"""</span>)</span>
 <span id="cb3-6"><a href="#cb3-6"></a>)</span>
 <span id="cb3-7"><a href="#cb3-7"></a></span>
-<span id="cb3-8"><a href="#cb3-8"></a>spark_viz(df, wkb_col<span class="op">=</span><span class="st">"geometry"</span>, other_cols<span class="op">=</span>[<span class="st">"name"</span>], limit<span class="op">=</span><span class="dv">1000</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb3-8"><a href="#cb3-8"></a>spark_viz(df, wkb_col<span class="op">=</span><span class="st">"geom"</span>, other_cols<span class="op">=</span>[<span class="st">"name"</span>], limit<span class="op">=</span><span class="dv">100</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
@@ -512,7 +513,7 @@ Note
 <div id="cell-8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;fe75d295-4f2e-4269-8c82-9652e75bdbe9&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a>df <span class="op">=</span> (</span>
 <span id="cb5-2"><a href="#cb5-2"></a>    spark.table(<span class="st">"carto_overture_maps_divisions.carto.division_area"</span>)</span>
-<span id="cb5-3"><a href="#cb5-3"></a>    .selectExpr(<span class="st">"geometry"</span>, <span class="st">"names:primary::string as name"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3"></a>    .selectExpr(<span class="st">"geom"</span>, <span class="st">"names.primary as name"</span>)</span>
 <span id="cb5-4"><a href="#cb5-4"></a>    .where(</span>
 <span id="cb5-5"><a href="#cb5-5"></a>        <span class="st">"""</span></span>
 <span id="cb5-6"><a href="#cb5-6"></a><span class="st">           country in ('BE', 'NL', 'LU', 'DE', 'FR', 'PL', 'CZ', 'SK', 'CH')</span></span>
@@ -524,7 +525,7 @@ Note
 <span id="cb5-12"><a href="#cb5-12"></a></span>
 <span id="cb5-13"><a href="#cb5-13"></a>spark_viz(</span>
 <span id="cb5-14"><a href="#cb5-14"></a>    df,</span>
-<span id="cb5-15"><a href="#cb5-15"></a>    wkb_col<span class="op">=</span><span class="st">"geometry"</span>,</span>
+<span id="cb5-15"><a href="#cb5-15"></a>    wkb_col<span class="op">=</span><span class="st">"geom"</span>,</span>
 <span id="cb5-16"><a href="#cb5-16"></a>    other_cols<span class="op">=</span>[<span class="st">"name"</span>],</span>
 <span id="cb5-17"><a href="#cb5-17"></a>    limit<span class="op">=</span><span class="dv">100_000</span>,</span>
 <span id="cb5-18"><a href="#cb5-18"></a>    output_html<span class="op">=</span><span class="st">"/Volumes/workspace/default/default/output.html"</span>,</span>
@@ -543,12 +544,14 @@ Note
 <p>If you are working with DuckDB (instead of Databricks SQL), you can directly feed in a DuckDB query to lonboard, without having to handle arrow yourself – after all, there’s already DuckDB used inside the above example.</p>
 <p>So replicating the above example with DuckDB only, using the Overture Maps dataset on S3 (instead of the mirror on Databricks):</p>
 <div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;2e26f29e-0e6d-424d-ad67-89878f772472&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>viz(</span>
-<span id="cb6-2"><a href="#cb6-2"></a>    duckdb.sql(<span class="st">"""</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="st">        select geometry, names.primary as name</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="st">        from read_parquet('s3://overturemaps-us-west-2/release/2025-07-23.0/theme=divisions/type=division_area/*')</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="st">        where country = 'NL' and subtype='county'"""</span>)</span>
-<span id="cb6-6"><a href="#cb6-6"></a>).as_html()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1"></a>OVERTURE_RELEASE <span class="op">=</span> <span class="st">"2026-02-18.0/"</span>  <span class="co"># Replace with the release you want, see https://docs.overturemaps.org/getting-data/</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a></span>
+<span id="cb6-3"><a href="#cb6-3"></a>viz(</span>
+<span id="cb6-4"><a href="#cb6-4"></a>    duckdb.sql(<span class="ss">f"""</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="ss">        select geometry, names.primary as name</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="ss">        from read_parquet('s3://overturemaps-us-west-2/release/</span><span class="sc">{</span>OVERTURE_RELEASE<span class="sc">}</span><span class="ss">theme=divisions/type=division_area/*')</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="ss">        where country = 'NL' and subtype='county'"""</span>)</span>
+<span id="cb6-8"><a href="#cb6-8"></a>).as_html()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">

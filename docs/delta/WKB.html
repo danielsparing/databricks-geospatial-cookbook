@@ -393,26 +393,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <p>You can store geometry or geography data in a Delta Lake table in a <a href="https://docs.databricks.com/aws/en/sql/language-manual/data-types/binary-type">BINARY</a> column as <a href="https://en.wikipedia.org/wiki/Well-known_text_representation_of_geometry#Well-known_binary">Well-known binary</a> (WKB or EWKB). This is a more compact representation than well-known text (WKT), and widely supported incl.&nbsp;in the Geoparquet specification. On the other hand, unlike the newer <a href="https://docs.databricks.com/aws/en/sql/language-manual/data-types/geometry-type">GEOMETRY</a> and GEOGRAPHY types, there is no higher level semantic support possible. Also, you need to use the conversion function <a href="https://docs.databricks.com/gcp/en/sql/language-manual/functions/st_geomfromwkb">st_geomfromwkb</a> or <a href="https://docs.databricks.com/gcp/en/sql/language-manual/functions/st_geomfromewkb">st_geomfromwekb</a> before any other ST function.</p>
-<div id="cell-1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;58caf313-c0ff-41b8-ad62-6cfaa6b5786b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>pip install <span class="st">"databricks-connect&gt;=17.1.0"</span> <span class="op">--</span>quiet</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="op">%</span>restart_python</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This was tested on Serverless notebook, Environment version 4.</p>
+</div>
 </div>
 <div id="cell-2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;b7ff4077-cee0-437d-8a81-16473b13f6c1&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">%</span>sql</span>
-<span id="cb2-2"><a href="#cb2-2"></a>create <span class="kw">or</span> replace temporary view t_ewkb <span class="im">as</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a>select</span>
-<span id="cb2-4"><a href="#cb2-4"></a>  st_asewkb(st_point(<span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">4326</span>)) wkb_geometry</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1"></a><span class="op">%</span>sql</span>
+<span id="cb1-2"><a href="#cb1-2"></a>create <span class="kw">or</span> replace temporary view t_ewkb <span class="im">as</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a>select</span>
+<span id="cb1-4"><a href="#cb1-4"></a>  st_asewkb(st_point(<span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">4326</span>)) wkb_geometry</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <div id="cell-3" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;c33be0d2-99fd-4eb1-9bc6-5b75aa358a52&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
-<span id="cb3-2"><a href="#cb3-2"></a>select</span>
-<span id="cb3-3"><a href="#cb3-3"></a>  st_geomfromewkb(wkb_geometry) geometry,</span>
-<span id="cb3-4"><a href="#cb3-4"></a>  wkb_geometry</span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="im">from</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>  t_ewkb</span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="op">--</span> Returns:</span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="op">--</span>   geometry   wkb_geometry</span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="op">--</span> SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="dv">3</span> <span class="dv">0</span>) AQEAACDmEAAAAAAAAAAACEAAAAAAAAAAAA<span class="op">==</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1"></a><span class="op">%</span>sql</span>
+<span id="cb2-2"><a href="#cb2-2"></a>select</span>
+<span id="cb2-3"><a href="#cb2-3"></a>  st_geomfromewkb(wkb_geometry) geometry,</span>
+<span id="cb2-4"><a href="#cb2-4"></a>  wkb_geometry</span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="im">from</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>  t_ewkb</span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="op">--</span> Returns:</span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="op">--</span>   geometry   wkb_geometry</span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="op">--</span> SRID<span class="op">=</span><span class="dv">4326</span><span class="op">;</span>POINT(<span class="dv">3</span> <span class="dv">0</span>) AQEAACDmEAAAAAAAAAAACEAAAAAAAAAAAA<span class="op">==</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>Another example of Delta Lake tables with WKB columns are the <a href="https://marketplace.databricks.com/provider/dd56dcf4-cb70-449e-abad-c8038c0de3d9/CARTO">Overture Maps datasets</a> prepared by CARTO, available via the Databricks Marketplace. Follow the previous link to add any them (at no cost) to your catalog, if you haven’t yet. For example, for the below query, use <a href="https://dbc-63c92876-2d84.cloud.databricks.com/marketplace/consumer/listings/2b2d3511-55cf-493c-8224-f5c5103a8d74?o=3737817604111714">Divisions</a> (borders of countries and other administrative divisions):</p>
 <div class="callout callout-style-default callout-caution callout-titled">
@@ -428,48 +437,50 @@ Caution
 <p>The CARTO/Overture Maps tables are stored in <code>us-west-2</code> as of writing, so if you are <em>not</em> using Databricks Free Edition and you are in any other region, you will have to pay egress charges based on the amount of data you read.</p>
 </div>
 </div>
-<div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;4abc1430-5118-49dc-9bb0-3c48c05d3b1f&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{},&quot;title&quot;:&quot;&quot;}}">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">%</span>sql</span>
-<span id="cb4-2"><a href="#cb4-2"></a>select</span>
-<span id="cb4-3"><a href="#cb4-3"></a>  names:primary <span class="im">as</span> name,</span>
-<span id="cb4-4"><a href="#cb4-4"></a>  geometry</span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="im">from</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a>  carto_overture_maps_divisions.carto.division_area</span>
-<span id="cb4-7"><a href="#cb4-7"></a>where</span>
-<span id="cb4-8"><a href="#cb4-8"></a>  subtype <span class="op">=</span> <span class="st">'country'</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="op">--</span> Returns:</span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="op">--</span> name geometry</span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="op">--</span> <span class="st">"""Australia"""</span>  AQYAAAAjAAAAAQMAAAABAAAA (truncated)</span>
-<span id="cb4-12"><a href="#cb4-12"></a><span class="op">--</span> <span class="st">"""Timor-Leste"""</span>    AQYAAAAEAAAAAQMAAAABAAAA (truncated)</span>
-<span id="cb4-13"><a href="#cb4-13"></a><span class="op">--</span> <span class="st">"""Vanuatu"""</span>    AQYAAABlAAAAAQMAAAABAAAA (truncated)</span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="op">--</span> ... ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;4abc1430-5118-49dc-9bb0-3c48c05d3b1f&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1771746682949}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1"></a><span class="op">%</span>sql</span>
+<span id="cb3-2"><a href="#cb3-2"></a>select</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  names.primary <span class="im">as</span> name,</span>
+<span id="cb3-4"><a href="#cb3-4"></a>  geom</span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="im">from</span></span>
+<span id="cb3-6"><a href="#cb3-6"></a>  carto_overture_maps_divisions.carto.division_area</span>
+<span id="cb3-7"><a href="#cb3-7"></a>where</span>
+<span id="cb3-8"><a href="#cb3-8"></a>  subtype <span class="op">=</span> <span class="st">'country'</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a>  <span class="kw">and</span> <span class="kw">class</span> <span class="op">=</span> <span class="st">'land'</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a>order by</span>
+<span id="cb3-11"><a href="#cb3-11"></a>  name</span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="op">--</span> Returns:</span>
+<span id="cb3-13"><a href="#cb3-13"></a><span class="op">--</span> name geometry</span>
+<span id="cb3-14"><a href="#cb3-14"></a><span class="op">--</span> <span class="st">"""Andorra"""</span>    AAAAAAMAAAABAAAFGz<span class="op">/</span><span class="dv">3</span><span class="er">DsaiEGCgQEVJTr</span>... (truncated)</span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="op">--</span> <span class="st">"""Angola"""</span> AAAAAAYAAAAHAAAAAAMAAAABAACrNkAovq7U... (truncated)</span>
+<span id="cb3-16"><a href="#cb3-16"></a><span class="op">--</span> ... ...</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
-<p>These CARTO tables also show one pattern to organize and cluster tables with geometries: they include the bounding box columns <code>__carto_xmin</code>, <code>__carto_xmax</code>, <code>__carto_ymin</code>, <code>___carto_ymax</code> and are clustered by these colums.</p>
+<p>These CARTO tables also show one pattern to organize and cluster tables with geometries: they include the bounding box column <code>bbox</code> and are clustered by it.</p>
 <p>Another pattern would be to make use of spatial indexing such as <a href="https://docs.databricks.com/aws/en/sql/language-manual/sql-ref-h3-geospatial-functions">H3</a>.</p>
 <section id="example-usage-with-st-functions" class="level2">
 <h2 class="anchored" data-anchor-id="example-usage-with-st-functions">Example usage with ST functions</h2>
 <div id="cell-8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;application/vnd.databricks.v1+cell&quot;,&quot;value&quot;:{&quot;cellMetadata&quot;:{&quot;byteLimit&quot;:2048000,&quot;implicitDf&quot;:true,&quot;rowLimit&quot;:10000},&quot;inputWidgets&quot;:{},&quot;nuid&quot;:&quot;d23d8da8-5ff6-49e4-9914-85fdb3e3951b&quot;,&quot;showTitle&quot;:false,&quot;tableResultSettingsMap&quot;:{&quot;0&quot;:{&quot;dataGridStateBlob&quot;:&quot;{&quot;version&quot;:1,&quot;tableState&quot;:{&quot;columnPinning&quot;:{&quot;left&quot;:[&quot;#row_number#&quot;],&quot;right&quot;:[]},&quot;columnSizing&quot;:{},&quot;columnVisibility&quot;:{}},&quot;settings&quot;:{&quot;columns&quot;:{}},&quot;syncTimestamp&quot;:1754201398911}&quot;,&quot;filterBlob&quot;:null,&quot;queryPlanFiltersBlob&quot;:null,&quot;tableResultIndex&quot;:0}},&quot;title&quot;:&quot;&quot;}}">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1"></a><span class="op">%</span>sql</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="cf">with</span> countries <span class="im">as</span> (</span>
-<span id="cb5-3"><a href="#cb5-3"></a>  select</span>
-<span id="cb5-4"><a href="#cb5-4"></a>    country,</span>
-<span id="cb5-5"><a href="#cb5-5"></a>    st_geogfromwkb(geometry) geography</span>
-<span id="cb5-6"><a href="#cb5-6"></a>  <span class="im">from</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a>    carto_overture_maps_divisions.carto.division_area</span>
-<span id="cb5-8"><a href="#cb5-8"></a>  where</span>
-<span id="cb5-9"><a href="#cb5-9"></a>    subtype <span class="op">=</span> <span class="st">'country'</span></span>
-<span id="cb5-10"><a href="#cb5-10"></a>    <span class="kw">and</span> <span class="kw">class</span> <span class="op">=</span> <span class="st">'land'</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a>    <span class="kw">and</span> country <span class="kw">in</span> (<span class="st">'GB'</span>, <span class="st">'FR'</span>)</span>
-<span id="cb5-12"><a href="#cb5-12"></a>)</span>
-<span id="cb5-13"><a href="#cb5-13"></a>select</span>
-<span id="cb5-14"><a href="#cb5-14"></a>  country,</span>
-<span id="cb5-15"><a href="#cb5-15"></a>  st_area(geography) <span class="op">/</span> <span class="fl">1e6</span> area_km2s</span>
-<span id="cb5-16"><a href="#cb5-16"></a><span class="im">from</span></span>
-<span id="cb5-17"><a href="#cb5-17"></a>  countries</span>
-<span id="cb5-18"><a href="#cb5-18"></a><span class="op">--</span> Returns:</span>
-<span id="cb5-19"><a href="#cb5-19"></a><span class="op">--</span> country  area_km2s</span>
-<span id="cb5-20"><a href="#cb5-20"></a><span class="op">--</span> FR   <span class="fl">549231.6644010496</span></span>
-<span id="cb5-21"><a href="#cb5-21"></a><span class="op">--</span> GB   <span class="fl">244408.1099778328</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource python number-lines code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1"></a><span class="op">%</span>sql</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="cf">with</span> countries <span class="im">as</span> (</span>
+<span id="cb4-3"><a href="#cb4-3"></a>  select</span>
+<span id="cb4-4"><a href="#cb4-4"></a>    country,</span>
+<span id="cb4-5"><a href="#cb4-5"></a>    st_geogfromwkb(geom) geography</span>
+<span id="cb4-6"><a href="#cb4-6"></a>  <span class="im">from</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>    carto_overture_maps_divisions.carto.division_area</span>
+<span id="cb4-8"><a href="#cb4-8"></a>  where</span>
+<span id="cb4-9"><a href="#cb4-9"></a>    subtype <span class="op">=</span> <span class="st">'country'</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a>    <span class="kw">and</span> <span class="kw">class</span> <span class="op">=</span> <span class="st">'land'</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a>    <span class="kw">and</span> country <span class="kw">in</span> (<span class="st">'GB'</span>, <span class="st">'FR'</span>)</span>
+<span id="cb4-12"><a href="#cb4-12"></a>)</span>
+<span id="cb4-13"><a href="#cb4-13"></a>select</span>
+<span id="cb4-14"><a href="#cb4-14"></a>  country,</span>
+<span id="cb4-15"><a href="#cb4-15"></a>  st_area(geography) <span class="op">/</span> <span class="fl">1e6</span> area_km2s</span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="im">from</span></span>
+<span id="cb4-17"><a href="#cb4-17"></a>  countries</span>
+<span id="cb4-18"><a href="#cb4-18"></a><span class="op">--</span> Returns:</span>
+<span id="cb4-19"><a href="#cb4-19"></a><span class="op">--</span> country  area_km2s</span>
+<span id="cb4-20"><a href="#cb4-20"></a><span class="op">--</span> FR   <span class="fl">549231.6644010496</span></span>
+<span id="cb4-21"><a href="#cb4-21"></a><span class="op">--</span> GB   <span class="fl">244408.1099778328</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
